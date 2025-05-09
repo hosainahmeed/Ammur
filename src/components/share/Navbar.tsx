@@ -58,6 +58,8 @@ export default function Navbar() {
         { label: "Home", href: "/" },
         { label: "Timeline", href: "/timeline" },
         { label: "Things to Know", href: "/things-to-know" },
+        { label: "Family direction", href: "/family-direction" },
+        { label: "Family tree", href: "/family-tree" },
         { label: "Interviews", href: "/interviews" },
         { label: "Recipes", href: "/recipes" },
         { label: "Message", href: "/message" },
