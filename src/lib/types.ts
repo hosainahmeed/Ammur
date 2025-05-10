@@ -61,3 +61,18 @@ export interface Video {
     videoUrl: string
 }
 
+export interface Ingredient {
+  name: string;
+  image: string;
+}
+
+export interface Recipe {
+  id: string;
+  recipe_name: string;
+  recipe_description: string;
+  duration: string;
+  servings: string;
+  family_name: string;
+  image: string;
+  ingredients: Ingredient[];
+}
