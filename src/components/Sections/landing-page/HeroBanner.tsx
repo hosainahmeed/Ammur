@@ -10,7 +10,7 @@ const HeroBanner = () => {
                 <Image
                     width={1200}
                     height={800}
-                    src="/family.jpg"
+                    src="/family.png"
                     alt="Heritage landscape"
                     className="w-full !h-full object-cover brightness-75"
                     priority
