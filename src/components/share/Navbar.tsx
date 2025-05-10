@@ -165,7 +165,7 @@ export default function Navbar() {
             animate="visible"
             exit="exit"
             variants={mobileMenuVariants}
-            className="xl:hidden bg-[#072A5E] mt-2 p-4 rounded-md shadow-lg"
+            className="xl:hidden  mt-2 p-4 rounded-md shadow-lg"
           >
             <motion.div className="flex flex-col gap-1">
               {navItems.map((item, index) => (

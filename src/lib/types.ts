@@ -60,3 +60,4 @@ export interface Video {
     thumbnail: string
     videoUrl: string
 }
+

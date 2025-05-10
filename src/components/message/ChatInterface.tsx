@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Menu, MessageCircle, Send, Smile, X, PlusCircle } from 'lucide-react';
+import { PanelLeftOpen, MessageCircle, Send, X, PlusCircle } from 'lucide-react';
 import { useMediaQuery } from '@/hook/useMediaQuery';
 import Image from 'next/image';
 import { conversations, initialMessages } from '@/lib/messageData';
@@ -90,18 +90,17 @@ export default function ChatInterface() {
         <Button
           variant="ghost"
           size="icon"
-          className="fixed top-4 left-4 z-50 lg:hidden bg-white shadow-md rounded-full"
+          className="fixed top-20 right-4 z-50 lg:hidden bg-white shadow-md rounded-full"
           onClick={() => setSidebarOpen(true)}
         >
-          <Menu className="h-5 w-5 text-slate-600" />
+          <PanelLeftOpen className="h-5 w-5 text-slate-600" />
         </Button>
       )}
 
       {/* Sidebar - Now sticky */}
       <div
-        className={`${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } transform transition-all duration-300 ease-in-out fixed lg:sticky lg:top-0 lg:left-0 z-40 
+        className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          } transform transition-all duration-300 ease-in-out fixed lg:sticky lg:top-0 lg:left-0 z-40 
         h-full w-full max-w-xs sm:max-w-sm bg-white border-r border-slate-200 flex flex-col shadow-lg lg:shadow-none`}
       >
         {/* Sticky header */}
@@ -135,11 +134,10 @@ export default function ChatInterface() {
             {conversations.map((conversation) => (
               <div
                 key={conversation.id}
-                className={`p-3 my-1 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors ${
-                  activeConversation.id === conversation.id
-                    ? 'bg-slate-100 border-l-4 border-blue-500'
-                    : ''
-                }`}
+                className={`p-3 my-1 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors ${activeConversation.id === conversation.id
+                  ? 'bg-slate-100 border-l-4 border-blue-500'
+                  : ''
+                  }`}
                 onClick={() => handleConversationClick(conversation)}
               >
                 <div className="flex items-center gap-3">
@@ -234,14 +232,12 @@ export default function ChatInterface() {
                     </div>
                   )}
                   <div
-                    className={`flex ${
-                      message.isCurrentUser ? 'justify-end' : 'justify-start'
-                    }`}
+                    className={`flex ${message.isCurrentUser ? 'justify-end' : 'justify-start'
+                      }`}
                   >
                     <div
-                      className={`flex gap-2 max-w-[85%] ${
-                        message.isCurrentUser ? 'flex-row-reverse' : ''
-                      }`}
+                      className={`flex gap-2 max-w-[85%] ${message.isCurrentUser ? 'flex-row-reverse' : ''
+                        }`}
                     >
                       <Avatar className="h-8 w-8 mt-1 flex-shrink-0">
                         <Image
@@ -254,11 +250,10 @@ export default function ChatInterface() {
                       </Avatar>
                       <div>
                         <div
-                          className={`p-3 rounded-2xl ${
-                            message.isCurrentUser
-                              ? 'bg-blue-500 text-white'
-                              : 'bg-white border border-slate-200 text-slate-800'
-                          }`}
+                          className={`p-3 rounded-2xl ${message.isCurrentUser
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-white border border-slate-200 text-slate-800'
+                            }`}
                         >
                           {!message.isCurrentUser && (
                             <p className="text-xs font-medium text-slate-600 mb-1">
@@ -295,17 +290,9 @@ export default function ChatInterface() {
               className="flex-1 py-6 px-4 rounded-full border-slate-200 focus-visible:ring-blue-400 focus-visible:ring-offset-0"
             />
             <Button
-              variant="ghost"
-              size="icon"
-              className="text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100"
-              aria-label="Add emoji"
-            >
-              <Smile className="h-5 w-5" />
-            </Button>
-            <Button
               onClick={handleSendMessage}
               disabled={newMessage.trim() === ''}
-              className="rounded-full bg-blue-500 hover:bg-blue-600 text-white px-4"
+              className="!rounded-full !py-6 !bg-blue-500 hover:!bg-blue-600 !text-white !px-8"
             >
               <Send className="h-4 w-4 mr-1" />
               <span className="hidden sm:inline">Send</span>
@@ -316,3 +303,5 @@ export default function ChatInterface() {
     </div>
   );
 }
+
+
