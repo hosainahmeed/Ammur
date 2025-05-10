@@ -1,12 +1,18 @@
 export interface TimelineEntryType {
-  id: string
-  date: string
-  year: string
-  title: string
-  description: string
-  imageUrl: string
-  likes: number
+  id: string;
+  date: string;
+  year: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  comments: {
+    authId: string;
+    authImage: string;
+    authName: string;
+    commentDescription: string;
+  }[];
 }
+
 export type Category = {
   title: string;
   icon: string;

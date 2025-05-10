@@ -1,80 +1,211 @@
-"use client"
+'use client';
 
-import Image from "next/image"
-import { useState } from "react"
-import { Heart } from "lucide-react"
-import { motion } from "framer-motion"
-import { cn } from "@/lib/utils"
-import { TimelineEntryType } from "@/lib/types"
+import Image from 'next/image';
+import { useState } from 'react';
+import { FaRegComment } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import type { TimelineEntryType } from '@/lib/types';
+import { Button, Modal, List, Avatar, Input, Form } from 'antd';
+import { IoSend } from 'react-icons/io5';
 
 interface TimelineEntryProps {
-    entry: TimelineEntryType
-    isAlternate?: boolean
+  entry: TimelineEntryType;
+  isAlternate?: boolean;
 }
 
 const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
-    const [liked, setLiked] = useState(false)
-    const [likeCount, setLikeCount] = useState(entry.likes)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [comments, setComments] = useState(entry.comments);
+  const [selectPost, setSelectPost] = useState<TimelineEntryType | null>(null);
+  const [form] = Form.useForm();
 
-    const handleLike = () => {
-        if (liked) {
-            setLikeCount((prev) => prev - 1)
-        } else {
-            setLikeCount((prev) => prev + 1)
-        }
-        setLiked(!liked)
-    }
+  const handleComment = () => {
+    setSelectPost(entry);
+    setIsModalOpen(true);
+  };
 
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className={cn("grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-10", isAlternate && "md:grid-flow-dense")}
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmit = (values: { comment: string }) => {
+    const newComment = {
+      authId: 'new_user_id',
+      authImage: '/default-avatar.jpg',
+      authName: 'New User',
+      commentDescription: values.comment,
+    };
+    setComments([...comments, newComment]);
+    form.resetFields();
+  };
+
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className={cn(
+          'grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-10',
+          isAlternate && 'md:grid-flow-dense'
+        )}
+      >
+        <div
+          className={cn(
+            'relative overflow-hidden rounded-lg shadow-md aspect-[4/3]',
+            isAlternate && 'md:col-start-2'
+          )}
         >
-            {/* Image */}
-            <div
-                className={cn("relative overflow-hidden rounded-lg shadow-md aspect-[4/3]", isAlternate && "md:col-start-2")}
-            >
+          <Image
+            src={entry.imageUrl || '/placeholder.svg'}
+            alt={entry.title}
+            fill
+            className="object-cover filter grayscale hover:grayscale-0 transition-all duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60"></div>
+        </div>
+
+        {/* Content */}
+        <div
+          className={cn(
+            'flex flex-col justify-center',
+            isAlternate && 'md:col-start-1'
+          )}
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <time className="text-sm font-medium text-gray-500">
+              {entry.date}
+            </time>
+            <span className="text-xl font-bold text-blue-600">
+              {entry.year}
+            </span>
+          </div>
+
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
+            {entry.title}
+          </h2>
+
+          <p className="text-gray-600 mb-4 leading-relaxed">
+            {entry.description}
+          </p>
+
+          <div className="flex flex-col gap-2">
+            <p className="text-sm text-gray-500 italic">
+              Explore key moments in Black history—from systemic laws and
+              struggles to breakthroughs and triumphs.
+            </p>
+            <p className="text-sm text-gray-500 italic">
+              Each entry is more than just a date; it&lsquo;s a story of how our
+              past shaped our present.
+            </p>
+          </div>
+
+          <Button
+            icon={<FaRegComment />}
+            onClick={() => {
+              setSelectPost(entry);
+              handleComment();
+            }}
+            className="!w-fit !my-12"
+          >
+            Comment
+          </Button>
+        </div>
+      </motion.div>
+
+      {/* Comment Modal */}
+      <Modal
+        centered
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+        width={700}
+      >
+        {selectPost && (
+          <>
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">Timeline Details</h3>
+              <div>
+                <h4 className="font-bold">{selectPost.title}</h4>
+                <p>
+                  {selectPost.date} | {selectPost.year}
+                </p>
+                <p>{selectPost.description}</p>
                 <Image
-                    src={entry.imageUrl || "/placeholder.svg"}
-                    alt={entry.title}
-                    fill
-                    className="object-cover filter grayscale hover:grayscale-0 transition-all duration-500"
+                  src={selectPost.imageUrl || '/placeholder.svg'}
+                  alt={selectPost.title}
+                  width={150}
+                  height={100}
+                  className="mt-4"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60"></div>
+              </div>
             </div>
 
-            {/* Content */}
-            <div className={cn("flex flex-col justify-center", isAlternate && "md:col-start-1")}>
-                <div className="flex items-center gap-2 mb-2">
-                    <time className="text-sm font-medium text-gray-500">{entry.date}</time>
-                    <span className="text-xl font-bold text-blue-600">{entry.year}</span>
-                </div>
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">Comments</h3>
+              <List
+                itemLayout="horizontal"
+                dataSource={comments}
+                renderItem={(comment) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar
+                          shape="square"
+                          size={64}
+                          src={comment.authImage || '/default-avatar.jpg'}
+                          className="rounded-md"
+                        />
+                      }
+                      title={
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold">{comment.authName}</span>
+                          <span className="text-sm text-gray-500">Comment</span>
+                        </div>
+                      }
+                      description={
+                        <div className="line-clamp-2 text-sm text-gray-600">
+                          {comment.commentDescription}
+                        </div>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            </div>
 
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">{entry.title}</h2>
-
-                <p className="text-gray-600 mb-4 leading-relaxed">{entry.description}</p>
-
-                <div className="flex flex-col gap-2">
-                    <p className="text-sm text-gray-500 italic">
-                        Explore key moments in Black history—from systemic laws and struggles to breakthroughs and triumphs.
-                    </p>
-                    <p className="text-sm text-gray-500 italic">
-                        Each entry is more than just a date; it&lsquo;s a story of how our past shaped our present.
-                    </p>
-                </div>
-
-                <button
-                    onClick={handleLike}
-                    className="flex items-center gap-1.5 mt-4 text-gray-500 hover:text-blue-600 transition-colors"
+            <div className="border-t pt-4">
+              <h3 className="text-lg font-semibold mb-3">Add Your Comment</h3>
+              <Form form={form} onFinish={handleSubmit}>
+                <Form.Item
+                  name="comment"
+                  rules={[
+                    { required: true, message: 'Please enter your comment' },
+                  ]}
                 >
-                    <Heart size={16} className={cn("transition-all", liked ? "fill-blue-600 text-blue-600" : "fill-none")} />
-                    <span className="text-sm">{likeCount}</span>
-                </button>
+                  <Input.TextArea
+                    rows={4}
+                    placeholder="Share your thoughts on this timeline..."
+                  />
+                </Form.Item>
+                <Form.Item className="mb-0 text-right">
+                  <Button
+                    icon={<IoSend />}
+                    className="!w-full"
+                    htmlType="submit"
+                  >
+                    Post Comment
+                  </Button>
+                </Form.Item>
+              </Form>
             </div>
-        </motion.div>
-    )
-}
-export default TimelineEntry
+          </>
+        )}
+      </Modal>
+    </>
+  );
+};
+
+export default TimelineEntry;
