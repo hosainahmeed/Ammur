@@ -22,21 +22,21 @@ const blogDetails: IblogDetails = {
   'what-failure-taught-me-about-success': {
     title: 'What Failure Taught Me About Success',
     content: `Failure is often seen as something to fear or avoid—but what if we told you it's one of the most valuable tools for growth?`,
-    imageUrl: '/images/failure-success.jpg',
+    imageUrl: '/5999330.jpg',
     date: '10 Apr 2025',
     author: 'A Murphy',
   },
   'the-power-of-saying-no': {
     title: 'The Power of Saying No',
     content: `Sometimes, saying no is the hardest decision to make. However, learning to say no is one of the most liberating experiences...`,
-    imageUrl: '/images/saying-no.jpg',
+    imageUrl: '/5999330.jpg',
     date: '10 Apr 2025',
     author: 'A Murphy',
   },
   'kindness-isnt-weakness-its-strength': {
     title: "Kindness Isn't Weakness—It's Strength",
     content: `Kindness is often misunderstood as a form of weakness. But the truth is, kindness is one of the strongest forces in the world...`,
-    imageUrl: '/images/kindness-strength.jpg',
+    imageUrl: '/5999330.jpg',
     date: '10 Apr 2025',
     author: 'A Murphy',
   },
@@ -44,8 +44,8 @@ const blogDetails: IblogDetails = {
 
 export default function BlogDetailPage() {
   const { id, slug } = useParams<{ id: string; slug: string }>();
+  console.log(slug);
   const [blog, setBlog] = useState<IblogDetail | null>(null);
-
   useEffect(() => {
     if (slug && blogDetails[slug]) {
       setBlog(blogDetails[slug]);
@@ -55,7 +55,7 @@ export default function BlogDetailPage() {
   if (!blog) return <div>Loading...</div>;
 
   return (
-    <div className="mt-28">
+    <div className="py-28">
       <div className="container mx-auto px-4 ">
         <Breadcrumb
           items={[

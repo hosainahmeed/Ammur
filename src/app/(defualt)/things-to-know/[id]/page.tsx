@@ -4,35 +4,9 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Breadcrumb, Card } from 'antd';
-import { Blog } from '@/lib/types';
 import Link from 'next/link';
+import { blogs } from '@/lib/blogsData';
 
-const blogs: Blog[] = [
-  {
-    title: 'What Failure Taught Me About Success',
-    imageUrl: '/images/failure-success.jpg',
-    date: '10 Apr 2025',
-    author: 'A Murphy',
-    summary: 'Sometimes, falling short is exactly what propels us forward...',
-    slug: 'what-failure-taught-me-about-success',
-  },
-  {
-    title: 'The Power of Saying No',
-    imageUrl: '/images/saying-no.jpg',
-    date: '10 Apr 2025',
-    author: 'A Murphy',
-    summary: 'Sometimes, saying no is the hardest decision to make...',
-    slug: 'the-power-of-saying-no',
-  },
-  {
-    title: "Kindness Isn't Weakness—It's Strength",
-    imageUrl: '/images/kindness-strength.jpg',
-    date: '10 Apr 2025',
-    author: 'A Murphy',
-    summary: 'Kindness is often misunderstood as a form of weakness...',
-    slug: 'kindness-isnt-weakness-its-strength',
-  },
-];
 
 export default function CategoryPage() {
   const router = useRouter();

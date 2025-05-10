@@ -25,5 +25,7 @@ export interface FamilyMember {
   role: string;
   location: string;
   email: string;
+  phone: string;
+  family: string;
   photoUrl: string;
 }

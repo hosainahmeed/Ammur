@@ -1,0 +1,58 @@
+import { FamilyMember } from "./types";
+
+export const familyMembers: FamilyMember[] = [
+    {
+        name: 'Mr. Jhon',
+        role: 'Doctor',
+        location: 'Atlanta, Georgia, United States',
+        email: 'jhon@gmail.com',
+        phone: '+09554545475',
+        family: 'Browns family',
+        photoUrl: '/5999330.jpg',
+    },
+    {
+        name: 'Mr. Jhon',
+        role: 'Player',
+        location: 'Atlanta, Georgia, United States',
+        email: 'jhon@gmail.com',
+        phone: '+09554545475',
+        family: 'Browns family',
+        photoUrl: '/5999330.jpg',
+    },
+    {
+        name: 'Mr. Jhon',
+        role: 'Doctor',
+        location: 'Atlanta, Georgia, United States',
+        email: 'jhon@gmail.com',
+        phone: '+09554545475',
+        family: 'Browns family',
+        photoUrl: '/5999330.jpg',
+    },
+    {
+        name: 'Mr. Jhon',
+        role: 'Doctor',
+        location: 'Atlanta, Georgia, United States',
+        email: 'jhon@gmail.com',
+        phone: '+09554545475',
+        family: 'Browns family',
+        photoUrl: '/5999330.jpg',
+    },
+    {
+        name: 'Mr. Jhon',
+        role: 'Doctor',
+        location: 'Atlanta, Georgia, United States',
+        email: 'jhon@gmail.com',
+        phone: '+09554545475',
+        family: 'Browns family',
+        photoUrl: '/5999330.jpg',
+    },
+    {
+        name: 'Mr. Jhon',
+        role: 'Doctor',
+        location: 'Atlanta, Georgia, United States',
+        email: 'jhon@gmail.com',
+        phone: '+09554545475',
+        family: 'Browns family',
+        photoUrl: '/5999330.jpg',
+    },
+];

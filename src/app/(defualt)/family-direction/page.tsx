@@ -1,108 +1,147 @@
 'use client';
 
-import { useState } from 'react';
-import { Input, Card, Col, Row, Typography } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import { FamilyMember } from '@/lib/types';
+import { useState, useEffect } from 'react';
+import { Input, Card, Typography, Badge } from 'antd';
+import {
+  SearchOutlined,
+  EnvironmentOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  TeamOutlined,
+} from '@ant-design/icons';
 import Image from 'next/image';
+import { FamilyMember } from '@/lib/types';
+import { familyMembers } from '@/lib/familyData';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
-const familyMembers: FamilyMember[] = [
-  {
-    name: 'Mr. John',
-    role: 'Doctor',
-    location: 'Atlanta, Georgia, United States',
-    email: 'john.doe@gmail.com',
-    photoUrl: '/images/photo1.jpg',
-  },
-  {
-    name: 'Mr. John',
-    role: 'Doctor',
-    location: 'Atlanta, Georgia, United States',
-    email: 'john.doe@gmail.com',
-    photoUrl: '/images/photo2.jpg',
-  },
-  {
-    name: 'Mr. John',
-    role: 'Doctor',
-    location: 'Atlanta, Georgia, United States',
-    email: 'john.doe@gmail.com',
-    photoUrl: '/images/photo3.jpg',
-  },
-  {
-    name: 'Mr. John',
-    role: 'Doctor',
-    location: 'Atlanta, Georgia, United States',
-    email: 'john.doe@gmail.com',
-    photoUrl: '/images/photo4.jpg',
-  },
-  {
-    name: 'Mr. John',
-    role: 'Doctor',
-    location: 'Atlanta, Georgia, United States',
-    email: 'john.doe@gmail.com',
-    photoUrl: '/images/photo5.jpg',
-  },
-  {
-    name: 'Mr. John',
-    role: 'Doctor',
-    location: 'Atlanta, Georgia, United States',
-    email: 'john.doe@gmail.com',
-    photoUrl: '/images/photo6.jpg',
-  },
-];
+interface MemberCardProps {
+  member: FamilyMember;
+}
+
+const MemberCard = ({ member }: MemberCardProps) => {
+  return (
+    <Card
+      className="overflow-hidden shadow-lg rounded-lg transition-all duration-300 hover:shadow-xl"
+      bodyStyle={{ padding: 0 }}
+    >
+      <div className="relative">
+        <div className="h-64 w-full bg-gray-200">
+          <Image
+            src={member.photoUrl}
+            alt={member.name}
+            className="!w-full !h-full !object-cover"
+            width={400}
+            height={250}
+          />
+        </div>
+        <Badge.Ribbon text={member.role} color="blue" className="font-medium" />
+      </div>
+
+      <div className="p-6">
+        <Title level={4} className="mb-4 font-bold">
+          {member.name}
+        </Title>
+
+        <div className="space-y-3">
+          <div className="flex items-center text-gray-600">
+            <EnvironmentOutlined className="mr-2 text-blue-600" />
+            <Text className="text-sm">{member.location}</Text>
+          </div>
+
+          <div className="flex items-center text-gray-600">
+            <MailOutlined className="mr-2 text-blue-600" />
+            <Text className="text-sm">{member.email}</Text>
+          </div>
+
+          <div className="flex items-center text-gray-600">
+            <PhoneOutlined className="mr-2 text-blue-600" />
+            <Text className="text-sm">{member.phone}</Text>
+          </div>
+
+          <div className="flex items-center text-gray-600">
+            <TeamOutlined className="mr-2 text-blue-600" />
+            <Text className="text-sm">{member.family}</Text>
+          </div>
+        </div>
+
+        {/* <div className="mt-6 pt-4 border-t border-gray-200">
+          <button className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300">
+            View Profile
+          </button>
+        </div> */}
+      </div>
+    </Card>
+  );
+};
 
 export default function DirectoryPage() {
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
-  const filteredMembers = familyMembers.filter((member) =>
-    member.name.toLowerCase().includes(searchTerm.toLowerCase())
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500); // Delay of 500ms
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchTerm]);
+
+  const filteredMembers = familyMembers.filter(
+    (member) =>
+      member.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+      member.role.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+      member.family.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
 
   return (
-    <div className='py-28'>
-      <div className="px-4 py-12">
-        <div className="max-w-7xl mx-auto">
-          <Title level={2} className="text-center mb-6">
-            Our Family&lsquo;s Strength: Explore the Directory
+    <div className="py-28 bg-gray-50 min-h-screen">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <Title level={1} className="text-4xl font-bold mb-4">
+            Our Family Directory
           </Title>
+          <Text className="text-lg text-gray-600">
+            Connect with our extended family members across the world
+          </Text>
+        </div>
 
-          <div className="mb-8 flex justify-center">
-            <Input
-              placeholder="Search for a family member"
-              prefix={<SearchOutlined />}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ maxWidth: 400 }}
-            />
-          </div>
+        <div className="mb-12 flex justify-center">
+          <Input
+            placeholder="Search by name, role or family"
+            prefix={<SearchOutlined className="text-gray-400" />}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full max-w-md text-lg py-2 rounded-full shadow"
+            size="large"
+          />
+        </div>
 
-          <p className="text-center text-sm text-gray-500 mb-4">
-            Search result for <strong>{`"${searchTerm}"`}</strong>
+        {debouncedSearchTerm && (
+          <p className="text-center text-gray-500 mb-8">
+            Search results for{' '}
+            <span className="font-medium">{`"${debouncedSearchTerm}"`}</span>
           </p>
+        )}
 
-          <Row gutter={[16, 16]} justify="center">
-            {filteredMembers.map((member, index) => (
-              <Col span={8} key={index}>
-                <Card
-                  cover={
-                    <Image
-                      width={400}
-                      height={250}
-                      alt={member.name}
-                      src={member.photoUrl}
-                    />
-                  }
-                >
-                  <Title level={4}>{member.name}</Title>
-                  <p>{member.role}</p>
-                  <p>{member.location}</p>
-                  <p>{member.email}</p>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredMembers.length > 0 ? (
+            filteredMembers.map((member: FamilyMember, index) => (
+              <MemberCard key={index} member={member} />
+            ))
+          ) : (
+            <div className="col-span-3 py-16 text-center">
+              <Title level={4} className="text-gray-500">
+                No family members found
+              </Title>
+              <Text className="text-gray-400">
+                Try adjusting your search criteria
+              </Text>
+            </div>
+          )}
         </div>
       </div>
     </div>
