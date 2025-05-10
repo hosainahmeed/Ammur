@@ -126,7 +126,7 @@ export default function Navbar() {
             >
               <Button
                 variant="outline"
-                className="bg-transparent border-white text-white hover:bg-blue-700"
+                className="bg-transparent border-white text-white hover:!bg-[#072A5E]"
               >
                 Sign In
               </Button>
@@ -147,7 +147,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <motion.button
-          className="xl:hidden text-white p-2 rounded-md hover:bg-blue-700 transition-colors"
+          className="xl:hidden text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
           whileHover={{ scale: 1.1 }}
@@ -182,7 +182,7 @@ export default function Navbar() {
                       'px-3 py-2 rounded-md text-sm font-medium transition-colors block',
                       isActive(item.href)
                         ? 'bg-[#072A5E] text-white'
-                        : 'hover:bg-blue-700 hover:text-white text-blue-100',
+                        : 'hover:!bg-[#072A5E] hover:text-white text-blue-100',
                       item.disabled && 'cursor-not-allowed opacity-50'
                     )}
                   >
@@ -204,7 +204,7 @@ export default function Navbar() {
                 >
                   <Button
                     variant="outline"
-                    className="bg-transparent border-white text-white hover:bg-blue-700 w-full"
+                    className="bg-transparent border-white text-white hover:!bg-[#072A5E] w-full"
                   >
                     Sign In
                   </Button>

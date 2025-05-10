@@ -77,7 +77,7 @@ export default function BlogDetailPage() {
         <Image
           src={blog.imageUrl}
           alt={blog.title}
-          className="w-full h-auto mb-8"
+          className="w-full h-[600px] object-cover mb-8"
           width={1200}
           height={800}
         />

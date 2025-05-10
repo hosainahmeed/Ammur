@@ -17,7 +17,7 @@ export default function InterviewsStoriesSection() {
             through the power of shared experiences.
           </p>
           <Link href={'/timeline'}>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            <Button className="!bg-[#072A5E] hover:!bg-[#072A5E] text-white">
               Explore More
             </Button>
           </Link>

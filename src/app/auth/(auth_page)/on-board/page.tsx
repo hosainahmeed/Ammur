@@ -10,7 +10,7 @@ export default function Home() {
           Please sign in or create a new account to continue
         </p>
         <div className="flex flex-col space-y-4">
-          <Button asChild className="bg-blue-600 hover:bg-blue-700">
+          <Button asChild className="!bg-[#072A5E] hover:!bg-[#072A5E]">
             <Link href="/auth/on-board/sign-in">Sign In</Link>
           </Button>
           <Button

@@ -26,7 +26,7 @@ export default function AboutUsSection() {
             build bridges between generations and ensure our history lives on.
           </p>
           <Link href={'/about'}>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            <Button className="!bg-[#072A5E] hover:!bg-[#072A5E] text-white">
               Learn More
             </Button>
           </Link>

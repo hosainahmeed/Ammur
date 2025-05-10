@@ -7,7 +7,6 @@ import { Breadcrumb, Card } from 'antd';
 import Link from 'next/link';
 import { blogs } from '@/lib/blogsData';
 
-
 export default function CategoryPage() {
   const router = useRouter();
   const params = useParams();
@@ -49,7 +48,9 @@ export default function CategoryPage() {
             >
               <div className="flex flex-col items-center justify-center">
                 <h3 className="text-blue-800 font-medium mb-4">{blog.title}</h3>
-                <p className="text-gray-500 mb-4">{blog.summary}</p>
+                <p className="text-gray-500 mb-4">
+                  {blog.summary.slice(0, 100)}...
+                </p>
                 <Button
                   onClick={() => handleCardClick(blog.slug)}
                   className="gradient-button font-normal text-white py-2 px-8 rounded-lg"

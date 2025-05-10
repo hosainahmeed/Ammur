@@ -109,7 +109,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
               setSelectPost(entry);
               handleComment();
             }}
-            className="!w-fit !my-12"
+            className="!w-fit !text-white !bg-[#072A5E] !my-12"
           >
             Comment
           </Button>
