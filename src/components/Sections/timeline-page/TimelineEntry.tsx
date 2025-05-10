@@ -48,21 +48,22 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
         className={cn(
-          'grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-10',
-          isAlternate && 'md:grid-flow-dense'
+          'grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10',
+          isAlternate && 'lg:grid-flow-dense'
         )}
       >
         <div
           className={cn(
             'relative overflow-hidden rounded-lg shadow-md aspect-[4/3]',
-            isAlternate && 'md:col-start-2'
+            isAlternate && 'lg:col-start-2'
           )}
         >
           <Image
             src={entry.imageUrl || '/placeholder.svg'}
             alt={entry.title}
-            fill
-            className="object-cover filter grayscale hover:grayscale-0 transition-all duration-500"
+            width={1200}
+            height={1200}
+            className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60"></div>
         </div>
@@ -71,7 +72,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
         <div
           className={cn(
             'flex flex-col justify-center',
-            isAlternate && 'md:col-start-1'
+            isAlternate && 'lg:col-start-1'
           )}
         >
           <div className="flex items-center gap-2 mb-2">
@@ -83,7 +84,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
             </span>
           </div>
 
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
+          <h2 className="text-xl lg:text-4xl font-bold text-gray-900 mb-3">
             {entry.title}
           </h2>
 
@@ -121,7 +122,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
         open={isModalOpen}
         onCancel={handleCancel}
         footer={null}
-        width={700}
+        width={1000}
       >
         {selectPost && (
           <>
@@ -136,14 +137,14 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
                 <Image
                   src={selectPost.imageUrl || '/placeholder.svg'}
                   alt={selectPost.title}
-                  width={150}
-                  height={100}
-                  className="mt-4"
+                  width={1500}
+                  height={400}
+                  className="w-full h-[400px] object-cover mt-4"
                 />
               </div>
             </div>
 
-            <div className="mb-6">
+            <div className="mb-6 overflow-y-scroll max-h-[500px]">
               <h3 className="text-lg font-semibold mb-2">Comments</h3>
               <List
                 itemLayout="horizontal"
@@ -153,8 +154,8 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
                     <List.Item.Meta
                       avatar={
                         <Avatar
-                          shape="square"
-                          size={64}
+                          shape="circle"
+                          size={24}
                           src={comment.authImage || '/default-avatar.jpg'}
                           className="rounded-md"
                         />
@@ -162,7 +163,6 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
                       title={
                         <div className="flex items-center gap-2">
                           <span className="font-bold">{comment.authName}</span>
-                          <span className="text-sm text-gray-500">Comment</span>
                         </div>
                       }
                       description={
@@ -193,7 +193,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
                 <Form.Item className="mb-0 text-right">
                   <Button
                     icon={<IoSend />}
-                    className="!w-full"
+                    className="!w-full !bg-[#072A5E] hover:!bg-[#7898C9] !text-white hover:!text-black"
                     htmlType="submit"
                   >
                     Post Comment
