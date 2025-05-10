@@ -78,11 +78,11 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-2">
             <div className="relative w-8 h-8 rounded-full overflow-hidden bg-orange-500 flex items-center justify-center">
               <Image
-                src="/placeholder.svg?height=32&width=32"
+                src="/icons/IconOnly.svg"
                 alt="Family Legacy Logo"
-                width={32}
-                height={32}
-                className="object-cover"
+                width={48}
+                height={48}
+                className="w-full h-full object-cover"
               />
             </div>
             <span className="font-semibold">Family Legacy</span>
@@ -106,8 +106,8 @@ export default function Navbar() {
                 className={cn(
                   'px-3 py-2 rounded-md text-sm font-medium transition-colors',
                   isActive(item.href)
-                    ? 'bg-[#072A5E] text-white'
-                    : 'hover:bg-blue-800 hover:text-white text-blue-100',
+                    ? 'border-b-2 border-white rounded-none text-white'
+                    : 'hover:bg-[#072A5E] hover:text-white text-blue-100',
                   item.disabled && 'cursor-not-allowed opacity-50'
                 )}
               >
@@ -138,7 +138,7 @@ export default function Navbar() {
               whileTap="tap"
               variants={buttonVariants}
             >
-              <Button className="bg-blue-800 text-white hover:bg-[#072A5E]">
+              <Button className="bg-[#072A5E] text-white hover:bg-[#072A5E]">
                 Sign Up
               </Button>
             </motion.div>
@@ -165,7 +165,7 @@ export default function Navbar() {
             animate="visible"
             exit="exit"
             variants={mobileMenuVariants}
-            className="xl:hidden bg-blue-800 mt-2 p-4 rounded-md shadow-lg"
+            className="xl:hidden bg-[#072A5E] mt-2 p-4 rounded-md shadow-lg"
           >
             <motion.div className="flex flex-col gap-1">
               {navItems.map((item, index) => (
