@@ -51,3 +51,12 @@ export interface InitialMessages {
   avatar: string,
   isCurrentUser: boolean,
 }
+
+export interface Video {
+    id: string
+    title: string
+    description: string
+    duration: string
+    thumbnail: string
+    videoUrl: string
+}
