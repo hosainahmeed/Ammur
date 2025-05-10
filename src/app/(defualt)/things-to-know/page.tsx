@@ -26,11 +26,11 @@ export default function ThingsToKnow() {
   };
 
   return (
-    <div className="mt-28">
+    <div className="my-28">
       <Head>
         <title>Things to Know</title>
       </Head>
-      <main className="max-w-7xl mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12">
         <h1 className="text-3xl font-bold mb-2">Things to know</h1>
         <p className="text-blue-700 text-sm font-semibold mb-8">All category</p>
 
@@ -45,7 +45,7 @@ export default function ThingsToKnow() {
                   height={60}
                   className="mb-4"
                 />
-                <h3 className="text-blue-800 font-medium mb-4">
+                <h3 className="text-blue-800 text-lg font-semibold mb-4">
                   {category.title}
                 </h3>
                 <Button
