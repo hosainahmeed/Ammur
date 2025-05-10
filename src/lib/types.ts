@@ -35,3 +35,19 @@ export interface FamilyMember {
   family: string;
   photoUrl: string;
 }
+
+export interface MessageData {
+  id: number,
+  name: string,
+  lastMessage: string,
+  timestamp: string,
+  avatar: string,
+}
+export interface InitialMessages {
+  id: number,
+  text: string,
+  sender: string,
+  timestamp: string,
+  avatar: string,
+  isCurrentUser: boolean,
+}
