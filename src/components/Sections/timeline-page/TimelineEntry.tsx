@@ -6,7 +6,7 @@ import { FaRegComment } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { TimelineEntryType } from '@/lib/types';
-import { Button, Modal, List, Avatar, Input, Form } from 'antd';
+import { Button, Modal, List, Avatar, Input, Form, Empty } from 'antd';
 import { IoSend } from 'react-icons/io5';
 
 interface TimelineEntryProps {
@@ -127,13 +127,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
         {selectPost && (
           <>
             <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Timeline Details</h3>
               <div>
-                <h4 className="font-bold">{selectPost.title}</h4>
-                <p>
-                  {selectPost.date} | {selectPost.year}
-                </p>
-                <p>{selectPost.description}</p>
                 <Image
                   src={selectPost.imageUrl || '/placeholder.svg'}
                   alt={selectPost.title}
@@ -141,39 +135,46 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
                   height={400}
                   className="w-full h-[400px] object-cover mt-4"
                 />
+                <h4 className="font-bold">{selectPost.title}</h4>
+                <p>
+                  {selectPost.date} | {selectPost.year}
+                </p>
+                <p>{selectPost.description}</p>
               </div>
             </div>
 
-            <div className="mb-6 overflow-y-scroll max-h-[500px]">
+            <div className="mb-6 overflow-y-scroll max-h-[300px]">
               <h3 className="text-lg font-semibold mb-2">Comments</h3>
-              <List
-                itemLayout="horizontal"
-                dataSource={comments}
-                renderItem={(comment) => (
-                  <List.Item>
-                    <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          shape="circle"
-                          size={24}
-                          src={comment.authImage || '/default-avatar.jpg'}
-                          className="rounded-md"
-                        />
-                      }
-                      title={
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold">{comment.authName}</span>
-                        </div>
-                      }
-                      description={
-                        <div className="line-clamp-2 text-sm text-gray-600">
-                          {comment.commentDescription}
-                        </div>
-                      }
-                    />
-                  </List.Item>
-                )}
-              />
+              {
+                comments.length === 0 ? <Empty description={'No Comment in this post'} /> : <List
+                  itemLayout="horizontal"
+                  dataSource={comments}
+                  renderItem={(comment) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        avatar={
+                          <Avatar
+                            shape="circle"
+                            size={24}
+                            src={comment.authImage || '/default-avatar.jpg'}
+                            className="rounded-md"
+                          />
+                        }
+                        title={
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold">{comment.authName}</span>
+                          </div>
+                        }
+                        description={
+                          <div className="line-clamp-2 text-sm text-gray-600">
+                            {comment.commentDescription}
+                          </div>
+                        }
+                      />
+                    </List.Item>
+                  )}
+                />
+              }
             </div>
 
             <div className="border-t pt-4">
