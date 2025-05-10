@@ -118,7 +118,7 @@ export default function Navbar() {
         </div>
 
         <div className="hidden xl:flex items-center gap-2">
-          <Link href={'/sign-in'}>
+          <Link href={'/auth/sign-in'}>
             <motion.div
               whileHover="hover"
               whileTap="tap"
@@ -132,15 +132,17 @@ export default function Navbar() {
               </Button>
             </motion.div>
           </Link>
-          <motion.div
-            whileHover="hover"
-            whileTap="tap"
-            variants={buttonVariants}
-          >
-            <Button className="bg-blue-800 text-white hover:bg-[#072A5E]">
-              Sign Up
-            </Button>
-          </motion.div>
+          <Link href={'/auth/sign-up'}>
+            <motion.div
+              whileHover="hover"
+              whileTap="tap"
+              variants={buttonVariants}
+            >
+              <Button className="bg-blue-800 text-white hover:bg-[#072A5E]">
+                Sign Up
+              </Button>
+            </motion.div>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
