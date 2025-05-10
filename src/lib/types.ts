@@ -7,3 +7,7 @@ export interface TimelineEntryType {
   imageUrl: string
   likes: number
 }
+export type Category = {
+  title: string;
+  icon: string;
+};
