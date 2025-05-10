@@ -7,7 +7,7 @@ const HistoryTimelineSection = () => {
             <div className="container mx-auto grid md:grid-cols-2 gap-8 items-center">
                 <div className="rounded-lg overflow-hidden">
                     <Image
-                        src="https://fakeimg.pl/600x400"
+                        src="/5999330.jpg"
                         alt="Historical photograph"
                         width={400}
                         height={300}

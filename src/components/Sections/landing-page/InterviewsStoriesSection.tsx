@@ -17,7 +17,7 @@ export default function InterviewsStoriesSection() {
 
                 <div className="order-1 md:order-2 rounded-lg overflow-hidden">
                     <Image
-                        src="https://fakeimg.pl/600x400"
+                        src="/interview.jpg"
                         alt="Interview footage"
                         width={400}
                         height={300}
