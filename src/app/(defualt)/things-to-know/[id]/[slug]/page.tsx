@@ -1,6 +1,8 @@
 'use client';
 
+import { Breadcrumb } from 'antd';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -53,20 +55,35 @@ export default function BlogDetailPage() {
   if (!blog) return <div>Loading...</div>;
 
   return (
-    <div className="mt-28 max-w-7xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-2">{blog.title}</h1>
-      <p className="text-gray-500 mb-4">
-        {blog.author} - {blog.date}
-      </p>
-      <Image
-        src={blog.imageUrl}
-        alt={blog.title}
-        className="w-full h-auto mb-8"
-        width={1200}
-        height={800}
-      />
-      <div className="prose">
-        <p>{blog.content}</p>
+    <div className="mt-28">
+      <div className="container mx-auto px-4 ">
+        <Breadcrumb
+          items={[
+            {
+              title: <Link href="/things-to-know">Things to know</Link>,
+            },
+            {
+              title: <Link href={`/things-to-know/${id}`}>{id}</Link>,
+            },
+            {
+              title: <Link href="">{slug}</Link>,
+            },
+          ]}
+        />
+        <h1 className="text-3xl font-bold mb-2">{blog.title}</h1>
+        <p className="text-gray-500 mb-4">
+          {blog.author} - {blog.date}
+        </p>
+        <Image
+          src={blog.imageUrl}
+          alt={blog.title}
+          className="w-full h-auto mb-8"
+          width={1200}
+          height={800}
+        />
+        <div className="prose">
+          <p>{blog.content}</p>
+        </div>
       </div>
     </div>
   );

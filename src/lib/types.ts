@@ -20,3 +20,10 @@ export type Blog = {
   summary: string;
   slug: string;
 };
+export interface FamilyMember {
+  name: string;
+  role: string;
+  location: string;
+  email: string;
+  photoUrl: string;
+}
