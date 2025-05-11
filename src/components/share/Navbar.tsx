@@ -104,10 +104,10 @@ export default function Navbar() {
               <Link
                 href={item.disabled ? '#' : item.href}
                 className={cn(
-                  'px-3 py-2 rounded-md text-sm font-medium transition-colors',
+                  'px-3 py-2 rounded-md text-sm font-normal transition-colors',
                   isActive(item.href)
                     ? 'border-b-2 border-white rounded-none text-white'
-                    : 'hover:bg-[#072A5E] hover:text-white text-blue-100',
+                    : '',
                   item.disabled && 'cursor-not-allowed opacity-50'
                 )}
               >
