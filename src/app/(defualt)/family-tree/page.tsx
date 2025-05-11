@@ -9,7 +9,7 @@ export default function Home() {
       <h1 className="text-2xl font-bold mb-2">
         Discover Your Roots: Your Family Tree
       </h1>
-      <div className="w-full max-w-6xl overflow-x-auto">
+      <div className="w-full overflow-x-auto">
         {/* <FamilyTree /> */}
         <FamilyTreeV2 />
       </div>
