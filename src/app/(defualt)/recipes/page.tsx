@@ -10,7 +10,7 @@ interface HomePageProps {
 
 export default function page({ searchParams }: HomePageProps) {
     const page = Number(searchParams.page) || 1
-    const recipesPerPage = 3
+    const recipesPerPage = 6
     const totalPages = Math.ceil(recipes.length / recipesPerPage)
 
     const startIndex = (page - 1) * recipesPerPage
