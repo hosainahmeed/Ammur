@@ -80,7 +80,6 @@ export default function Pricing() {
       </div>
 
       <div className="mx-auto max-w-5xl">
-        {/* Pricing cards */}
         <div className="mt-12 grid gap-8 lg:grid-cols-3">
           {tiers.map((tier) => (
             <div
