@@ -90,5 +90,3 @@ export interface FamilyTree {
   color: string;
   status?: string;
 }
-
-//comment
