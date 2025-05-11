@@ -53,12 +53,12 @@ export interface InitialMessages {
 }
 
 export interface Video {
-    id: string
-    title: string
-    description: string
-    duration: string
-    thumbnail: string
-    videoUrl: string
+  id: string
+  title: string
+  description: string
+  duration: string
+  thumbnail: string
+  videoUrl: string
 }
 
 export interface Ingredient {
@@ -75,4 +75,18 @@ export interface Recipe {
   family_name: string;
   image: string;
   ingredients: Ingredient[];
+}
+
+export interface FamilyTree {
+  id: string;
+  name: string;
+  birthDate?: string;
+  deathDate?: string;
+  image: string;
+  generation: number;
+  position: number;
+  parentIds?: string[];
+  spouseId?: string;
+  color: string;
+  status?: string;
 }

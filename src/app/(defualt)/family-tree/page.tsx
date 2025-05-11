@@ -1,4 +1,5 @@
-import FamilyTree from '@/components/family-tree/FamilyTree';
+import FamilyTree from "@/components/family-tree/FamilyTreePage";
+
 
 export default function Home() {
   return (
