@@ -90,7 +90,7 @@ export default function Navbar() {
         </motion.div>
 
         {/* Desktop Navigation */}
-        <div className="hidden xl:flex items-center gap-1">
+        <div className="hidden 2xl:flex items-center gap-1">
           {navItems.map((item, index) => (
             <motion.div
               key={item.href}
@@ -117,7 +117,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        <div className="hidden xl:flex items-center gap-2">
+        <div className="hidden 2xl:flex items-center gap-2">
           <Link href={'/auth/sign-in'}>
             <motion.div
               whileHover="hover"
@@ -147,7 +147,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <motion.button
-          className="xl:hidden text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
+          className="2xl:hidden text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
           whileHover={{ scale: 1.1 }}
@@ -165,7 +165,7 @@ export default function Navbar() {
             animate="visible"
             exit="exit"
             variants={mobileMenuVariants}
-            className="xl:hidden  mt-2 p-4 rounded-md shadow-lg"
+            className="2xl:hidden  mt-2 p-4 rounded-md shadow-lg"
           >
             <motion.div className="flex flex-col gap-1">
               {navItems.map((item, index) => (
