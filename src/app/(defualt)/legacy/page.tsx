@@ -5,7 +5,7 @@ import React from 'react'
 
 function page() {
     return (
-        <div className="container mx-auto px-4 py-8 bg-white min-h-screen">
+        <div className="container mx-auto px-4 py-28 bg-white min-h-screen">
             <div className="mt-12 space-y-16">
                 {timelineData.map((entry, index) => (
                     <LegecyEntry key={entry.id} entry={entry} isAlternate={index % 2 === 1} />

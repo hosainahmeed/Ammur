@@ -132,3 +132,7 @@
 .gradient-button {
   @apply bg-[linear-gradient(125deg,#0C469D,#0C469D,#FFFFFF)];
 }
+.family-tree-container {
+  min-width: 1200px;
+  overflow-x: auto;
+}
