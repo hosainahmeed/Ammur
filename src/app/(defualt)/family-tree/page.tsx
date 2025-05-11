@@ -1,4 +1,6 @@
-import FamilyTree from "@/components/family-tree/FamilyTreePage";
+// import FamilyTreeV2 from '@/components/family-tree/FamilyTreeV2';
+
+import FamilyTreeV2 from '@/components/family-tree/FamilyTreeV2';
 
 
 export default function Home() {
@@ -8,7 +10,8 @@ export default function Home() {
         Discover Your Roots: Your Family Tree
       </h1>
       <div className="w-full max-w-6xl overflow-x-auto">
-        <FamilyTree />
+        {/* <FamilyTree /> */}
+        <FamilyTreeV2 />
       </div>
     </main>
   );
