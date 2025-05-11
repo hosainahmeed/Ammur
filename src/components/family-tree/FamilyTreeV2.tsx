@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 'use client';
-import f3 from 'family-chart'; // npm install family-chart@0.2.1 or yarn add family-chart@0.2.1
+import f3 from 'family-chart';
 import 'family-chart/styles/family-chart.css';
 import { useEffect } from 'react';
 const FamilyTreeV2 = () => {
   useEffect(() => {
-    fetch('https://donatso.github.io/family-chart-doc/data/data.json')
+    fetch('/familyData.json')
       .then((res) => res.json())
       .then((data) => {
         create(data);
