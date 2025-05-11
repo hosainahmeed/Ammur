@@ -64,7 +64,6 @@ const GetInTouch = () => {
         <nav className="text-sm text-gray-500 mb-4"></nav>
 
         <div className="flex items-center md:gap-12 justify-between flex-col md:flex-row">
-          {/* Contact info section */}
           <div className="w-full">
             <div className="space-y-2">
               <h1 className="text-3xl lg:text-4xl xl:text-6xl font-semibold text-gray-800 mb-6">
@@ -81,7 +80,6 @@ const GetInTouch = () => {
             </div>
           </div>
 
-          {/* Form Section */}
           <div className="max-w-4xl w-full mx-auto md:p-6 md:bg-white md:rounded-lg md:mt-0 mt-12 md:shadow-lg">
             <h2 className="text-3xl font-bold md:text-center text-gray-800 mb-6">
               Get in Touch
@@ -93,7 +91,6 @@ const GetInTouch = () => {
               onFinish={onFinish}
               initialValues={{ remember: true }}
             >
-              {/* Name Field */}
               <CustomInput
                 label="Your Name"
                 name="name"
@@ -102,7 +99,6 @@ const GetInTouch = () => {
                 rules={[{ required: true, message: 'Please enter your name!' }]}
               />
 
-              {/* Email Field */}
               <CustomInput
                 label="Your Email"
                 name="email"
@@ -117,7 +113,6 @@ const GetInTouch = () => {
                 ]}
               />
 
-              {/* Message Field */}
               <Form.Item
                 label="Your Message"
                 name="message"
@@ -132,7 +127,6 @@ const GetInTouch = () => {
                 />
               </Form.Item>
 
-              {/* Submit Button */}
               <Form.Item>
                 <Button
                   type="primary"
