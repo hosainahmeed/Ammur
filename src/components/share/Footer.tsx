@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Instagram, Twitter } from 'lucide-react';
@@ -6,9 +6,10 @@ import { usePathname } from 'next/navigation';
 
 export default function Footer() {
   const path = usePathname();
+  const footerHide = path === '/message' || path === '/contact';
   return (
     <div>
-      {path !== '/message' && (
+      {!footerHide && (
         <footer className="bg-[#072A5E] text-white py-12">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-3 gap-8">
