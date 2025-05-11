@@ -27,7 +27,7 @@ function page({ searchParams }: HomePageProps) {
           <LegecyEntry key={entry.id} entry={entry} />
         ))}
       </div>
-      <PaginationControl totalPages={totalPages} />
+      <PaginationControl currentPage={page} totalPages={totalPages} />
     </div>
   );
 }
