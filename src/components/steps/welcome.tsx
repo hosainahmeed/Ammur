@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 export default function Welcome() {
   return (
@@ -33,7 +34,7 @@ export default function Welcome() {
       <p className="text-gray-500 text-center mb-6">Get up and running in 3 minutes.</p>
 
       <div className="rounded-lg overflow-hidden mb-6">
-        <img src="/placeholder.svg?height=240&width=400" alt="Welcome" className="w-full h-auto object-cover" />
+        <Image width={200} height={200} src="/placeholder.svg?height=240&width=400" alt="Welcome" className="w-full h-auto object-cover" />
       </div>
 
       <Button className="w-full bg-green-600 hover:bg-green-700">Finish up</Button>

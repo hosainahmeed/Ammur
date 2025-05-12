@@ -6,7 +6,6 @@ interface VerifyEmailProps {
 }
 
 function VerifyEmail({ onContinue, setValues }: VerifyEmailProps) {
-    console.log(onContinue, email)
     return (
         <div>VerifyEmail</div>
     )

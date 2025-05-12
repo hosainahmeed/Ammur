@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import type React from 'react';
 import { useState, useEffect } from 'react';
@@ -9,8 +10,7 @@ import { IState, ICity } from 'country-state-city';
 import { Country, State, City } from 'country-state-city';
 
 export interface CreateAccountProps {
-  onContinue: () => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onContinue: any;
   setValues: any;
 }
 
@@ -25,7 +25,6 @@ interface FormValues {
 
 export default function CreateAccount({
   onContinue,
-  setValues,
 }: CreateAccountProps) {
 
   const initialValues: FormValues = {
@@ -89,10 +88,14 @@ export default function CreateAccount({
   };
 
   const handleSubmit = (values: FormValues) => {
-    // Use form values from Ant Design's form submission
-    console.log(values)
-    setValues(values);
-    onContinue();
+    const formData = {
+      ...values,
+      phoneNumber,
+      country: countries.find(c => c.isoCode === country)?.name || country,
+      state: states.find(s => s.isoCode === state)?.name || state,
+      city
+    };
+    onContinue(formData);
   };
 
   return (

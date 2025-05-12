@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState } from 'react';
@@ -6,7 +7,7 @@ import CreateAccount from '../steps/create-account';
 import InviteTeam from '../steps/invite-team';
 import Welcome from '../steps/welcome';
 import VerifyEmail from '../steps/VerifyEmail';
-import PersonalInformation from '../steps/personalInformation';
+import PersonalInformation from '../steps/PersonalInformation';
 
 export type Step = {
   id: number;
@@ -62,8 +63,20 @@ export default function SignUpFlow() {
       current: false,
     },
   ]);
+
+  const [formData, setFormData] = useState<{
+    step1: Record<string, any>;
+    step2: Record<string, any>;
+  }>({
+    step1: {},
+    step2: {},
+  });
   console.log(value)
-  const goToNextStep = () => {
+  const goToNextStep = (step1Data?: Record<string, any>) => {
+    if (currentStep === 1 && step1Data) {
+      setFormData(prev => ({ ...prev, step1: step1Data }));
+    }
+
     if (currentStep < 5) {
       const newSteps = steps.map((step) => {
         if (step.id === currentStep) {
@@ -93,6 +106,17 @@ export default function SignUpFlow() {
     }
   };
 
+  const handleFinalSubmit = (step2Data: Record<string, any>) => {
+    const completeData = {
+      ...formData.step1,
+      ...step2Data
+    };
+    console.log("Complete form data:", completeData);
+    alert("Form submitted successfully!");
+    console.log(value);
+    goToNextStep()
+  };
+
   return (
     <div className="flex min-h-screen">
       <div className='xl:w-1/4 h-full'>
@@ -120,7 +144,7 @@ export default function SignUpFlow() {
               <CreateAccount onContinue={goToNextStep} setValues={setValues} />
             )}
             {currentStep === 2 && (
-              <PersonalInformation onContinue={goToNextStep} setValues={setValues} />
+              <PersonalInformation onContinue={handleFinalSubmit} setValues={setValues} />
             )}
             {currentStep === 3 && (
               <VerifyEmail onContinue={goToNextStep} setValues={setValues} />
