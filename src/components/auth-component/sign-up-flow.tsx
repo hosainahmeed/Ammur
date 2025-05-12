@@ -86,7 +86,9 @@ export default function SignUpFlow() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar steps={steps} currentStep={currentStep} goToStep={goToStep} />
+      <div className='w-1/4 h-full'>
+        <Sidebar steps={steps} currentStep={currentStep} goToStep={goToStep} />
+      </div>
       <div className="flex-1 flex flex-col">
         <div className="flex-1 flex items-center justify-center p-8">
           <div className="w-full max-w-md">

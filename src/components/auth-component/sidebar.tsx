@@ -27,7 +27,7 @@ export default function Sidebar({ steps, currentStep, goToStep }: SidebarProps) 
   }
 
   return (
-    <div className="w-64 bg-white border-r border-gray-200 p-6">
+    <div className="w-full h-screen bg-white border-r border-gray-200 p-6">
       <div className="mb-10">
         <Link href="/" className="flex items-center">
           <svg
