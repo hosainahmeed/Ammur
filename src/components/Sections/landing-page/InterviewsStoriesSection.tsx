@@ -6,7 +6,16 @@ export default function InterviewsStoriesSection() {
   return (
     <div className="py-16 px-4 bg-white">
       <div className="container mx-auto grid md:grid-cols-2 gap-8 items-center">
-        <div className="order-2 md:order-1">
+        <div className="order-1 md:order-1 rounded-lg overflow-hidden">
+          <Image
+            src="/interview.jpg"
+            alt="Interview footage"
+            width={400}
+            height={300}
+            className="w-full h-auto object-cover"
+          />
+        </div>
+        <div className="order-2 md:order-2">
           <h2 className="text-2xl font-bold text-blue-800 mb-4">
             Watch Interviews & Stories
           </h2>
@@ -21,16 +30,6 @@ export default function InterviewsStoriesSection() {
               Explore More
             </Button>
           </Link>
-        </div>
-
-        <div className="order-1 md:order-2 rounded-lg overflow-hidden">
-          <Image
-            src="/interview.jpg"
-            alt="Interview footage"
-            width={400}
-            height={300}
-            className="w-full h-auto object-cover"
-          />
         </div>
       </div>
     </div>

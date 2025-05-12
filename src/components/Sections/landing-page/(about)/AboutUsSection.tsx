@@ -19,11 +19,14 @@ export default function AboutUsSection() {
         <div>
           <h2 className="text-2xl font-bold text-blue-800 mb-4">About Us</h2>
           <p className="text-gray-700 mb-6">
-            Our mission is to preserve and celebrate the rich legacy of our
-            communities. We are dedicated to collecting, archiving, and sharing
-            stories that highlight our cultural heritage and historical
-            significance. Through education and community engagement, we aim to
-            build bridges between generations and ensure our history lives on.
+            This platform was created to preserve and celebrate the rich legacy
+            of our families—and pass down our history, personal stories, and
+            valuable knowledge to future generations. It&lsquo;s a digital home
+            where history, culture, and connection come together. From history
+            timelines and personal interviews to family trees, recipes, and
+            archives, this space is designed for both learning and bonding.
+            Whether you&lsquo;re a grandparent, cousin, or youth, there&lsquo;s
+            something here for you.
           </p>
           <Link href={'/about'}>
             <Button className="!bg-[#072A5E] hover:!bg-[#072A5E] text-white">

@@ -8,9 +8,9 @@ function page() {
   return (
     <div>
       <HeroBanner />
+      <AboutUsSection />
       <HistoryTimelineSection />
       <InterviewsStoriesSection />
-      <AboutUsSection />
     </div >
   )
 }
