@@ -8,11 +8,11 @@ export default function AboutUsSection() {
       <div className="container mx-auto grid md:grid-cols-2 gap-8 items-center">
         <div className="rounded-lg overflow-hidden">
           <Image
-            src="/family.jpg"
+            src="/main_image/Mask groups.png"
             alt="Community members"
             width={400}
             height={300}
-            className="w-full h-auto object-cover rounded-lg"
+            className="w-full max-h-[400px] object-cover rounded-lg"
           />
         </div>
 

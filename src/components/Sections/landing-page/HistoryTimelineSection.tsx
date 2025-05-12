@@ -27,11 +27,11 @@ const HistoryTimelineSection = () => {
         </div>
         <div className="rounded-lg order-1 md:order-2 overflow-hidden">
           <Image
-            src="/5999330.jpg"
+            src="/main_image/Honoring .png"
             alt="Historical photograph"
             width={400}
             height={300}
-            className="w-full h-auto object-cover grayscale"
+            className="w-full max-h-[400px]  object-cover"
           />
         </div>
       </div>
