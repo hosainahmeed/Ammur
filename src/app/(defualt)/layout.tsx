@@ -1,5 +1,6 @@
 import Footer from '@/components/share/Footer';
 import Navbar from '@/components/share/Navbar';
+import { AuthProvider } from '@/context/page';
 
 export default function AuthLayout({
   children,
@@ -9,7 +10,9 @@ export default function AuthLayout({
   return (
     <>
       <Navbar />
-      {children}
+      <AuthProvider>
+        {children}
+      </AuthProvider>
       <Footer />
     </>
   );

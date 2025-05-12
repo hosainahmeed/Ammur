@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { Mail, User, Users, Zap } from "lucide-react"
 import type { Step } from "./sign-up-flow"
+import Image from "next/image"
 
 interface SidebarProps {
   steps: Step[]
@@ -27,33 +28,11 @@ export default function Sidebar({ steps, currentStep, goToStep }: SidebarProps) 
   }
 
   return (
-    <div className="w-full h-screen bg-white border-r border-gray-200 p-6">
+    <div className="w-full h-screen xl:block hidden bg-white border-r border-gray-200 p-6">
       <div className="mb-10">
         <Link href="/" className="flex items-center">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="text-gray-900"
-          >
-            <path
-              d="M3 5L12 14L21 5"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M3 12L12 21L21 12"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="ml-2 text-lg font-semibold text-gray-900">Untitled UI</span>
+          <Image className="w-12 h-12 rounded-full" src={'/icons/IconOnly.svg'} width={200} height={200} alt="" />
+          <span className="ml-2 text-lg font-semibold text-gray-900">Family Legacy</span>
         </Link>
       </div>
 
@@ -62,9 +41,8 @@ export default function Sidebar({ steps, currentStep, goToStep }: SidebarProps) 
           <button
             key={step.id}
             onClick={() => goToStep(step.id)}
-            className={`flex items-start w-full text-left ${
-              step.current ? "opacity-100" : "opacity-60"
-            } ${step.id <= currentStep ? "cursor-pointer" : "cursor-not-allowed"}`}
+            className={`flex items-start w-full text-left ${step.current ? "opacity-100" : "opacity-60"
+              } ${step.id <= currentStep ? "cursor-pointer" : "cursor-not-allowed"}`}
             disabled={step.id > currentStep}
           >
             <div className={`mt-0.5 mr-3 ${step.current ? "text-gray-900" : "text-gray-500"}`}>
