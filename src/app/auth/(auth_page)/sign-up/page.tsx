@@ -1,9 +1,10 @@
-import React from 'react'
+import SignUpFlow from "@/components/auth-component/sign-up-flow";
 
-function page() {
+
+export default function Home() {
   return (
-    <div>page</div>
-  )
+    <div className="min-h-screen bg-gray-50">
+      <SignUpFlow />
+    </div>
+  );
 }
-
-export default page
