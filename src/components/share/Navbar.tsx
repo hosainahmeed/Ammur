@@ -126,7 +126,7 @@ export default function Navbar() {
             >
               <Button
                 variant="outline"
-                className="bg-transparent border-white text-white hover:!bg-[#072A5E]"
+                className="bg-transparent border-white text-white hover:!bg-[#072A5E] hover:!text-white"
               >
                 Sign In
               </Button>
@@ -204,7 +204,7 @@ export default function Navbar() {
                 >
                   <Button
                     variant="outline"
-                    className="bg-transparent border-white text-white hover:!bg-[#072A5E] w-full"
+                    className="!bg-transparent !border-white !text-white hover:!bg-[#072A5E] hover:!text-white w-full"
                   >
                     Sign In
                   </Button>
