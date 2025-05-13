@@ -12,6 +12,7 @@ import { Avatar, Dropdown, Menu } from 'antd';
 import { IoIosMenu } from 'react-icons/io';
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { toast } from 'sonner';
+
 type NavItem = {
   label: string;
   href: string;
@@ -52,10 +53,20 @@ const buttonVariants = {
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [isLogin, setIsLogin] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     setIsMenuOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const login = localStorage.getItem('login');
+      setIsLogin(login === 'true');
+    }
+  }, []);
 
   const navItems: NavItem[] = [
     { label: 'Home', href: '/' },
@@ -73,8 +84,7 @@ export default function Navbar() {
   const isActive = (href: string) => {
     return pathname === href || (href !== '/' && pathname.startsWith(href));
   };
-  const login = localStorage.getItem('login');
-  const islogin = login === 'true';
+
   const menu = (
     <Menu className="min-w-48 rounded-xl shadow-lg">
       <div className="p-4 flex items-center gap-3">
@@ -108,6 +118,11 @@ export default function Navbar() {
       </Menu.Item>
     </Menu>
   );
+
+  if (!isClient) {
+    return null; // or return a loading state
+  }
+
   return (
     <nav className="fixed top-0 left-0 w-full h-fit z-[999] backdrop-blur-2xl bg-[#0C469DB2]/80 text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
@@ -153,7 +168,7 @@ export default function Navbar() {
             </motion.div>
           ))}
         </div>
-        {islogin ? (
+        {isLogin ? (
           <div className="items-center 2xl:flex hidden gap-4 text-2xl">
             <Dropdown
               overlay={menu}
@@ -261,7 +276,7 @@ export default function Navbar() {
                     <Button
                       variant="outline"
                       className={`!bg-transparent ${
-                        islogin ? '!block' : '!hidden'
+                        isLogin ? '!block' : '!hidden'
                       } !border-white !text-white hover:!bg-[#072A5E] hover:!text-white w-full`}
                     >
                       Profile
@@ -280,7 +295,7 @@ export default function Navbar() {
                       window.location.reload();
                     }}
                     className={`bg-[#072A5E] ${
-                      islogin ? '!block' : '!hidden'
+                      isLogin ? '!block' : '!hidden'
                     } text-white hover:bg-blue-950 w-full`}
                   >
                     Sign Out
@@ -295,7 +310,7 @@ export default function Navbar() {
                     <Button
                       variant="outline"
                       className={`!bg-transparent ${
-                        islogin ? '!hidden' : '!block'
+                        isLogin ? '!hidden' : '!block'
                       } !border-white !text-white hover:!bg-[#072A5E] hover:!text-white w-full`}
                     >
                       Sign In
@@ -310,7 +325,7 @@ export default function Navbar() {
                   >
                     <Button
                       className={`bg-[#072A5E] ${
-                        islogin ? '!hidden' : '!block'
+                        isLogin ? '!hidden' : '!block'
                       } text-white hover:bg-blue-950 w-full`}
                     >
                       Sign Up

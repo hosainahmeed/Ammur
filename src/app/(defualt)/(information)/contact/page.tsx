@@ -1,11 +1,7 @@
-import DynamicHeader from '@/components/share/DynamicHeader';
 import React from 'react';
-import dynamic from 'next/dynamic';
+import DynamicHeader from '@/components/share/DynamicHeader';
+import GetInTouch from '@/components/Sections/inforamtion/GetInTouch';
 
-const GetInTouch = dynamic(
-  () => import('@/components/Sections/inforamtion/GetInTouch'),
-  { ssr: false } 
-);
 
 function Page() {
   return (
