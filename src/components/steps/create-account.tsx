@@ -11,7 +11,7 @@ import { Country, State, City } from 'country-state-city';
 import Link from 'next/link';
 
 export interface CreateAccountProps {
-  onContinue: any;
+  onContinue?: any;
   setValues?: any;
 }
 
@@ -249,7 +249,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
           <Text type="secondary" style={{ fontSize: '14px' }}>
             Already have Account?{' '}
             <Link href="/auth/sign-in" style={{ color: '#4B5563' }}>
-              Go to sign in. 
+              Go to sign in.
             </Link>
           </Text>
         </div>
