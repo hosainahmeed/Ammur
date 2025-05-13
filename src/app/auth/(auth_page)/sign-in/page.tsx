@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client'
+'use client';
 import React from 'react';
 import { GoogleOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex } from 'antd';
@@ -8,10 +8,12 @@ import Link from 'next/link';
 const page: React.FC = () => {
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
+    localStorage.setItem('login', 'true');
+    window.location.href = '/';
   };
 
   return (
-    <div className='flex items-center flex-col mx-auto justify-center h-screen max-w-md'>
+    <div className="flex items-center flex-col mx-auto justify-center h-screen max-w-md">
       <h1 className="text-2xl font-semibold text-center mb-2">
         Login to Account
       </h1>
@@ -21,7 +23,7 @@ const page: React.FC = () => {
       <Form
         name="login"
         initialValues={{ remember: true }}
-        className='!w-full'
+        className="!w-full"
         onFinish={onFinish}
       >
         <Form.Item
@@ -34,7 +36,11 @@ const page: React.FC = () => {
           name="password"
           rules={[{ required: true, message: 'Please input your Password!' }]}
         >
-          <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+          <Input
+            prefix={<LockOutlined />}
+            type="password"
+            placeholder="Password"
+          />
         </Form.Item>
         <Form.Item>
           <Flex justify="space-between" align="center">
@@ -44,12 +50,10 @@ const page: React.FC = () => {
             <Link href="">Forgot password</Link>
           </Flex>
         </Form.Item>
-
         <Form.Item>
-          <Button block className='!bg-[#0D2A59] !text-white' htmlType="submit">
+          <Button block className="!bg-[#0D2A59] !text-white" htmlType="submit">
             Log in
           </Button>
-
         </Form.Item>
         <Form.Item>
           <Button
