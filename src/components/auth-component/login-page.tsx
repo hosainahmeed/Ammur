@@ -2,6 +2,7 @@
 import { Button, Input, Divider, Typography, Form, Layout, Space } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 const { Title, Text, Paragraph } = Typography;
 const { Content } = Layout;
@@ -92,6 +93,11 @@ export default function LoginPage() {
                   htmlType="submit"
                   size="large"
                   block
+                  onClick={() => {
+                    localStorage.setItem('login', 'true');
+                    toast.success('Sign in Successfully');
+                    window.location.href = '/';
+                  }}
                   style={{ backgroundColor: '#072a5e' }}
                 >
                   Sign in

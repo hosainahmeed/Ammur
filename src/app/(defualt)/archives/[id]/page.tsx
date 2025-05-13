@@ -16,7 +16,7 @@ function page({ params }: ArchivesId) {
   const { description, imageUrl, title, year } = archive;
 
   return (
-    <div className="py-12 md:py-20 container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="md:py-20 py-28 container mx-auto px-4 sm:px-6 lg:px-8">
       <nav className="mb-8">
         <Breadcrumb
           items={[

@@ -24,7 +24,7 @@ export default function SignUpFlow() {
   const [steps, setSteps] = useState<Step[]>([
     {
       id: 1,
-      title: 'Your details',
+      title: 'Cradintials',
       description: 'Provide your information',
       icon: 'user',
       completed: false,
@@ -32,9 +32,9 @@ export default function SignUpFlow() {
     },
     {
       id: 2,
-      title: 'Your details',
-      description: 'Provide an email and password',
-      icon: 'user',
+      title: 'Identification',
+      description: 'Give your Identification.',
+      icon: 'information',
       completed: false,
       current: false,
     },
@@ -56,8 +56,8 @@ export default function SignUpFlow() {
     },
     {
       id: 5,
-      title: 'Welcome to Untitled!',
-      description: 'Get up and running in 3 minutes',
+      title: 'Welcome to Family legacy!',
+      description: 'Thank you for join our family',
       icon: 'zap',
       completed: false,
       current: false,

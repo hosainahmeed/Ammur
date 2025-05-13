@@ -1,38 +1,53 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { Mail, User, Zap } from "lucide-react"
-import type { Step } from "./sign-up-flow"
-import Image from "next/image"
-import { IoIosPricetag } from "react-icons/io";
+import Link from 'next/link';
+import { Mail, User, Zap } from 'lucide-react';
+import type { Step } from './sign-up-flow';
+import Image from 'next/image';
+import { IoIosPricetag } from 'react-icons/io';
+import { MdMedicalInformation } from 'react-icons/md';
 interface SidebarProps {
-  steps: Step[]
-  currentStep: number
-  goToStep: (step: number) => void
+  steps: Step[];
+  currentStep: number;
+  goToStep: (step: number) => void;
 }
 
-export default function Sidebar({ steps, currentStep, goToStep }: SidebarProps) {
+export default function Sidebar({
+  steps,
+  currentStep,
+  goToStep,
+}: SidebarProps) {
   const getIcon = (iconName: string) => {
     switch (iconName) {
-      case "user":
-        return <User className="h-5 w-5" />
-      case "mail":
-        return <Mail className="h-5 w-5" />
-      case "price":
-        return <IoIosPricetag className="h-5 w-5" />
-      case "zap":
-        return <Zap className="h-5 w-5" />
+      case 'user':
+        return <User className="h-5 w-5 text-white" />;
+      case 'information':
+        return <MdMedicalInformation className="h-5 w-5 text-white" />;
+      case 'mail':
+        return <Mail className="h-5 w-5 text-white" />;
+      case 'price':
+        return <IoIosPricetag className="h-5 w-5 text-white" />;
+      case 'zap':
+        return <Zap className="h-5 w-5 text-white" />;
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   return (
-    <div className="w-full h-screen xl:block hidden bg-white border-r border-gray-200 p-6">
+    <div className="w-full h-screen xl:block hidden bg-[#0D2A59] border-r border-gray-200 p-6">
       <div className="mb-10">
         <Link href="/" className="flex items-center">
-          <Image className="w-12 h-12 rounded-full" src={'/icons/IconOnly.svg'} width={200} height={200} alt="" />
-          <span className="ml-2 text-lg font-semibold text-gray-900">Family Legacy</span>
+          <Image
+            className="w-12 h-12 rounded-full"
+            src={'/icons/IconOnly.svg'}
+            width={200}
+            height={200}
+            alt=""
+          />
+          <span className="ml-2 text-lg font-semibold text-white">
+            Family Legacy
+          </span>
         </Link>
       </div>
 
@@ -41,23 +56,33 @@ export default function Sidebar({ steps, currentStep, goToStep }: SidebarProps) 
           <button
             key={step.id}
             onClick={() => goToStep(step.id)}
-            className={`flex items-start w-full  text-left ${step.current ? "opacity-100" : "opacity-60"
-              } ${step.id <= currentStep ? "cursor-pointer" : "cursor-not-allowed"}`}
+            className={`flex items-start w-full  text-left ${
+              step.current ? 'opacity-100' : 'opacity-60'
+            } ${
+              step.id <= currentStep ? 'cursor-pointer' : 'cursor-not-allowed'
+            }`}
             disabled={step.id > currentStep}
           >
-            <div className={`mt-0.5 mr-3 ${step.current ? "text-gray-900" : "text-gray-500"}`}>
+            <div
+              className={`mt-0.5 mr-3 ${
+                step.current ? 'text-gray-900' : 'text-gray-500'
+              }`}
+            >
               {getIcon(step.icon)}
             </div>
-            <div>
-              <h3 className="font-medium  text-gray-900">{step.title}</h3>
-              <p className="text-sm text-gray-500">{step.description}</p>
+            <div className='border-b border-white !w-full mb-2'>
+              <h3 className="font-medium  text-white">{step.title}</h3>
+              <p className="text-sm text-white">{step.description}</p>
             </div>
           </button>
         ))}
       </div>
 
       <div className="absolute bottom-6 left-6">
-        <Link href="/" className="flex items-center text-sm text-gray-600 hover:text-gray-900">
+        <Link
+          href="/"
+          className="flex items-center text-sm text-gray-600 hover:text-gray-900"
+        >
           <svg
             width="20"
             height="20"
@@ -78,5 +103,5 @@ export default function Sidebar({ steps, currentStep, goToStep }: SidebarProps) 
         </Link>
       </div>
     </div>
-  )
+  );
 }

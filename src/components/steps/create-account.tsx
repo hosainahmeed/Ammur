@@ -2,12 +2,13 @@
 'use client';
 import type React from 'react';
 import { useState, useEffect } from 'react';
-import { Button, Input, Form, Select, Divider } from 'antd';
+import { Button, Input, Form, Select, Divider, Typography } from 'antd';
 import ReactPhoneInput from 'react-phone-input-2';
 import { GoogleOutlined } from '@ant-design/icons';
 import 'react-phone-input-2/lib/style.css';
 import { IState, ICity } from 'country-state-city';
 import { Country, State, City } from 'country-state-city';
+import Link from 'next/link';
 
 export interface CreateAccountProps {
   onContinue: any;
@@ -23,17 +24,15 @@ interface FormValues {
   city: string;
 }
 
-export default function CreateAccount({
-  onContinue,
-}: CreateAccountProps) {
-
+export default function CreateAccount({ onContinue }: CreateAccountProps) {
+  const { Text } = Typography;
   const initialValues: FormValues = {
     name: '',
     email: '',
     phoneNumber: '',
     country: '',
     state: '',
-    city: ''
+    city: '',
   };
   const [form] = Form.useForm<FormValues>();
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -70,7 +69,6 @@ export default function CreateAccount({
     }
   }, [state, country]);
 
-
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
   };
@@ -91,9 +89,9 @@ export default function CreateAccount({
     const formData = {
       ...values,
       phoneNumber,
-      country: countries.find(c => c.isoCode === country)?.name || country,
-      state: states.find(s => s.isoCode === state)?.name || state,
-      city
+      country: countries.find((c) => c.isoCode === country)?.name || country,
+      state: states.find((s) => s.isoCode === state)?.name || state,
+      city,
     };
     onContinue(formData);
   };
@@ -115,14 +113,12 @@ export default function CreateAccount({
         onFinish={handleSubmit}
         className="space-y-4"
       >
-        <div className='grid md:grid-cols-2 grid-cols-1 gap-2'>
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
           <div className="space-y-2">
             <Form.Item<FormValues>
               label="Full Name"
               name="name"
-              rules={[
-                { required: true, message: 'Please enter your name!' }
-              ]}
+              rules={[{ required: true, message: 'Please enter your name!' }]}
             >
               <Input
                 type="text"
@@ -163,11 +159,7 @@ export default function CreateAccount({
             </Form.Item>
           </div>
           <div className="space-y-2">
-            <Form.Item<FormValues>
-              label="Country"
-              name="country"
-              required
-            >
+            <Form.Item<FormValues> label="Country" name="country" required>
               <Select
                 showSearch
                 placeholder="Select country"
@@ -175,7 +167,9 @@ export default function CreateAccount({
                 onChange={handleCountryChange}
                 value={country || undefined}
                 filterOption={(input, option) =>
-                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                  (option?.label ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
                 }
                 options={countries.map((country) => ({
                   value: country.isoCode,
@@ -186,11 +180,7 @@ export default function CreateAccount({
           </div>
 
           <div className="space-y-2">
-            <Form.Item<FormValues>
-              label="State/Province"
-              name="state"
-              required
-            >
+            <Form.Item<FormValues> label="State/Province" name="state" required>
               <Select
                 showSearch
                 placeholder="Select state"
@@ -199,7 +189,9 @@ export default function CreateAccount({
                 value={state || undefined}
                 disabled={!country}
                 filterOption={(input, option) =>
-                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                  (option?.label ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
                 }
                 options={states.map((state) => ({
                   value: state.isoCode,
@@ -210,11 +202,7 @@ export default function CreateAccount({
           </div>
 
           <div className="space-y-2">
-            <Form.Item<FormValues>
-              label="City"
-              name="city"
-              required
-            >
+            <Form.Item<FormValues> label="City" name="city" required>
               <Select
                 showSearch
                 placeholder="Select city"
@@ -223,7 +211,9 @@ export default function CreateAccount({
                 value={city || undefined}
                 disabled={!state}
                 filterOption={(input, option) =>
-                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                  (option?.label ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
                 }
                 options={cities.map((city) => ({
                   value: city.name,
@@ -255,6 +245,14 @@ export default function CreateAccount({
         >
           Sign up with Google
         </Button>
+        <div style={{ textAlign: 'center', marginTop: 24 }}>
+          <Text type="secondary" style={{ fontSize: '14px' }}>
+            Already have Account?{' '}
+            <Link href="/auth/sign-in" style={{ color: '#4B5563' }}>
+              Go to sign in. 
+            </Link>
+          </Text>
+        </div>
       </div>
     </div>
   );
