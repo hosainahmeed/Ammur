@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 
 export default function Footer() {
   const path = usePathname();
-  const footerHide = path === '/message' || path === '/contact';
+  const footerHide = path === '/message' ;
   return (
     <div>
       {!footerHide && (

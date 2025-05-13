@@ -1,13 +1,15 @@
+import DynamicHeader from '@/components/share/DynamicHeader';
 import { Breadcrumb } from 'antd';
 import Head from 'next/head';
 import Link from 'next/link';
 
 export default function About() {
   return (
-    <div className="mt-28">
+    <div>
       <Head>
         <title>About Us</title>
       </Head>
+      <DynamicHeader title="Privacy Policy" />
       <main className="container mx-auto px-4 py-12">
         <nav className="text-sm text-gray-500 mb-4">
           <Breadcrumb
@@ -21,9 +23,6 @@ export default function About() {
             ]}
           />
         </nav>
-        <h1 className="text-3xl font-semibold text-gray-800 mb-6">
-          Privacy Policy
-        </h1>
         <section className="space-y-6 text-gray-700 md:text-xl leading-relaxed">
           {[...Array(3)].map((_, i) => (
             <p key={i}>

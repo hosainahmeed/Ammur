@@ -252,7 +252,7 @@ export default function Navbar() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: navItems.length * 0.05 + 0.1 }}
               >
-                <Link href={'/profile'}>
+                <Link href={'/profile-setting'}>
                   <motion.div
                     whileHover="hover"
                     whileTap="tap"

@@ -1,14 +1,12 @@
-import { Breadcrumb } from 'antd';
-import Head from 'next/head';
+import DynamicHeader from '@/components/share/DynamicHeader';
+import { Breadcrumb } from 'antd';;
 import Link from 'next/link';
 
 export default function About() {
   return (
-    <div className="mt-28">
-      <Head>
-        <title>About Us</title>
-      </Head>
-      <main className="container mx-auto px-4 py-12">
+    <div>
+      <DynamicHeader title="About us" />
+      <main className="container mx-auto px-4 py-28">
         <nav className="text-sm text-gray-500 mb-4">
           <Breadcrumb
             items={[

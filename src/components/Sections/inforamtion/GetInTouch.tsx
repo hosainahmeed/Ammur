@@ -1,8 +1,9 @@
 'use client';
-import { Button, Form, Input, message, ConfigProvider } from 'antd';
+import { Button, Form, Input, message, ConfigProvider, Breadcrumb } from 'antd';
 import { useState } from 'react';
 import { MailOutlined, UserOutlined } from '@ant-design/icons';
 import Head from 'next/head';
+import Link from 'next/link';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomInput = ({ label, name, prefix, placeholder, rules }: any) => (
@@ -46,7 +47,7 @@ const GetInTouch = () => {
         },
       }}
     >
-      <div>
+      <div className="container mx-auto py-12 px-2">
         <Head>
           <title>Contact Us</title>
           <meta
@@ -62,21 +63,30 @@ const GetInTouch = () => {
           <meta property="og:type" content="website" />
         </Head>
         <nav className="text-sm text-gray-500 mb-4"></nav>
-
+        <Breadcrumb
+          items={[
+            {
+              title: <Link href="/">Home</Link>,
+            },
+            {
+              title: <Link href="/contact">contact-us</Link>,
+            },
+          ]}
+        />
         <div className="flex items-center md:gap-12 justify-between flex-col md:flex-row">
           <div className="w-full">
             <div className="space-y-2">
               <h1 className="text-3xl lg:text-4xl xl:text-6xl font-semibold text-gray-800 mb-6">
-                Contact Us
+                Information
               </h1>
               <p className="text-lg">
                 <strong>Email:</strong> youremail@gmail.com
               </p>
               <p className="text-lg">
                 <strong>Phone:</strong> (+1) (888) 750-6866
+                <p className="text-lg">(+1) (888) 785-3986</p>
               </p>
               <p className="text-lg">Ietsialv@gmail.com</p>
-              <p className="text-lg">(+1) (888) 785-3986</p>
             </div>
           </div>
 
