@@ -77,7 +77,7 @@ const HeroBanner = () => {
         <Image
           width={1920}
           height={1080}
-          src="/main_image/hero.png"
+          src="/amurphy/PublicHomePagePic1.jpg"
           alt="Heritage landscape"
           className="h-full w-full object-cover brightness-[0.65]"
           priority

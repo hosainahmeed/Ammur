@@ -197,27 +197,31 @@ export default function Navbar() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: navItems.length * 0.05 + 0.1 }}
               >
-                <motion.div
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={buttonVariants}
-                >
-                  <Button
-                    variant="outline"
-                    className="!bg-transparent !border-white !text-white hover:!bg-[#072A5E] hover:!text-white w-full"
+                <Link href={'/auth/sign-in'}>
+                  <motion.div
+                    whileHover="hover"
+                    whileTap="tap"
+                    variants={buttonVariants}
                   >
-                    Sign In
-                  </Button>
-                </motion.div>
-                <motion.div
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={buttonVariants}
-                >
-                  <Button className="bg-[#072A5E] text-white hover:bg-blue-950 w-full">
-                    Sign Up
-                  </Button>
-                </motion.div>
+                    <Button
+                      variant="outline"
+                      className="!bg-transparent !border-white !text-white hover:!bg-[#072A5E] hover:!text-white w-full"
+                    >
+                      Sign In
+                    </Button>
+                  </motion.div>
+                </Link>
+                <Link href={'/auth/sign-up'}>
+                  <motion.div
+                    whileHover="hover"
+                    whileTap="tap"
+                    variants={buttonVariants}
+                  >
+                    <Button className="bg-[#072A5E] text-white hover:bg-blue-950 w-full">
+                      Sign Up
+                    </Button>
+                  </motion.div>
+                </Link>
               </motion.div>
             </motion.div>
           </motion.div>

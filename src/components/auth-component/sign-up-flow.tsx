@@ -4,10 +4,10 @@
 import { useState } from 'react';
 import Sidebar from './sidebar';
 import CreateAccount from '../steps/create-account';
-import InviteTeam from '../steps/invite-team';
 import Welcome from '../steps/welcome';
 import VerifyEmail from '../steps/VerifyEmail';
-import PersonalInformation from '../steps/PersonalInformation';
+import PersonalInformation from '../steps/personalInformation';
+import Pricing from '../steps/Pricing';
 
 export type Step = {
   id: number;
@@ -71,10 +71,10 @@ export default function SignUpFlow() {
     step1: {},
     step2: {},
   });
-  console.log(value)
+  console.log(value);
   const goToNextStep = (step1Data?: Record<string, any>) => {
     if (currentStep === 1 && step1Data) {
-      setFormData(prev => ({ ...prev, step1: step1Data }));
+      setFormData((prev) => ({ ...prev, step1: step1Data }));
     }
 
     if (currentStep < 5) {
@@ -109,17 +109,17 @@ export default function SignUpFlow() {
   const handleFinalSubmit = (step2Data: Record<string, any>) => {
     const completeData = {
       ...formData.step1,
-      ...step2Data
+      ...step2Data,
     };
-    console.log("Complete form data:", completeData);
-    alert("Form submitted successfully!");
+    console.log('Complete form data:', completeData);
+    alert('Form submitted successfully!');
     console.log(value);
-    goToNextStep()
+    goToNextStep();
   };
 
   return (
     <div className="flex min-h-screen">
-      <div className='xl:w-1/4 h-full'>
+      <div className="xl:w-1/4 h-full">
         <Sidebar steps={steps} currentStep={currentStep} goToStep={goToStep} />
       </div>
       <div className="flex-1 flex flex-col">
@@ -128,32 +128,33 @@ export default function SignUpFlow() {
             {steps.map((step) => (
               <div
                 key={step.id}
-                className={`h-1.5 w-16 rounded-full ${step.id === currentStep
-                  ? 'bg-[#072A5E]'
-                  : step.completed
+                className={`h-1.5 w-16 rounded-full ${
+                  step.id === currentStep
+                    ? 'bg-[#072A5E]'
+                    : step.completed
                     ? 'bg-[#072A5E]'
                     : 'bg-gray-200'
-                  }`}
+                }`}
               />
             ))}
           </div>
         </div>
         <div className="flex-1 flex items-center justify-center p-8">
-          <div className="w-full max-w-2xl">
+          <div className="w-full ">
             {currentStep === 1 && (
               <CreateAccount onContinue={goToNextStep} setValues={setValues} />
             )}
             {currentStep === 2 && (
-              <PersonalInformation onContinue={handleFinalSubmit} setValues={setValues} />
+              <PersonalInformation
+                onContinue={handleFinalSubmit}
+                setValues={setValues}
+              />
             )}
-            {currentStep === 3 && (
-              <VerifyEmail onContinue={goToNextStep} setValues={setValues} />
-            )}
-            {currentStep === 4 && <InviteTeam onContinue={goToNextStep} />}
+            {currentStep === 3 && <VerifyEmail onContinue={goToNextStep} />}
+            {currentStep === 4 && <Pricing onContinue={goToNextStep} />}
             {currentStep === 5 && <Welcome />}
           </div>
         </div>
-
       </div>
     </div>
   );

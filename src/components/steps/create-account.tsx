@@ -11,7 +11,7 @@ import { Country, State, City } from 'country-state-city';
 
 export interface CreateAccountProps {
   onContinue: any;
-  setValues: any;
+  setValues?: any;
 }
 
 interface FormValues {
@@ -99,7 +99,7 @@ export default function CreateAccount({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-2xl mx-auto">
       <h1 className="text-2xl font-semibold text-center mb-2">
         Create a free account
       </h1>

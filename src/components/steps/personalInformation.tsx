@@ -36,18 +36,22 @@ function PersonalInformation({ onContinue }: CreateAccountProps) {
 
       // Additional validation
       if (values.password !== values.confirmPassword) {
-        form.setFields([{
-          name: 'confirmPassword',
-          errors: ['Passwords do not match'],
-        }]);
+        form.setFields([
+          {
+            name: 'confirmPassword',
+            errors: ['Passwords do not match'],
+          },
+        ]);
         return;
       }
 
       if (values.password.length < 8) {
-        form.setFields([{
-          name: 'password',
-          errors: ['Password must be at least 8 characters'],
-        }]);
+        form.setFields([
+          {
+            name: 'password',
+            errors: ['Password must be at least 8 characters'],
+          },
+        ]);
         return;
       }
 
@@ -65,7 +69,7 @@ function PersonalInformation({ onContinue }: CreateAccountProps) {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-2xl mx-auto">
       <h1 className="text-2xl font-semibold text-center mb-2">
         Personal Information
       </h1>
@@ -74,6 +78,7 @@ function PersonalInformation({ onContinue }: CreateAccountProps) {
       </p>
 
       <Form
+        requiredMark={false}
         form={form}
         layout="vertical"
         onFinish={handleSubmit}
@@ -122,9 +127,7 @@ function PersonalInformation({ onContinue }: CreateAccountProps) {
             { min: 8, message: 'Password must be at least 8 characters' },
           ]}
         >
-          <Input.Password
-            placeholder="Enter password (min 8 characters)"
-          />
+          <Input.Password placeholder="Enter password (min 8 characters)" />
         </Form.Item>
 
         <Form.Item<PersonalInfoValues>

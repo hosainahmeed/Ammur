@@ -2,14 +2,15 @@
 import { CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { CreateAccountProps } from './create-account';
 
-export default function Pricing() {
+export default function Pricing({ onContinue }: CreateAccountProps) {
   const tiers = [
     {
-      name: 'Basic',
+      name: 'Free',
       id: 'tier-basic',
       href: '#',
-      priceMonths: '$57',
+      priceMonths: '$0',
       duration: '3 month subscription',
       description:
         'Perfect for individuals or small projects just getting started.',
@@ -68,7 +69,7 @@ export default function Pricing() {
   ];
 
   return (
-    <div className="relative bg-white px-6 py-24 sm:py-28 lg:px-8 overflow-hidden">
+    <div className="flex-1 !w-full">
       {/* Gentle background elements */}
       <div
         aria-hidden="true"
@@ -79,7 +80,7 @@ export default function Pricing() {
         <div className="absolute opacity-5 top-1/4 left-1/3 h-80 w-80 rounded-full bg-pink-100"></div>
       </div>
 
-      <div className="mx-auto max-w-5xl">
+      <div className="">
         <div className="mt-12 grid gap-8 lg:grid-cols-3">
           {tiers.map((tier) => (
             <div
@@ -124,15 +125,27 @@ export default function Pricing() {
                 </ul>
 
                 <div className="mt-8">
-                  <Link
-                    href={tier.href}
-                    className={cn(
-                      'block w-full rounded-lg py-3 px-4 text-center text-sm font-medium transition-colors duration-200',
-                      tier.buttonColor
-                    )}
-                  >
-                    Get started
-                  </Link>
+                  {tier.name === 'Free' ? (
+                    <button
+                      onClick={() => onContinue()}
+                      className={cn(
+                        'block w-full rounded-lg py-3 px-4 text-center text-sm font-medium transition-colors duration-200',
+                        tier.buttonColor
+                      )}
+                    >
+                      Get started
+                    </button>
+                  ) : (
+                    <Link
+                      href={tier.href}
+                      className={cn(
+                        'block w-full rounded-lg py-3 px-4 text-center text-sm font-medium transition-colors duration-200',
+                        tier.buttonColor
+                      )}
+                    >
+                      Get started
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
