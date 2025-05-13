@@ -1,15 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import ArchiveEntry from '@/components/archive/ArchiveEntry';
 import { PaginationControl } from '@/components/recipe/PaginationControlProps';
 import { timelineData } from '@/lib/timelineData';
 import React from 'react';
 
-interface HomePageProps {
-  searchParams: {
-    page?: string;
-  };
-}
 
-const page = ({ searchParams }: HomePageProps) => {
+const page = ({ searchParams }: any) => {
   const page = Number(searchParams.page) || 1;
   const recipesPerPage = 6;
   const totalPages = Math.ceil(timelineData.length / recipesPerPage);

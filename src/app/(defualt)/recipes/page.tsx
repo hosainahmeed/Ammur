@@ -1,14 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PaginationControl } from '@/components/recipe/PaginationControlProps';
 import { RecipeCard } from '@/components/recipe/RecipeCard';
 import { recipes } from '@/lib/recipesData';
 
-interface HomePageProps {
-  searchParams: {
-    page?: string;
-  };
-}
 
-export default function page({ searchParams }: HomePageProps) {
+export default function page({ searchParams }: any) {
   const page = Number(searchParams.page) || 1;
   const recipesPerPage = 6;
   const totalPages = Math.ceil(recipes.length / recipesPerPage);

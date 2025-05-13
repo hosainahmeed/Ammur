@@ -1,14 +1,19 @@
-import GetInTouch from '@/components/Sections/inforamtion/GetInTouch';
 import DynamicHeader from '@/components/share/DynamicHeader';
 import React from 'react';
+import dynamic from 'next/dynamic';
 
-function page() {
+const GetInTouch = dynamic(
+  () => import('@/components/Sections/inforamtion/GetInTouch'),
+  { ssr: false } 
+);
+
+function Page() {
   return (
     <div>
-      <DynamicHeader title='Contact us' />
+      <DynamicHeader title="Contact us" />
       <GetInTouch />
     </div>
   );
 }
 
-export default page;
+export default Page;

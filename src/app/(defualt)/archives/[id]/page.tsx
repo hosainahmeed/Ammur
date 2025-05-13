@@ -5,13 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-interface ArchivesId {
-  params: {
-    id: string;
-  };
-}
-
-function page({ params }: ArchivesId) {
+function page({ params }: any) {
   const archive: any = timelineData.find((r) => r.id === params.id);
   const { description, imageUrl, title, year } = archive;
 

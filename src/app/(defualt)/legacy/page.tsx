@@ -1,14 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import LegecyEntry from '@/components/lagacy/LegecyEntry';
 import { PaginationControl } from '@/components/recipe/PaginationControlProps';
 import { timelineData } from '@/lib/timelineData';
 import React from 'react';
-interface HomePageProps {
-  searchParams: {
-    page?: string;
-  };
-}
 
-function page({ searchParams }: HomePageProps) {
+function page({ searchParams }: any) {
   const page = Number(searchParams.page) || 1;
   const recipesPerPage = 6;
   const totalPages = Math.ceil(timelineData.length / recipesPerPage);
