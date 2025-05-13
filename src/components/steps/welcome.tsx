@@ -1,7 +1,10 @@
-import { Button } from "@/components/ui/button"
-import Image from "next/image"
+import { Button } from '@/components/ui/button';
 
 export default function Welcome() {
+  const handleNavigate = () => {
+    localStorage.setItem('login', 'true');
+    window.location.href = '/';
+  };
   return (
     <div className="w-full">
       <div className="flex justify-center mb-6">
@@ -30,14 +33,16 @@ export default function Welcome() {
         </svg>
       </div>
 
-      <h1 className="text-2xl font-semibold text-center mb-2">Welcome to Untitled!</h1>
-      <p className="text-gray-500 text-center mb-6">Get up and running in 3 minutes.</p>
+      <h1 className="text-2xl font-semibold text-center mb-2">
+        Welcome to Untitled!
+      </h1>
 
-      <div className="rounded-lg overflow-hidden mb-6">
-        <Image width={200} height={200} src="/placeholder.svg?height=240&width=400" alt="Welcome" className="w-full h-auto object-cover" />
-      </div>
-
-      <Button className="w-full bg-green-600 hover:bg-green-700">Finish up</Button>
+      <Button
+        onClick={() => handleNavigate()}
+        className="w-full bg-[#072A5E] !text-white hover:bg-[#072A5E]"
+      >
+        Finish up
+      </Button>
     </div>
-  )
+  );
 }

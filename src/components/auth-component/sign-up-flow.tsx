@@ -25,7 +25,7 @@ export default function SignUpFlow() {
     {
       id: 1,
       title: 'Your details',
-      description: 'Provide an email and password',
+      description: 'Provide your information',
       icon: 'user',
       completed: false,
       current: true,
@@ -48,9 +48,9 @@ export default function SignUpFlow() {
     },
     {
       id: 4,
-      title: 'Invite your team',
-      description: 'Start collaborating with your team',
-      icon: 'users',
+      title: 'Choose yor plan',
+      description: 'Get plan to more access and smooth experience',
+      icon: 'price',
       completed: false,
       current: false,
     },
@@ -128,7 +128,7 @@ export default function SignUpFlow() {
             {steps.map((step) => (
               <div
                 key={step.id}
-                className={`h-1.5 w-16 rounded-full ${
+                className={`h-1.5 w-10 md:w-16 rounded-full ${
                   step.id === currentStep
                     ? 'bg-[#072A5E]'
                     : step.completed

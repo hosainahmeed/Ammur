@@ -1,10 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { Mail, User, Users, Zap } from "lucide-react"
+import { Mail, User, Zap } from "lucide-react"
 import type { Step } from "./sign-up-flow"
 import Image from "next/image"
-
+import { IoIosPricetag } from "react-icons/io";
 interface SidebarProps {
   steps: Step[]
   currentStep: number
@@ -18,8 +18,8 @@ export default function Sidebar({ steps, currentStep, goToStep }: SidebarProps) 
         return <User className="h-5 w-5" />
       case "mail":
         return <Mail className="h-5 w-5" />
-      case "users":
-        return <Users className="h-5 w-5" />
+      case "price":
+        return <IoIosPricetag className="h-5 w-5" />
       case "zap":
         return <Zap className="h-5 w-5" />
       default:
@@ -41,7 +41,7 @@ export default function Sidebar({ steps, currentStep, goToStep }: SidebarProps) 
           <button
             key={step.id}
             onClick={() => goToStep(step.id)}
-            className={`flex items-start w-full text-left ${step.current ? "opacity-100" : "opacity-60"
+            className={`flex items-start w-full  text-left ${step.current ? "opacity-100" : "opacity-60"
               } ${step.id <= currentStep ? "cursor-pointer" : "cursor-not-allowed"}`}
             disabled={step.id > currentStep}
           >
@@ -49,7 +49,7 @@ export default function Sidebar({ steps, currentStep, goToStep }: SidebarProps) 
               {getIcon(step.icon)}
             </div>
             <div>
-              <h3 className="font-medium text-gray-900">{step.title}</h3>
+              <h3 className="font-medium  text-gray-900">{step.title}</h3>
               <p className="text-sm text-gray-500">{step.description}</p>
             </div>
           </button>
