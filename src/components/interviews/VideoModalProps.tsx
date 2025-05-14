@@ -78,7 +78,7 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
 
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 bg-black/60 text-white p-2 rounded-full hover:bg-black/80 transition-colors"
+                        className="absolute top-4 right-4 bg-black/60 !text-white p-2 rounded-full hover:bg-black/80 transition-colors"
                         aria-label="Close video"
                     >
                         <X className="h-5 w-5" />

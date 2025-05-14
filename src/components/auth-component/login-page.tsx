@@ -12,7 +12,7 @@ export default function LoginPage() {
     <Layout className="min-h-screen">
       <Content className="h-screen grid lg:grid-cols-2">
         {/* Left side with illustration */}
-        <div className="relative hidden lg:flex flex-col items-center justify-center p-8 bg-[#072a5e] text-white">
+        <div className="relative hidden lg:flex flex-col items-center justify-center p-8 bg-[#072a5e] !text-white">
           <div className="max-w-md mx-auto text-center">
             <Space direction="vertical" size="large" align="center">
               <Image

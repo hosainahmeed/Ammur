@@ -251,7 +251,7 @@ export default function ChatInterface() {
                       <div>
                         <div
                           className={`p-3 rounded-2xl ${message.isCurrentUser
-                            ? 'bg-blue-500 text-white'
+                            ? 'bg-blue-500 !text-white'
                             : 'bg-white border border-slate-200 text-slate-800'
                             }`}
                         >
@@ -292,7 +292,7 @@ export default function ChatInterface() {
             <Button
               onClick={handleSendMessage}
               disabled={newMessage.trim() === ''}
-              className="!rounded-full !py-6 !bg-blue-500 hover:!bg-blue-600 !text-white !px-8"
+              className="!rounded-full !py-6 !bg-blue-500 hover:!bg-blue-600 !!text-white !px-8"
             >
               <Send className="h-4 w-4 mr-1" />
               <span className="hidden sm:inline">Send</span>

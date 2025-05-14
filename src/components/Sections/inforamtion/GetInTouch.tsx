@@ -143,7 +143,7 @@ const GetInTouch = () => {
                   htmlType="submit"
                   block
                   loading={loading}
-                  className="!bg-[#072A5E] !text-white !rounded-xl !py-3 !hover:!bg-blue-700 !focus:ring-4 !focus:ring-blue-300"
+                  className="!bg-[#072A5E] !!text-white !rounded-xl !py-3 !hover:!bg-blue-700 !focus:ring-4 !focus:ring-blue-300"
                 >
                   Send Message
                 </Button>

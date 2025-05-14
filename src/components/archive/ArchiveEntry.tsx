@@ -54,7 +54,7 @@ const ArchiveEntry = ({ entry }: TimelineEntryProps) => {
             {entry?.description?.slice(0, 150)}...
           </p>
           <Link href={`/archives/${entry.id}`}>
-            <Button className="!w-full !text-white !bg-[#072A5E]">
+            <Button className="!w-full !!text-white !bg-[#072A5E]">
               Details
             </Button>
           </Link>

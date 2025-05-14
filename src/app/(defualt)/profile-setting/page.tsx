@@ -77,7 +77,7 @@ const ProfilePage: React.FC = () => {
               </p>
             </div>
             <Link href={'/profile-setting/edit-profile'}>
-              <button className="mt-3 sm:mt-2 cursor-pointer flex w-full sm:w-fit items-center justify-center sm:justify-start gap-2 bg-[#072A5E] hover:bg-[#072A5E] text-white py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg transition-colors text-sm sm:text-base">
+              <button className="mt-3 sm:mt-2 cursor-pointer flex w-full sm:w-fit items-center justify-center sm:justify-start gap-2 bg-[#072A5E] hover:bg-[#072A5E] !text-white py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg transition-colors text-sm sm:text-base">
                 <Edit size={16} />
                 Edit Profile
               </button>
@@ -86,7 +86,7 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Subscription banner */}
-        <div className="bg-gradient-to-r from-[#072A5E] to-[#072A5E] text-white p-3 sm:p-4 rounded-lg mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+        <div className="bg-gradient-to-r from-[#072A5E] to-[#072A5E] !text-white p-3 sm:p-4 rounded-lg mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
           <div className="flex items-center gap-2 sm:gap-3">
             <Crown size={20} className="flex-shrink-0" />
             <div>

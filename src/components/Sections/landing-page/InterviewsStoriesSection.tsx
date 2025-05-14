@@ -28,7 +28,7 @@ export default function InterviewsStoriesSection() {
             and the moments that remind us just how connected we truly are.
           </p>
           <Link href={'/timeline'}>
-            <Button className="!bg-[#072A5E] hover:!bg-[#072A5E] text-white">
+            <Button className="!bg-[#072A5E] hover:!bg-[#072A5E] !text-white">
               Explore More
             </Button>
           </Link>

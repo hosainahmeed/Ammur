@@ -50,7 +50,7 @@ const ProfilePage = () => {
                                 aria-label="Edit Profile Picture"
                                 className="absolute right-0 bottom-2 rounded-full bg-[#072A5E] p-2"
                             >
-                                <FaCameraRetro size={12} className="text-white cursor-pointer" />
+                                <FaCameraRetro size={12} className="!text-white cursor-pointer" />
                             </button>
                         )}
 
@@ -63,7 +63,7 @@ const ProfilePage = () => {
                         />
                     </div>
                 </div>
-                <p className="text-2xl text-center text-white mt-2">
+                <p className="text-2xl text-center !text-white mt-2">
                     Sarah Johnson
                 </p>
             </div>
@@ -74,7 +74,7 @@ const ProfilePage = () => {
                         key={item}
                         style={{ width: '200px', justifyContent: 'center' }}
                         className={`${item === tab
-                            ? '!bg-[#072A5E] !text-white !border-0 !rounded-sm'
+                            ? '!bg-[#072A5E] !!text-white !border-0 !rounded-sm'
                             : '!border-0 !rounded-none !text-black !border-black !bg-transparent'
                             }`}
                         onClick={() => setTab(item)}

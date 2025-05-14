@@ -94,7 +94,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
         <div>
             <p className="text-[#072A5E] text-3xl text-center">Edit Your Profile</p>
             <Form
-                className="text-white"
+                className="!text-white"
                 requiredMark={false}
                 form={form}
                 onFinish={onFinish}

@@ -49,7 +49,7 @@ export default function ThingsToKnow() {
                   {category.title}
                 </h3>
                 <Button
-                  className="gradient-button font-normal text-white py-2 px-8 rounded-lg"
+                  className="gradient-button font-normal !text-white py-2 px-8 rounded-lg"
                   onClick={() => handleClick(category.title)}
                 >
                   View all

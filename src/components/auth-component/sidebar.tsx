@@ -20,15 +20,15 @@ export default function Sidebar({
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case 'user':
-        return <User className="h-5 w-5 text-white" />;
+        return <User className="h-5 w-5 !text-white" />;
       case 'information':
-        return <MdMedicalInformation className="h-5 w-5 text-white" />;
+        return <MdMedicalInformation className="h-5 w-5 !text-white" />;
       case 'mail':
-        return <Mail className="h-5 w-5 text-white" />;
+        return <Mail className="h-5 w-5 !text-white" />;
       case 'price':
-        return <IoIosPricetag className="h-5 w-5 text-white" />;
+        return <IoIosPricetag className="h-5 w-5 !text-white" />;
       case 'zap':
-        return <Zap className="h-5 w-5 text-white" />;
+        return <Zap className="h-5 w-5 !text-white" />;
       default:
         return null;
     }
@@ -45,7 +45,7 @@ export default function Sidebar({
             height={200}
             alt=""
           />
-          <span className="ml-2 text-lg font-semibold text-white">
+          <span className="ml-2 text-lg font-semibold !text-white">
             Family Legacy
           </span>
         </Link>
@@ -71,8 +71,8 @@ export default function Sidebar({
               {getIcon(step.icon)}
             </div>
             <div className='border-b border-white !w-full mb-2'>
-              <h3 className="font-medium  text-white">{step.title}</h3>
-              <p className="text-sm text-white">{step.description}</p>
+              <h3 className="font-medium  !text-white">{step.title}</h3>
+              <p className="text-sm !text-white">{step.description}</p>
             </div>
           </button>
         ))}

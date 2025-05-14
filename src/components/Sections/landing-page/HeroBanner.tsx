@@ -16,7 +16,7 @@
 //           priority
 //         />
 //       </div>
-//       <div className="relative z-10 h-full flex flex-col items-center  justify-center text-center text-white px-4">
+//       <div className="relative z-10 h-full flex flex-col items-center  justify-center text-center !text-white px-4">
 //         <motion.div
 //           initial={{ opacity: 0, y: -50 }}
 //           animate={{ opacity: 1, y: 0 }}
@@ -35,7 +35,7 @@
 //         >
 //           Preserving Our Past. Inspiring Our Future.
 //         </motion.h1>
-//         <p className='text-xl max-w-4xl text-white/70 mb-6'>
+//         <p className='text-xl max-w-4xl !text-white/70 mb-6'>
 //           Honoring our history while shaping a brighter future. Together, we
 //           preserve the past and inspire tomorrow’s possibilities
 //         </p>
@@ -86,7 +86,7 @@ const HeroBanner = () => {
       </div>
 
       {/* Content container */}
-      <div className="relative z-10 container mx-auto flex h-full flex-col pb-5 items-start justify-center px-4 text-start text-white">
+      <div className="relative z-10 container mx-auto flex h-full flex-col pb-5 items-start justify-center px-4 text-start !text-white">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: -50 }}
@@ -116,7 +116,7 @@ const HeroBanner = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mb-8 max-w-4xl text-lg text-white/80 sm:text-xl md:text-2xl"
+          className="mb-8 max-w-4xl text-lg !text-white/80 sm:text-xl md:text-2xl"
         >
           Honoring our history while shaping a brighter future. Together, we
           preserve the past and inspire tomorrow&lsquo;s possibilities.
@@ -151,7 +151,7 @@ const HeroBanner = () => {
             >
               <Link
                 href={social.href}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 !text-white backdrop-blur-sm transition-colors hover:bg-white/20"
                 aria-label={social.label}
               >
                 {social.icon}

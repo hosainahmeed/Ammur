@@ -20,7 +20,7 @@ const HistoryTimelineSection = () => {
             forward.
           </p>
           <Link href={'/timeline'}>
-            <Button className="!bg-[#072A5E] hover:!bg-[#072A5E] text-white">
+            <Button className="!bg-[#072A5E] hover:!bg-[#072A5E] !text-white">
               Explore More
             </Button>
           </Link>

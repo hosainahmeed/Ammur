@@ -43,7 +43,7 @@ export default function Pricing({ onContinue }: CreateAccountProps) {
       ],
       color: 'bg-gradient-to-br from-blue-600 to-indigo-700',
       buttonColor: 'bg-white text-indigo-700 hover:bg-gray-50',
-      textColor: 'text-white',
+      textColor: '!text-white',
     },
     {
       name: 'Premium',

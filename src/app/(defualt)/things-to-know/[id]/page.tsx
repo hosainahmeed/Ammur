@@ -53,7 +53,7 @@ export default function CategoryPage() {
                 </p>
                 <Button
                   onClick={() => handleCardClick(blog.slug)}
-                  className="gradient-button font-normal text-white py-2 px-8 rounded-lg"
+                  className="gradient-button font-normal !text-white py-2 px-8 rounded-lg"
                 >
                   Read More
                 </Button>

@@ -66,7 +66,7 @@ const MemberCard = ({ member }: MemberCardProps) => {
         </div>
 
         {/* <div className="mt-6 pt-4 border-t border-gray-200">
-          <button className="w-full py-2 !bg-[#072A5E] text-white rounded-md hover:!bg-[#072A5E] transition-colors duration-300">
+          <button className="w-full py-2 !bg-[#072A5E] !text-white rounded-md hover:!bg-[#072A5E] transition-colors duration-300">
             View Profile
           </button>
         </div> */}

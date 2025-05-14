@@ -106,7 +106,7 @@ export function VideoControls({ videoRef }: VideoControlsProps) {
     }
 
     return (
-        <div className="flex flex-col gap-2 p-3 bg-black/80 text-white">
+        <div className="flex flex-col gap-2 p-3 bg-black/80 !text-white">
             <Slider
                 value={[currentTime]}
                 max={duration || 100}

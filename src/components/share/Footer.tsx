@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <div>
       {!footerHide && (
-        <footer className="bg-[#072A5E] text-white py-12">
+        <footer className="bg-[#072A5E] !text-white py-12">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-3 gap-8">
               {/* Logo and Description */}
@@ -42,7 +42,7 @@ export default function Footer() {
                   <li>
                     <Link
                       href="/contact"
-                      className="text-blue-200 hover:text-white transition-colors"
+                      className="text-blue-200 hover:!text-white transition-colors"
                     >
                       Contact Us
                     </Link>
@@ -50,7 +50,7 @@ export default function Footer() {
                   <li>
                     <Link
                       href="/about"
-                      className="text-blue-200 hover:text-white transition-colors"
+                      className="text-blue-200 hover:!text-white transition-colors"
                     >
                       About Us
                     </Link>
@@ -58,7 +58,7 @@ export default function Footer() {
                   <li>
                     <Link
                       href="/terms"
-                      className="text-blue-200 hover:text-white transition-colors"
+                      className="text-blue-200 hover:!text-white transition-colors"
                     >
                       Terms and Conditions
                     </Link>
@@ -66,7 +66,7 @@ export default function Footer() {
                   <li>
                     <Link
                       href="/privacy"
-                      className="text-blue-200 hover:text-white transition-colors"
+                      className="text-blue-200 hover:!text-white transition-colors"
                     >
                       Privacy Policy
                     </Link>
@@ -80,21 +80,21 @@ export default function Footer() {
                 <div className="space-y-2">
                   <Link
                     href="https://facebook.com"
-                    className="flex items-center gap-2 text-blue-200 hover:text-white transition-colors"
+                    className="flex items-center gap-2 text-blue-200 hover:!text-white transition-colors"
                   >
                     <Facebook size={20} />
                     <span>Facebook</span>
                   </Link>
                   <Link
                     href="https://instagram.com"
-                    className="flex items-center gap-2 text-blue-200 hover:text-white transition-colors"
+                    className="flex items-center gap-2 text-blue-200 hover:!text-white transition-colors"
                   >
                     <Instagram size={20} />
                     <span>Instagram</span>
                   </Link>
                   <Link
                     href="https://twitter.com"
-                    className="flex items-center gap-2 text-blue-200 hover:text-white transition-colors"
+                    className="flex items-center gap-2 text-blue-200 hover:!text-white transition-colors"
                   >
                     <Twitter size={20} />
                     <span>Twitter</span>

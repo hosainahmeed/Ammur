@@ -124,7 +124,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 w-full h-fit z-[999] backdrop-blur-2xl bg-[#0C469DB2]/80 text-white p-4 shadow-md">
+    <nav className="fixed top-0 left-0 w-full h-fit z-[999] backdrop-blur-2xl bg-[#0C469DB2]/80 !text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <motion.div whileHover={{ scale: 1.05 }}>
           <Link href="/" className="flex items-center gap-2">
@@ -158,7 +158,7 @@ export default function Navbar() {
                 className={cn(
                   'px-3 py-2 rounded-md text-sm font-normal transition-colors',
                   isActive(item.href)
-                    ? 'border-b-2 border-white rounded-none text-white'
+                    ? 'border-b-2 border-white rounded-none !text-white'
                     : '',
                   item.disabled && 'cursor-not-allowed opacity-50'
                 )}
@@ -195,7 +195,7 @@ export default function Navbar() {
               >
                 <Button
                   variant="outline"
-                  className="bg-transparent border-white text-white hover:!bg-[#072A5E] hover:!text-white"
+                  className="bg-transparent border-white !text-white hover:!bg-[#072A5E] hover:!!text-white"
                 >
                   Sign In
                 </Button>
@@ -207,7 +207,7 @@ export default function Navbar() {
                 whileTap="tap"
                 variants={buttonVariants}
               >
-                <Button className="bg-[#072A5E] text-white hover:bg-[#072A5E]">
+                <Button className="bg-[#072A5E] !text-white hover:bg-[#072A5E]">
                   Sign Up
                 </Button>
               </motion.div>
@@ -217,7 +217,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <motion.button
-          className="2xl:hidden text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
+          className="2xl:hidden !text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
           whileHover={{ scale: 1.1 }}
@@ -251,8 +251,8 @@ export default function Navbar() {
                     className={cn(
                       'px-3 py-2 rounded-md text-sm font-medium transition-colors block',
                       isActive(item.href)
-                        ? 'bg-[#072A5E] text-white'
-                        : 'hover:!bg-[#072A5E] hover:text-white text-blue-100',
+                        ? 'bg-[#072A5E] !text-white'
+                        : 'hover:!bg-[#072A5E] hover:!text-white text-blue-100',
                       item.disabled && 'cursor-not-allowed opacity-50'
                     )}
                   >
@@ -277,7 +277,7 @@ export default function Navbar() {
                       variant="outline"
                       className={`!bg-transparent ${
                         isLogin ? '!block' : '!hidden'
-                      } !border-white !text-white hover:!bg-[#072A5E] hover:!text-white w-full`}
+                      } !border-white !!text-white hover:!bg-[#072A5E] hover:!!text-white w-full`}
                     >
                       Profile
                     </Button>
@@ -296,7 +296,7 @@ export default function Navbar() {
                     }}
                     className={`bg-[#072A5E] ${
                       isLogin ? '!block' : '!hidden'
-                    } text-white hover:bg-blue-950 w-full`}
+                    } !text-white hover:bg-blue-950 w-full`}
                   >
                     Sign Out
                   </Button>
@@ -311,7 +311,7 @@ export default function Navbar() {
                       variant="outline"
                       className={`!bg-transparent ${
                         isLogin ? '!hidden' : '!block'
-                      } !border-white !text-white hover:!bg-[#072A5E] hover:!text-white w-full`}
+                      } !border-white !!text-white hover:!bg-[#072A5E] hover:!!text-white w-full`}
                     >
                       Sign In
                     </Button>
@@ -326,7 +326,7 @@ export default function Navbar() {
                     <Button
                       className={`bg-[#072A5E] ${
                         isLogin ? '!hidden' : '!block'
-                      } text-white hover:bg-blue-950 w-full`}
+                      } !text-white hover:bg-blue-950 w-full`}
                     >
                       Sign Up
                     </Button>
