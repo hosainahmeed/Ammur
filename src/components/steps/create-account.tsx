@@ -4,7 +4,6 @@ import type React from 'react';
 import { useState, useEffect } from 'react';
 import { Button, Input, Form, Select, Divider, Typography } from 'antd';
 import ReactPhoneInput from 'react-phone-input-2';
-import { GoogleOutlined } from '@ant-design/icons';
 import 'react-phone-input-2/lib/style.css';
 import { IState, ICity } from 'country-state-city';
 import { Country, State, City } from 'country-state-city';
