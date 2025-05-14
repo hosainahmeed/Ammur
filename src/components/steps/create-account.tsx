@@ -9,6 +9,7 @@ import 'react-phone-input-2/lib/style.css';
 import { IState, ICity } from 'country-state-city';
 import { Country, State, City } from 'country-state-city';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export interface CreateAccountProps {
   onContinue?: any;
@@ -239,11 +240,22 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
         <Divider>or</Divider>
 
         <Button
-          type="default"
-          icon={<GoogleOutlined />}
-          className="w-full mb-3 flex items-center justify-center"
+          size="large"
+          block
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          Sign up with Google
+          <Image
+            src="/icons/google.png"
+            alt="Google"
+            width={20}
+            height={20}
+            style={{ marginRight: 8 }}
+          />
+          Sign in with Google
         </Button>
         <div style={{ textAlign: 'center', marginTop: 24 }}>
           <Text type="secondary" style={{ fontSize: '14px' }}>
