@@ -195,7 +195,7 @@ export default function Navbar() {
               >
                 <Button
                   variant="outline"
-                  className="bg-transparent border-white !text-white hover:!bg-[#072A5E] hover:!!text-white"
+                  className="bg-transparent border-white !text-white hover:!bg-[#072A5E] hover:!text-white"
                 >
                   Sign In
                 </Button>
@@ -277,7 +277,7 @@ export default function Navbar() {
                       variant="outline"
                       className={`!bg-transparent ${
                         isLogin ? '!block' : '!hidden'
-                      } !border-white !!text-white hover:!bg-[#072A5E] hover:!!text-white w-full`}
+                      } !border-white !text-white hover:!bg-[#072A5E] hover:!text-white w-full`}
                     >
                       Profile
                     </Button>
@@ -311,7 +311,7 @@ export default function Navbar() {
                       variant="outline"
                       className={`!bg-transparent ${
                         isLogin ? '!hidden' : '!block'
-                      } !border-white !!text-white hover:!bg-[#072A5E] hover:!!text-white w-full`}
+                      } !border-white !text-white hover:!bg-[#072A5E] hover:!text-white w-full`}
                     >
                       Sign In
                     </Button>

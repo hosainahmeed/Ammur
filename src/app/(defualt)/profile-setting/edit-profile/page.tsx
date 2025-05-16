@@ -74,7 +74,7 @@ const ProfilePage = () => {
                         key={item}
                         style={{ width: '200px', justifyContent: 'center' }}
                         className={`${item === tab
-                            ? '!bg-[#072A5E] !!text-white !border-0 !rounded-sm'
+                            ? '!bg-[#072A5E] !text-white !border-0 !rounded-sm'
                             : '!border-0 !rounded-none !text-black !border-black !bg-transparent'
                             }`}
                         onClick={() => setTab(item)}

@@ -44,6 +44,7 @@ export function PaginationControl({
           variant={currentPage === page ? 'default' : 'outline'}
           size="icon"
           onClick={() => router.push(createPageURL(page))}
+          className='!text-white'
         >
           {page}
         </Button>

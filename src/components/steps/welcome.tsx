@@ -13,7 +13,7 @@ export default function Welcome() {
 
       <Button
         onClick={() => handleNavigate()}
-        className="w-full bg-[#072A5E]  !!text-white hover:bg-[#072A5E]"
+        className="w-full bg-[#072A5E]  !text-white hover:bg-[#072A5E]"
       >
         Finish up
       </Button>

@@ -109,7 +109,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
               setSelectPost(entry);
               handleComment();
             }}
-            className="!w-fit !!text-white !bg-[#072A5E] !my-12"
+            className="!w-fit !text-white !bg-[#072A5E] !my-12"
           >
             Comment
           </Button>
@@ -194,7 +194,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
                 <Form.Item className="mb-0 text-right">
                   <Button
                     icon={<IoSend />}
-                    className="!w-full !bg-[#072A5E] hover:!bg-[#7898C9] !!text-white hover:!text-black"
+                    className="!w-full !bg-[#072A5E] hover:!bg-[#7898C9] !text-white hover:!text-black"
                     htmlType="submit"
                   >
                     Post Comment

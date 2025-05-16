@@ -117,7 +117,7 @@ const VerifyEmail = ({ onContinue }: CreateAccountProps) => {
           block
           onClick={() => handleVerify()}
           //   disabled={otp.length !== 5 || isLoading}
-          className="!!text-white !bg-[#072A5E] !my-4"
+          className="!text-white !bg-[#072A5E] !my-4"
         >
           {/* {isLoading ? 'Verifying OTP...' : 'Verify OTP'} */}Verify OTP
         </Button>
