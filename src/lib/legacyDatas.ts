@@ -1,6 +1,6 @@
-import { TimelineEntryType } from "./types";
+import { ArchiveEntryType } from "./types";
 
-export const timelineData: TimelineEntryType[] = [
+export const legacyData: ArchiveEntryType[] = [
   {
     id: "1",
     date: "10 Apr",

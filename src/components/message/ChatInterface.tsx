@@ -216,14 +216,14 @@ export default function ChatInterface() {
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 bg-slate-50">
-          <div className="flex flex-col gap-4 max-w-4xl mx-auto">
+          <div className="flex flex-col gap-4 mx-auto">
             {messages.map((message, index) => {
               const showDateSeparator =
                 index === 0 ||
                 messages[index - 1]?.timestamp !== message.timestamp;
 
               return (
-                <div key={message.id} className="flex flex-col">
+                <div key={message.id} className="flex flex-col !w-full">
                   {showDateSeparator && (
                     <div className="flex justify-center my-4">
                       <span className="px-4 py-1 bg-slate-200 rounded-full text-xs text-slate-600">
@@ -233,7 +233,7 @@ export default function ChatInterface() {
                   )}
                   <div
                     className={`flex ${message.isCurrentUser ? 'justify-end' : 'justify-start'
-                      }`}
+                      } w-full`}
                   >
                     <div
                       className={`flex gap-2 max-w-[85%] ${message.isCurrentUser ? 'flex-row-reverse' : ''

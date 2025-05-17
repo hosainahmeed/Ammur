@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ArchiveEntry from '@/components/archive/ArchiveEntry';
 import { PaginationControl } from '@/components/recipe/PaginationControlProps';
-import { timelineData } from '@/lib/timelineData';
+import { archiveData } from '@/lib/archiveData';
 import React from 'react';
-
 
 const page = ({ searchParams }: any) => {
   const page = Number(searchParams.page) || 1;
   const recipesPerPage = 6;
-  const totalPages = Math.ceil(timelineData.length / recipesPerPage);
+  const totalPages = Math.ceil(archiveData.length / recipesPerPage);
 
   const startIndex = (page - 1) * recipesPerPage;
   const endIndex = startIndex + recipesPerPage;
-  const paginationTimelineData = timelineData.slice(startIndex, endIndex);
+  const paginationTimelineData = archiveData.slice(startIndex, endIndex);
 
   return (
     <div className="container mx-auto px-4 py-28 bg-white min-h-screen">

@@ -3,12 +3,13 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import type { TimelineEntryType } from '@/lib/types';
+import type { ArchiveEntryType } from '@/lib/types';
 import { Button, Card } from 'antd';
 import Link from 'next/link';
+import { MdFamilyRestroom } from 'react-icons/md';
 
 interface TimelineEntryProps {
-  entry: TimelineEntryType;
+  entry: ArchiveEntryType;
 }
 
 const ArchiveEntry = ({ entry }: TimelineEntryProps) => {
@@ -45,8 +46,12 @@ const ArchiveEntry = ({ entry }: TimelineEntryProps) => {
               {entry.year}
             </span>
           </div>
+          <div className="flex items-center my-3 justify-start gap-2">
+            <MdFamilyRestroom size={24} />
+            {entry.family}
+          </div>
 
-          <h2 className="text-xl xl:text-3xl font-bold text-gray-900 mb-3">
+          <h2 className="text-xl xl:text-2xl font-semibold text-gray-900 mb-3">
             {entry.title}
           </h2>
 

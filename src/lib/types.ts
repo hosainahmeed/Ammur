@@ -12,7 +12,36 @@ export interface TimelineEntryType {
     commentDescription: string;
   }[];
 }
-
+export interface ArchiveEntryType {
+  id: string;
+  date: string;
+  year: string;
+  title: string;
+  family: string,
+  description: string;
+  imageUrl: string;
+  comments: {
+    authId: string;
+    authImage: string;
+    authName: string;
+    commentDescription: string;
+  }[];
+}
+export interface LagecyEntryType {
+  id: string;
+  date: string;
+  year: string;
+  title: string;
+  family: string,
+  description: string;
+  imageUrl: string;
+  comments: {
+    authId: string;
+    authImage: string;
+    authName: string;
+    commentDescription: string;
+  }[];
+}
 export type Category = {
   title: string;
   icon: string;
