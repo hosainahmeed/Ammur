@@ -123,15 +123,18 @@ const HeroBanner = () => {
         </motion.p>
 
         {/* CTA Button */}
+
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.6 }}
           className="mb-12 rounded-full border border-dashed border-white/30 p-2"
         >
-          <Button className="!rounded-full bg-[#072A5E] px-10 pt-6 pb-7 text-xl font-semibold transition-all duration-300 hover:bg-[#0A3A7D] hover:shadow-lg hover:shadow-blue-900/30 sm:px-12 sm:text-2xl md:px-16 md:text-3xl">
-            Get Started
-          </Button>
+          <Link href={'/home'}>
+            <Button className="!rounded-full bg-[#072A5E] px-10 pt-6 pb-7 text-xl font-semibold transition-all duration-300 hover:bg-[#0A3A7D] hover:shadow-lg hover:shadow-blue-900/30 sm:px-12 sm:text-2xl md:px-16 md:text-3xl">
+              Get Started
+            </Button>
+          </Link>
         </motion.div>
 
         {/* Social Links */}
