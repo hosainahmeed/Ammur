@@ -127,7 +127,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full h-fit z-[999] backdrop-blur-2xl bg-[#0C469DB2]/80 !text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <motion.div whileHover={{ scale: 1.05 }}>
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/home" className="flex items-center gap-2">
             <div className="relative w-8 h-8 rounded-full overflow-hidden bg-orange-500 flex items-center justify-center">
               <Image
                 src="/icons/IconOnly.svg"
