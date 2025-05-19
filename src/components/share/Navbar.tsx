@@ -12,7 +12,7 @@ import { Avatar, Dropdown, Menu } from 'antd';
 import { IoIosMenu } from 'react-icons/io';
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { toast } from 'sonner';
-
+import Cookies from 'js-cookie';
 type NavItem = {
   label: string;
   href: string;
@@ -63,7 +63,9 @@ export default function Navbar() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const login = localStorage.getItem('login');
+      // const login = localStorage.getItem('login');
+      const login = Cookies.get('token');
+      console.log(login);
       setIsLogin(login === 'true');
     }
   }, []);
@@ -92,7 +94,7 @@ export default function Navbar() {
           width={200}
           height={200}
           className="!w-12 !h-12 object-cover overflow-hidden rounded-full"
-          src={'/naru.png'}
+          src={'https://avatar.iran.liara.run/public/16'}
           alt="user profile image"
         />
         <div>
@@ -109,6 +111,7 @@ export default function Navbar() {
         key="4"
         onClick={() => {
           localStorage.removeItem('login');
+          Cookies.remove('token')
           toast.success('Log Out successfully');
           window.location.reload();
         }}
@@ -178,10 +181,15 @@ export default function Navbar() {
               <div className="flex items-center justify-center gap-2 cursor-pointer">
                 <Avatar
                   size={40}
-                  src={'/naru.png'}
+                  src={'https://avatar.iran.liara.run/public/16'}
                   className="cursor-pointer"
                 />
-                <h1 className="text-sm">user name</h1>
+                <div className="flex items-start flex-col">
+                  <h1 className="text-lg text-[#072B5F]">Sarah Johnson</h1>
+                  <h1 className="text-sm !font-normal leading-none">
+                    sarah.johnson@example.com
+                  </h1>
+                </div>
               </div>
             </Dropdown>
           </div>
@@ -291,6 +299,7 @@ export default function Navbar() {
                   <Button
                     onClick={() => {
                       localStorage.removeItem('login');
+                      Cookies.remove('token');
                       toast.success('Log Out successfully');
                       window.location.reload();
                     }}

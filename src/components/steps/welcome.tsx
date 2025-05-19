@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
-
+import Cookies from 'js-cookie';
 export default function Welcome() {
   const handleNavigate = () => {
     localStorage.setItem('login', 'true');
+    Cookies.set('token', 'true');
     window.location.href = '/';
   };
   return (

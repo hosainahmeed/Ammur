@@ -3,11 +3,21 @@ import { Button, Input, Divider, Typography, Form, Layout, Space } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { toast } from 'sonner';
-
 const { Title, Text, Paragraph } = Typography;
 const { Content } = Layout;
-
+import Cookies from 'js-cookie';
 export default function LoginPage() {
+  const handleSetCookie = () => {
+    Cookies.set('token', 'true');
+    localStorage.setItem('login', 'true');
+    window.location.href = '/';
+  };
+
+  const handleSubmit = () => {
+    localStorage.setItem('login', 'true');
+    toast.success('Sign in Successfully');
+    window.location.href = '/';
+  };
   return (
     <Layout className="min-h-screen">
       <Content className="h-screen grid lg:grid-cols-2">
@@ -61,7 +71,11 @@ export default function LoginPage() {
                 </Title>
               </div>
 
-              <Form layout="vertical" style={{ width: '100%' }}>
+              <Form
+                onFinish={handleSubmit}
+                layout="vertical"
+                style={{ width: '100%' }}
+              >
                 <Form.Item
                   label={<Text type="secondary">Users name or Email</Text>}
                   style={{ marginBottom: 16 }}
@@ -93,11 +107,6 @@ export default function LoginPage() {
                   htmlType="submit"
                   size="large"
                   block
-                  onClick={() => {
-                    localStorage.setItem('login', 'true');
-                    toast.success('Sign in Successfully');
-                    window.location.href = '/';
-                  }}
                   style={{ backgroundColor: '#072a5e' }}
                 >
                   Sign in
@@ -113,6 +122,7 @@ export default function LoginPage() {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
+                  onClick={() => handleSetCookie()}
                 >
                   <Image
                     src="/icons/google.png"
