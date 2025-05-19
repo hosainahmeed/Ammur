@@ -15,7 +15,7 @@ interface TimelineEntryProps {
   slug: string;
 }
 
-const LegecyEntry = ({ entry, slug }: TimelineEntryProps) => {
+const LegacyEntry = ({ entry, slug }: TimelineEntryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comments, setComments] = useState(entry.comments);
   const [selectPost, setSelectPost] = useState<TimelineEntryType | null>(null);
@@ -205,4 +205,4 @@ const LegecyEntry = ({ entry, slug }: TimelineEntryProps) => {
   );
 };
 
-export default LegecyEntry;
+export default LegacyEntry;

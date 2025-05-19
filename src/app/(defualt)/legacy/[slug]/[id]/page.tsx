@@ -8,8 +8,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 function Page() {
-  const params = useParams();
-  const { id, slug } = params;
+  const { id, slug } = useParams<{ id: string; slug: string }>();
   const data = timelineData.filter((item) => String(item.id) === id);
 
   if (data.length === 0) {
@@ -24,50 +23,51 @@ function Page() {
   const { date, description, imageUrl, title, year } = legacy;
 
   return (
-    <div className="min-h-screen container mx-auto py-28 px-4 md:px-0">
+    <motion.div
+      className="min-h-screen container mx-auto py-20 px-4 md:px-0"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Breadcrumb
+        className="mb-8 text-lg text-gray-500"
+        items={[
+          {
+            title: <Link href="/things-to-know" className="hover:text-gray-700 transition">Legacy & Tribute</Link>,
+          },
+          {
+            title: <Link href="" className="hover:text-gray-700 transition">{slug}</Link>,
+          },
+          {
+            title: <Link href="" className="hover:text-gray-700 transition">{id}</Link>,
+          },
+        ]}
+      />
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <Breadcrumb
-          className="!mb-4"
-          items={[
-            {
-              title: <Link href="/things-to-know" className="hover:!text-gray-700 !transition">Legacy & Tribute</Link>,
-            },
-            {
-              title: <Link href="" className="hover:!text-gray-700 !transition">{slug}</Link>,
-            },
-            {
-              title: <Link href="" className="hover:text-gray-700 transition">{id}</Link>,
-            },
-          ]}
+        <Image
+          src={imageUrl}
+          width={1500}
+          height={600}
+          alt={title}
+          className="w-full h-96 object-cover rounded-xl mb-6 shadow-md"
         />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <Image
-            src={imageUrl}
-            width={1500}
-            height={600}
-            alt={title}
-            className="w-full h-96 object-cover rounded-xl mb-6 shadow-md"
-          />
-          <h1 className="text-4xl font-bold mb-4 text-gray-800">{title}</h1>
-          <div className="flex items-center gap-4 text-gray-500 mb-4">
-            <time className="text-lg">{year}</time>
-            <span className="text-lg">{date}</span>
-          </div>
-          <p className="text-lg leading-relaxed text-gray-600">{description}</p>
-        </motion.div>
+        <h1 className="text-4xl font-bold mb-4 text-gray-800">{title}</h1>
+        <div className="flex items-center gap-4 text-gray-500 mb-4">
+          <time className="text-lg">{year}</time>
+          <span className="text-lg">{date}</span>
+        </div>
+        <p className="text-lg leading-relaxed text-gray-600">{description}</p>
       </motion.div>
-      <div className="mt-12 pt-6 border-t border-gray-200">
+
+      <div className="mt-12 pt-6 border-t border-gray-200 flex justify-start">
         <Link
           href="/legacy"
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+          className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-300"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@ function Page() {
           Back to Legacy
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

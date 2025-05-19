@@ -17,7 +17,7 @@ const categories: Category[] = [
   { title: 'Legacy Projects', icon: '/icons/icons.jpg' },
 ];
 
-export default function ThingsToKnow() {
+export default function Legacy() {
   const router = useRouter();
 
   const handleClick = (title: string) => {
@@ -26,7 +26,7 @@ export default function ThingsToKnow() {
   };
 
   return (
-    <div className="my-28">
+    <div className="py-28">
       <Head>
         <title>Legacy & Tribute</title>
       </Head>
