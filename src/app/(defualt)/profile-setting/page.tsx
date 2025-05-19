@@ -99,7 +99,7 @@ const ProfilePage: React.FC = () => {
             </div>
           </div>
           <Link href={'/pricing'}>
-            <button className="bg-white cursor-pointer text-[#072A5E] py-1 px-2 sm:px-3 rounded text-xs sm:text-sm font-medium hover:bg-[#072A5E] transition-colors self-end sm:self-auto">
+            <button className="bg-white cursor-pointer text-[#072A5E] py-1 px-2 sm:px-3 rounded text-xs sm:text-sm font-medium  transition-colors self-end sm:self-auto">
               Manage
             </button>
           </Link>

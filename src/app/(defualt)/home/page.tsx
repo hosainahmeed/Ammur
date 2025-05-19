@@ -7,56 +7,70 @@ import { CalendarOutlined, EyeOutlined } from '@ant-design/icons';
 import Head from 'next/head';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
-
+interface Imenu {
+  title: string;
+  src: string;
+  description: string;
+  color: string;
+  url: string;
+}
 export default function Home() {
   const [userName, setUserName] = useState('Ahmad');
   const [familyName, setFamilyName] = useState('Johnson / Williams');
 
-  const menuItems = [
+  const menuItems: Imenu[] = [
     {
       title: 'Black History Timeline',
       src: '/icons/book.png',
       description: 'See what happened this week in history',
       color: 'white',
+      url: '/timeline',
     },
     {
       title: 'Things to know',
       src: '/icons/things.png',
       description: 'Little lessons that last a lifetime',
       color: 'white',
+      url: '/things-to-know',
     },
     {
       title: 'Family Directory',
       src: '/icons/family-directory.png',
       description: 'Find relatives by name, location, or profession',
       color: 'white',
+      url: '/family-direction',
     },
     {
       title: 'Family Tree',
       src: '/icons/tree.png',
       description: 'Explore and add family stories',
       color: 'white',
+      url: '/family-tree',
     },
     {
       title: 'Interviews & Stories',
       src: '/icons/interview.png',
       description: 'Listen to memories from our elders',
       color: 'white',
+      url: '/interviews',
     },
     {
       title: 'Recipes & Traditions',
       src: '/icons/recipe.png',
       description: 'Try a family recipe or submit your own',
       color: 'white',
+      url: '/recipes',
     },
     {
       title: 'Archive',
       src: '/icons/archive.png',
       description: 'View old photos, documents, and letters',
       color: 'white',
+      url: '/archives',
     },
   ];
 
@@ -88,37 +102,39 @@ export default function Home() {
         <Row gutter={[16, 16]} style={{ marginBottom: '32px' }}>
           {menuItems.map((item, index) => (
             <Col xs={12} sm={12} md={8} lg={8} xl={6} key={index}>
-              <Card
-                style={{
-                  height: '100%',
-                  background: item.color,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  padding: '16px',
-                }}
-                bodyStyle={{ padding: '12px' }}
-              >
-                <Space direction="vertical" align="center" size="small">
-                  <div style={{ fontSize: '32px', marginBottom: '8px' }}>
-                    <Image
-                      width={200}
-                      height={200}
-                      alt={item.title}
-                      src={item.src}
-                      className="w-16"
-                    />
-                  </div>
-                  <Text strong style={{ fontSize: '16px', color: '#0C469D' }}>
-                    {item.title}
-                  </Text>
-                  <Text type="secondary" style={{ fontSize: '12px' }}>
-                    {item.description}
-                  </Text>
-                </Space>
-              </Card>
+              <Link href={item.url}>
+                <Card
+                  style={{
+                    height: '100%',
+                    background: item.color,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    padding: '16px',
+                  }}
+                  bodyStyle={{ padding: '12px' }}
+                >
+                  <Space direction="vertical" align="center" size="small">
+                    <div style={{ fontSize: '32px', marginBottom: '8px' }}>
+                      <Image
+                        width={200}
+                        height={200}
+                        alt={item.title}
+                        src={item.src}
+                        className="w-16"
+                      />
+                    </div>
+                    <Text strong style={{ fontSize: '16px', color: '#0C469D' }}>
+                      {item.title}
+                    </Text>
+                    <Text type="secondary" style={{ fontSize: '12px' }}>
+                      {item.description}
+                    </Text>
+                  </Space>
+                </Card>
+              </Link>
             </Col>
           ))}
         </Row>
@@ -136,7 +152,10 @@ export default function Home() {
             <Title level={4} style={{ margin: 0 }}>
               Family News & Announcements
             </Title>
-            <Button className="gradient-button">View all</Button>
+            <Link href={'/upcoming-event'}>
+              {' '}
+              <Button className="gradient-button">View all</Button>
+            </Link>
           </div>
 
           <Card
@@ -195,7 +214,7 @@ export default function Home() {
                 Join us for a day of family, food, games, and celebration!
               </Paragraph>
 
-              <Button className='gradient-button'>Respond Now</Button>
+              <Button className="gradient-button">Respond Now</Button>
             </div>
           </Card>
         </div>
