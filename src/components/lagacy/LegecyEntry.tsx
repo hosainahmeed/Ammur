@@ -98,7 +98,7 @@ const LegecyEntry = ({ entry, slug }: TimelineEntryProps) => {
               Comment
             </Button>
             <Button
-              onClick={() => handleClick(entry.title)}
+              onClick={() => handleClick(entry.id)}
               icon={<FaEye />}
               className="!w-full !text-white !bg-[#072A5E]"
             >

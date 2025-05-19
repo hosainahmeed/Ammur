@@ -70,7 +70,7 @@ export default function Home() {
       src: '/icons/recipe.png',
       description: 'Try a family recipe or submit your own',
       color: 'white',
-      url: '/recipes',
+      url: '/legacy',
     },
     {
       title: 'Archive',
