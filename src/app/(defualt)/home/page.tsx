@@ -24,7 +24,7 @@ export default function Home() {
 
   const menuItems: Imenu[] = [
     {
-      title: 'Black History Timeline',
+      title: 'History Timeline',
       src: '/icons/book.png',
       description: 'See what happened this week in history',
       color: 'white',

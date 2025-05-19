@@ -8,7 +8,7 @@ export default function TimelineHeader() {
     console.log(searchQuery)
     return (
         <div className="flex mt-28 flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <h1 className="text-2xl md:text-3xl font-serif font-bold tracking-tight text-gray-900">Black history timeline</h1>
+            <h1 className="text-2xl md:text-3xl font-serif font-bold tracking-tight text-gray-900">History timeline</h1>
 
             <div className="relative w-full md:w-64">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
