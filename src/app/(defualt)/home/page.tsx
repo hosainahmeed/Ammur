@@ -66,6 +66,13 @@ export default function Home() {
       url: '/recipes',
     },
     {
+      title: 'Legacy',
+      src: '/icons/recipe.png',
+      description: 'Try a family recipe or submit your own',
+      color: 'white',
+      url: '/recipes',
+    },
+    {
       title: 'Archive',
       src: '/icons/archive.png',
       description: 'View old photos, documents, and letters',

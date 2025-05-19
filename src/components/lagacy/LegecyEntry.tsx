@@ -2,28 +2,30 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { FaRegComment } from 'react-icons/fa';
+import { FaEye, FaRegComment } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { TimelineEntryType } from '@/lib/types';
 import { Button, Modal, List, Avatar, Input, Form, Empty, Card } from 'antd';
 import { IoSend } from 'react-icons/io5';
+import { useRouter } from 'next/navigation';
 
 interface TimelineEntryProps {
   entry: TimelineEntryType;
+  slug: string;
 }
 
-const LegecyEntry = ({ entry }: TimelineEntryProps) => {
+const LegecyEntry = ({ entry, slug }: TimelineEntryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comments, setComments] = useState(entry.comments);
   const [selectPost, setSelectPost] = useState<TimelineEntryType | null>(null);
   const [form] = Form.useForm();
-
+  const router = useRouter();
   const handleComment = () => {
     setSelectPost(entry);
     setIsModalOpen(true);
   };
-
+  console.log(slug);
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -37,6 +39,10 @@ const LegecyEntry = ({ entry }: TimelineEntryProps) => {
     };
     setComments([...comments, newComment]);
     form.resetFields();
+  };
+
+  const handleClick = (id: string) => {
+    router.push(`/legacy/${slug}/${id}`);
   };
 
   return (
@@ -80,16 +86,25 @@ const LegecyEntry = ({ entry }: TimelineEntryProps) => {
           <p className="text-gray-600 mb-4 leading-relaxed">
             {entry?.description?.slice(0, 150)}...
           </p>
-          <Button
-            icon={<FaRegComment />}
-            onClick={() => {
-              setSelectPost(entry);
-              handleComment();
-            }}
-            className="!w-fit !text-white !bg-[#072A5E]"
-          >
-            Comment
-          </Button>
+          <div className="w-full flex items-center gap-3">
+            <Button
+              icon={<FaRegComment />}
+              onClick={() => {
+                setSelectPost(entry);
+                handleComment();
+              }}
+              className="!w-full !text-white !bg-[#072A5E]"
+            >
+              Comment
+            </Button>
+            <Button
+              onClick={() => handleClick(entry.title)}
+              icon={<FaEye />}
+              className="!w-full !text-white !bg-[#072A5E]"
+            >
+              View
+            </Button>
+          </div>
         </div>
       </motion.div>
 

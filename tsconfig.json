@@ -28,6 +28,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/(defualt)/message/page.jsx"
-  ],
+, "src/components/lagacy/LegecyEntry"  ],
   "exclude": ["node_modules"]
 }
