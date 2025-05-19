@@ -1,19 +1,25 @@
 'use client';
-import { Breadcrumb, Button, Card, Typography } from 'antd';
+import { Breadcrumb, Card, Typography } from 'antd';
 import React from 'react';
 import { CalendarOutlined, EyeOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 const { Title, Text, Paragraph } = Typography;
 function page() {
   return (
     <div className="min-h-screen container mx-auto py-28">
-      <Breadcrumb
+     <div className='my-3'>
+       <Breadcrumb
         items={[
           {
             title: <Link href="/home">Home</Link>,
+          },
+          {
+            title: <Link href="/upcoming-event">Upcoming event</Link>,
           }
         ]}
       />
+     </div>
       <Card
         style={{
           background: '#f0f5ff',
