@@ -7,12 +7,14 @@ import type { ArchiveEntryType } from '@/lib/types';
 import { Button, Card } from 'antd';
 import Link from 'next/link';
 import { MdFamilyRestroom } from 'react-icons/md';
+import { useParams } from 'next/navigation';
 
 interface TimelineEntryProps {
   entry: ArchiveEntryType;
 }
 
 const ArchiveEntry = ({ entry }: TimelineEntryProps) => {
+  const params = useParams();
   return (
     <Card>
       <motion.div
@@ -58,7 +60,7 @@ const ArchiveEntry = ({ entry }: TimelineEntryProps) => {
           <p className="text-gray-600 mb-4 leading-relaxed">
             {entry?.description?.slice(0, 150)}...
           </p>
-          <Link href={`/archives/${entry.id}`}>
+          <Link href={`/archives/${params.slug}/${entry.id}`}>
             <Button className="!w-full !text-white !bg-[#072A5E]">
               Details
             </Button>

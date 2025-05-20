@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
 import { timelineData } from '@/lib/timelineData';
 import { Breadcrumb } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React from 'react';
 
-function page({ params }: any) {
+function Page({ params }: any) {
   const archive: any = timelineData.find((r) => r.id === params.id);
   const { description, imageUrl, title, year } = archive;
-
+  const { slug } = useParams();
   return (
-    <div className="md:py-20 py-28 container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="md:py-28 py-28 container mx-auto px-4 sm:px-6 lg:px-8">
       <nav className="mb-8">
         <Breadcrumb
           items={[
@@ -24,6 +26,7 @@ function page({ params }: any) {
                 </Link>
               ),
             },
+
             {
               title: (
                 <Link
@@ -31,6 +34,16 @@ function page({ params }: any) {
                   className="text-gray-600 hover:text-blue-600 transition-colors"
                 >
                   Archives
+                </Link>
+              ),
+            },
+            {
+              title: (
+                <Link
+                  href={`/archives/${slug}`}
+                  className="text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  {slug}
                 </Link>
               ),
             },
@@ -92,4 +105,4 @@ function page({ params }: any) {
   );
 }
 
-export default page;
+export default Page;

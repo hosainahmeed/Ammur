@@ -1,31 +1,62 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import ArchiveEntry from '@/components/archive/ArchiveEntry';
-import { PaginationControl } from '@/components/recipe/PaginationControlProps';
-import { archiveData } from '@/lib/archiveData';
-import React from 'react';
+'use client';
+import { Card } from 'antd';
+import { Button } from '@/components/ui/button';
+import Head from 'next/head';
+import Image from 'next/image';
+import { Category } from '@/lib/types';
+import { useRouter } from 'next/navigation';
 
-const page = ({ searchParams }: any) => {
-  const page = Number(searchParams.page) || 1;
-  const recipesPerPage = 6;
-  const totalPages = Math.ceil(archiveData.length / recipesPerPage);
+const categories: Category[] = [
+  { title: 'Memorial Stories', icon: '/icons/icons.jpg' },
+  { title: 'Honoring Legends', icon: '/icons/icons.jpg' },
+  { title: 'Heritage & History', icon: '/icons/icons.jpg' },
+  { title: 'In Memoriam', icon: '/icons/icons.jpg' },
+  { title: 'Life & Achievements', icon: '/icons/icons.jpg' },
+  { title: 'Family Legacy', icon: '/icons/icons.jpg' },
+  { title: 'Tribute Messages', icon: '/icons/icons.jpg' },
+  { title: 'Legacy Projects', icon: '/icons/icons.jpg' },
+];
 
-  const startIndex = (page - 1) * recipesPerPage;
-  const endIndex = startIndex + recipesPerPage;
-  const paginationTimelineData = archiveData.slice(startIndex, endIndex);
+export default function Archives() {
+  const router = useRouter();
+
+  const handleClick = (title: string) => {
+    const slug = title.toLowerCase().replace(/ & /g, '-').replace(/\s+/g, '-');
+    router.push(`/archives/${slug}`);
+  };
 
   return (
-    <div className="container mx-auto px-4 py-28 bg-white min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-8">
-        Family Archives: Preserving Our Legacy
-      </h1>
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {paginationTimelineData.map((entry) => (
-          <ArchiveEntry key={entry.id} entry={entry} />
-        ))}
-      </div>
-      <PaginationControl totalPages={totalPages} currentPage={page} />
+    <div className="py-28">
+      <Head>
+        <title>Archive Categories</title>
+      </Head>
+      <main className="container mx-auto px-4 py-12">
+        <h1 className="text-3xl font-bold mb-2">Archive Categories</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {categories.map((category, index) => (
+            <Card key={index}>
+              <div className="flex flex-col items-center justify-center">
+                <Image
+                  src={category.icon}
+                  alt={category.title}
+                  width={60}
+                  height={60}
+                  className="mb-4"
+                />
+                <h3 className="text-blue-800 text-lg font-semibold mb-4">
+                  {category.title}
+                </h3>
+                <Button
+                  className="gradient-button font-normal !text-white py-2 px-8 rounded-lg"
+                  onClick={() => handleClick(category.title)}
+                >
+                  View all
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </main>
     </div>
   );
-};
-
-export default page;
+}
