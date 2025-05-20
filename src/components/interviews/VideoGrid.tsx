@@ -6,7 +6,7 @@ import VideoModal from "./VideoModalProps"
 import VideoCard from "./VideoCardProps"
 import Pagination from "../ui/pagination"
 
-const allVideos = [
+export const allVideos = [
     ...videos,
     {
         id: "10",
@@ -77,7 +77,7 @@ export default function VideoGrid() {
         <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {currentVideos.map((video) => (
-                    <VideoCard key={video.id} video={video} onClick={() => setSelectedVideo(video)} />
+                    <VideoCard key={video.id} video={video} /> //onClick={() => setSelectedVideo(video)} 
                 ))}
             </div>
 
