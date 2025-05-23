@@ -2,8 +2,12 @@
 import TimelineEntry from '@/components/Sections/timeline-page/TimelineEntry'
 import TimelineHeader from '@/components/Sections/timeline-page/TimelineHeader'
 import { timelineData } from '@/lib/timelineData'
+import { Metadata } from 'next'
 import React from 'react'
 
+export const metadata: Metadata = {
+    title:'Timeline'
+}
 function page() {
     return (
         <div className="container mx-auto px-4 py-8 bg-white min-h-screen">

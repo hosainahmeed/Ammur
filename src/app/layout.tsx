@@ -4,7 +4,10 @@ import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
-  title: 'Family legacy',
+  title: {
+    default:'Family legacy',
+    template:'%s - Family legacy'
+  },
   description: 'Honoring our history while shaping a brighter future. Together, we preserve the past and inspire tomorrow‘s possibilities.',
 };
 
