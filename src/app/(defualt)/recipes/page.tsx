@@ -23,13 +23,13 @@ export default function page({ searchParams }: any) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {paginatedRecipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
       </div>
 
-      <PaginationControl currentPage={page} totalPages={totalPages} />
+      {/* <PaginationControl currentPage={page} totalPages={totalPages} /> */}
     </main>
   );
 }
