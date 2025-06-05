@@ -17,13 +17,9 @@ export default function page({ searchParams }: any) {
     <main className="container mx-auto py-28 px-4">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4">Family Recipes & Traditions</h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Discover cherished family recipes passed down through generations,
-          each with its own story and tradition.
-        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         {paginatedRecipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
