@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PaginationControl } from '@/components/recipe/PaginationControlProps';
+// import { PaginationControl } from '@/components/recipe/PaginationControlProps';
 import { RecipeCard } from '@/components/recipe/RecipeCard';
 import { recipes } from '@/lib/recipesData';
 
@@ -7,7 +7,7 @@ import { recipes } from '@/lib/recipesData';
 export default function page({ searchParams }: any) {
   const page = Number(searchParams.page) || 1;
   const recipesPerPage = 6;
-  const totalPages = Math.ceil(recipes.length / recipesPerPage);
+  // const totalPages = Math.ceil(recipes.length / recipesPerPage);
 
   const startIndex = (page - 1) * recipesPerPage;
   const endIndex = startIndex + recipesPerPage;
