@@ -66,6 +66,7 @@ export default function RecipePage({ params }: any) {
           </div>
         </div>
         <div>
+          <h1 className='text-2xl font-bold mt-4'>Ingredients :</h1>
           {recipe.ingredients.map((ingredient, index) => (
             <div
               key={index}

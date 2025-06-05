@@ -12,10 +12,9 @@ import { useRouter } from 'next/navigation';
 
 interface TimelineEntryProps {
   entry: TimelineEntryType;
-  slug: string;
 }
 
-const LegacyEntry = ({ entry, slug }: TimelineEntryProps) => {
+const LegacyEntry = ({ entry }: TimelineEntryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comments, setComments] = useState(entry.comments);
   const [selectPost, setSelectPost] = useState<TimelineEntryType | null>(null);
@@ -25,7 +24,6 @@ const LegacyEntry = ({ entry, slug }: TimelineEntryProps) => {
     setSelectPost(entry);
     setIsModalOpen(true);
   };
-  console.log(slug);
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -42,7 +40,7 @@ const LegacyEntry = ({ entry, slug }: TimelineEntryProps) => {
   };
 
   const handleClick = (id: string) => {
-    router.push(`/legacy/${slug}/${id}`);
+    router.push(`/legacy/${id}`);
   };
 
   return (
