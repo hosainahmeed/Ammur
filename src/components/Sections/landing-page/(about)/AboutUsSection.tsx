@@ -30,7 +30,7 @@ export default function AboutUsSection() {
           </p>
           <Link href={'/about'}>
             <Button className="!bg-[#072A5E] hover:!bg-[#072A5E] !text-white">
-              Learn More
+              Explore Now
             </Button>
           </Link>
         </div>

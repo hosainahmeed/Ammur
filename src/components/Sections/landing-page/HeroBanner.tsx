@@ -29,9 +29,9 @@ const HeroBanner = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.3 }}
-          className="border rounded-md"
+          className="border rounded-md !mt-4"
         >
-          <Button className="border-none bg-[#072A5E] !rounded-md hover:scale-102 text-2xl px-12 pt-6 pb-7">
+          <Button className="border-none bg-[#072A5E]  !rounded-md hover:scale-102 text-2xl px-12 pt-6 pb-7">
             Sign up Now
           </Button>
         </motion.div>
