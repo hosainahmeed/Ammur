@@ -30,7 +30,7 @@ export default function RecipePage({ params }: any) {
         ]}
       />
       <main className="max-w-3xl mx-auto">
-        <div className="shadow rounded-lg overflow-hidden p-2 flex flex-row-reverse">
+        <div className="shadow rounded-lg overflow-hidden p-2 flex flex-col items-start sm:items-center sm:flex-row-reverse">
           <div className="relative h-48 rounded-lg overflow-hidden w-full">
             <Image
               src={recipe.image || '/placeholder.svg'}
@@ -40,7 +40,7 @@ export default function RecipePage({ params }: any) {
               priority
             />
           </div>
-          <div>
+          <div className='mt-2'>
             <CardHeader>
               <CardTitle className="text-xl">{recipe.recipe_name}</CardTitle>
             </CardHeader>
@@ -80,7 +80,7 @@ export default function RecipePage({ params }: any) {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-lg text-[#6F6F6F] font-normal text-center">
+              <p className="text-lg text-[#6F6F6F] font-normal">
                 {ingredient.name}
               </p>
             </div>
