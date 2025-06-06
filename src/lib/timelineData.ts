@@ -9,6 +9,7 @@ export const timelineData: TimelineEntryType[] = [
     description:
       "This powerful image, taken in the early 1900s, captures more than just faces—it captures strength, unity, and a will to endure. Our timeline begins here, honoring the generations who laid the foundation.",
     imageUrl: "/5999330.jpg",
+    graveyard: 'Greenwood Cemetery, Atlanta, GA',
     comments: [
       {
         authId: '233',
@@ -38,6 +39,7 @@ export const timelineData: TimelineEntryType[] = [
     description:
       "This powerful image, taken in the early 1900s, captures more than just faces—it captures strength, unity, and a will to endure. Our timeline begins here, honoring the generations who laid the foundation.",
     imageUrl: "/5999330.jpg",
+    graveyard: 'Greenwood Cemetery, Atlanta, GA',
     comments: [
       {
         authId: '23223',
@@ -73,6 +75,7 @@ export const timelineData: TimelineEntryType[] = [
     description:
       "This powerful image, taken in the early 1900s, captures more than just faces—it captures strength, unity, and a will to endure. Our timeline begins here, honoring the generations who laid the foundation.",
     imageUrl: "/5999330.jpg",
+    graveyard: 'Greenwood Cemetery, Atlanta, GA',
     comments: [
       {
         authId: '23453433',

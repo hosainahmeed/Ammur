@@ -9,7 +9,6 @@ import { motion } from 'framer-motion';
 
 function Page() {
   const { id } = useParams<{ id: string }>();
-  console.log(id)
   const data = timelineData.filter((item) => String(item.id) === id);
 
   if (data.length === 0) {
@@ -34,13 +33,10 @@ function Page() {
         className="mb-8 text-lg text-gray-500"
         items={[
           {
-            title: <Link href="/things-to-know" className="hover:text-gray-700 transition">Legacy & Tribute</Link>,
+            title: <Link href="/legacy" className="hover:text-gray-700 transition">Legacy & Tribute</Link>,
           },
           {
-            title: <Link href="" className="hover:text-gray-700 transition">{id}</Link>,
-          },
-          {
-            title: <Link href="" className="hover:text-gray-700 transition">{id}</Link>,
+            title: <Link href="" className="hover:text-gray-700 transition">{title.slice(0, 20)}...</Link>,
           },
         ]}
       />

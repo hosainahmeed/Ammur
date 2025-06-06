@@ -8,11 +8,12 @@ import { Button } from '@/components/ui/button';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Avatar, Dropdown, Menu } from 'antd';
+import { Avatar, Badge, Dropdown, Menu } from 'antd';
 import { IoIosMenu } from 'react-icons/io';
-import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import { UserOutlined, LogoutOutlined, BellOutlined } from '@ant-design/icons';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
+import { FaAngleDown } from 'react-icons/fa';
 type NavItem = {
   label: string;
   href: string;
@@ -98,8 +99,10 @@ export default function Navbar() {
           alt="user profile image"
         />
         <div>
-          <h1 className="font-semibold text-base">{''}</h1>
-          <h1 className="font-normal opacity-75 text-sm">{''}</h1>
+          <h1 className="text-lg text-[#072B5F]">Sarah Johnson</h1>
+          <h1 className="text-sm !font-normal leading-none">
+            sarah.johnson@example.com
+          </h1>
         </div>
       </div>
       <Menu.Divider />
@@ -111,7 +114,7 @@ export default function Navbar() {
         key="4"
         onClick={() => {
           localStorage.removeItem('login');
-          Cookies.remove('token')
+          Cookies.remove('token');
           toast.success('Log Out successfully');
           window.location.reload();
         }}
@@ -173,6 +176,13 @@ export default function Navbar() {
         </div>
         {isLogin ? (
           <div className="items-center 2xl:flex hidden gap-4 text-2xl">
+            <Link href={'/notification'}>
+              <Badge count={3} size="small" color="#3b5560">
+                <Button className="!text-white bg-transparent hover:bg-black/10 !rounded-full">
+                  <BellOutlined />
+                </Button>
+              </Badge>
+            </Link>
             <Dropdown
               overlay={menu}
               trigger={['click']}
@@ -183,13 +193,10 @@ export default function Navbar() {
                   size={40}
                   src={'https://avatar.iran.liara.run/public/16'}
                   className="cursor-pointer"
-                />
-                <div className="flex items-start flex-col">
-                  <h1 className="text-lg text-[#072B5F]">Sarah Johnson</h1>
-                  <h1 className="text-sm !font-normal leading-none">
-                    sarah.johnson@example.com
-                  </h1>
-                </div>
+                />{' '}
+                <span>
+                  <FaAngleDown />
+                </span>
               </div>
             </Dropdown>
           </div>
@@ -224,15 +231,27 @@ export default function Navbar() {
         )}
 
         {/* Mobile Menu Button */}
-        <motion.button
-          className="2xl:hidden !text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          {isMenuOpen ? <X size={24} /> : <IoIosMenu size={24} />}
-        </motion.button>
+        <div>
+          <Link
+            className="2xl:hidden !text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
+            href={'/notification'}
+          >
+            <Badge count={3} size="small" color="#3b5560">
+              <Button className="!text-white bg-transparent hover:bg-black/10 !rounded-full">
+                <BellOutlined size={12} />
+              </Button>
+            </Badge>
+          </Link>
+          <motion.button
+            className="2xl:hidden !text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            {isMenuOpen ? <X size={24} /> : <IoIosMenu size={24} />}
+          </motion.button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}

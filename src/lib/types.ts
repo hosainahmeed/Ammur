@@ -4,6 +4,7 @@ export interface TimelineEntryType {
   year: string;
   title: string;
   description: string;
+  graveyard: string;
   imageUrl: string;
   comments: {
     authId: string;
