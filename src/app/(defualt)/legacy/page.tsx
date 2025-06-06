@@ -1,15 +1,14 @@
-'use client'
+'use client';
+
 import LegacyEntry from '@/components/lagacy/LegacyEntry';
-// import { PaginationControl } from '@/components/recipe/PaginationControlProps';
 import { timelineData } from '@/lib/timelineData';
 import { useSearchParams } from 'next/navigation';
-import React from 'react';
+import React, { Suspense } from 'react';
 
-function Page() {
+function LegacyList() {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
   const recipesPerPage = 6;
-  // const totalPages = Math.ceil(timelineData.length / recipesPerPage);
 
   const startIndex = (page - 1) * recipesPerPage;
   const endIndex = startIndex + recipesPerPage;
@@ -30,4 +29,14 @@ function Page() {
   );
 }
 
-export default Page;
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="py-20 text-center">Loading legacy entries...</div>
+      }
+    >
+      <LegacyList />
+    </Suspense>
+  );
+}
