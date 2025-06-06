@@ -4,17 +4,19 @@ import Image from 'next/image';
 import { Play, Clock } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Video } from '@/lib/types';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 interface VideoCardProps {
   video: Video;
 }
 
 export default function VideoCard({ video }: VideoCardProps) {
+  const { slug } = useParams();
   const router = useRouter();
 
-  const handleCardClick = (slug: string) => {
-    router.push(`/interviews/${slug}`);
+  const handleCardClick = (id: string) => {
+    console.log(id)
+    router.push(`/interviews/${slug}/${id}`);
   };
 
   return (

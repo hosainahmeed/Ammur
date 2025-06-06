@@ -231,3 +231,7 @@
   background-color: rgb(33, 33, 33);
   color: #fff;
 } */
+
+.boc-edit-form{
+ z-index: 999 !important;
+}
