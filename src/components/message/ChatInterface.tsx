@@ -24,6 +24,12 @@ interface Message {
   timestamp: string;
   avatar: string;
   isCurrentUser: boolean;
+  file?: {
+    name: string;
+    type: string;
+    url: string;
+    size?: string;
+  };
 }
 
 export default function ChatInterface() {
@@ -33,7 +39,14 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [newMessage, setNewMessage] = useState<string>('');
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  const [filePreview, setFilePreview] = useState<{
+    name: string;
+    type: string;
+    url: string;
+    size?: string;
+  } | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -49,8 +62,35 @@ export default function ChatInterface() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const filePreview = {
+      name: file.name,
+      type: file.type,
+      url: URL.createObjectURL(file),
+      size: formatFileSize(file.size),
+    };
+
+    setFilePreview(filePreview);
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return `${bytes} bytes`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  const removeFilePreview = () => {
+    if (filePreview?.url) {
+      URL.revokeObjectURL(filePreview.url);
+    }
+    setFilePreview(null);
+  };
+
   const handleSendMessage = (): void => {
-    if (newMessage.trim() === '') return;
+    if (newMessage.trim() === '' && !filePreview) return;
 
     const newMsg: Message = {
       id: messages.length + 1,
@@ -59,10 +99,16 @@ export default function ChatInterface() {
       timestamp: 'Just now',
       avatar: '/icons/IconOnly.svg',
       isCurrentUser: true,
+      ...(filePreview && { file: filePreview }),
     };
 
     setMessages([...messages, newMsg]);
     setNewMessage('');
+    removeFilePreview();
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -74,7 +120,6 @@ export default function ChatInterface() {
 
   const formatDate = (timestamp: string): string => {
     if (timestamp === 'Just now') return timestamp;
-
     return timestamp;
   };
 
@@ -97,7 +142,7 @@ export default function ChatInterface() {
         </Button>
       )}
 
-      {/* Sidebar - Now sticky */}
+      {/* Sidebar */}
       <div
         className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           } transform transition-all duration-300 ease-in-out fixed lg:sticky lg:top-0 lg:left-0 z-40 
@@ -121,7 +166,7 @@ export default function ChatInterface() {
           )}
         </div>
 
-        {/* New conversation button - Sticky */}
+        {/* New conversation button */}
         <div className="p-2 sticky top-16 bg-white z-10">
           <Button variant="outline" className="w-full gap-2 text-slate-600">
             <PlusCircle className="h-4 w-4" /> New Conversation
@@ -167,7 +212,7 @@ export default function ChatInterface() {
           </div>
         </ScrollArea>
 
-        {/* User profile section - Sticky bottom */}
+        {/* User profile section */}
         <div className="p-3 border-t border-slate-200 bg-white sticky bottom-0 mt-auto">
           <div className="flex items-center gap-3">
             <Avatar className="border-2 border-blue-200">
@@ -260,6 +305,44 @@ export default function ChatInterface() {
                               {message.sender}
                             </p>
                           )}
+                          {message.file && (
+                            <div className="mb-2">
+                              {message.file.type.startsWith('image/') ? (
+                                <Image
+                                  width={200}
+                                  height={200}
+                                  src={message.file.url}
+                                  alt={message.file.name}
+                                  className="max-w-full max-h-64 rounded-lg"
+                                />
+                              ) : (
+                                <a
+                                  href={message.file.url}
+                                  download={message.file.name}
+                                  className="flex items-center gap-2 p-2 bg-slate-100 hover:bg-slate-200 rounded-lg"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5 text-slate-500"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                                    />
+                                  </svg>
+                                  <div>
+                                    <p className="text-sm font-medium">{message.file.name}</p>
+                                    <p className="text-xs text-slate-500">{message.file.size}</p>
+                                  </div>
+                                </a>
+                              )}
+                            </div>
+                          )}
                           <p className="text-sm whitespace-pre-wrap">
                             {message.text}
                           </p>
@@ -277,9 +360,90 @@ export default function ChatInterface() {
           </div>
         </div>
 
-        {/* Message input */}
+        {/* Message input with file upload */}
         <div className="p-3 bg-white border-t border-slate-200 sticky bottom-0 z-10">
+          {/* File preview */}
+          {filePreview && (
+            <div className="mb-2 p-2 bg-slate-50 rounded-lg relative">
+              <button
+                onClick={removeFilePreview}
+                className="absolute top-1 right-1 p-1 rounded-full bg-slate-200 hover:bg-slate-300"
+              >
+                <X className="h-3 w-3" />
+              </button>
+
+              {filePreview.type.startsWith('image/') ? (
+                <div className="flex items-center gap-3">
+                  <Image
+                    width={200}
+                    height={200}
+                    src={filePreview.url}
+                    alt="Preview"
+                    className="h-12 w-12 object-cover rounded"
+                  />
+                  <div>
+                    <p className="text-sm font-medium truncate">{filePreview.name}</p>
+                    <p className="text-xs text-slate-500">{filePreview.size}</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 bg-slate-200 rounded flex items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-slate-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium truncate">{filePreview.name}</p>
+                    <p className="text-xs text-slate-500">{filePreview.size}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="flex items-center gap-2 max-w-4xl mx-auto">
+            {/* Hidden file input */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              className="hidden"
+              id="file-upload"
+            />
+
+            {/* File upload button */}
+            <label
+              htmlFor="file-upload"
+              className="p-2 rounded-full hover:bg-slate-100 cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-slate-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                />
+              </svg>
+            </label>
+
             <Input
               placeholder="Type your message..."
               value={newMessage}
@@ -291,7 +455,7 @@ export default function ChatInterface() {
             />
             <Button
               onClick={handleSendMessage}
-              disabled={newMessage.trim() === ''}
+              disabled={newMessage.trim() === '' && !filePreview}
               className="!rounded-full !py-6 !bg-blue-500 hover:!bg-blue-600 !text-white !px-8"
             >
               <Send className="h-4 w-4 mr-1" />
@@ -303,5 +467,3 @@ export default function ChatInterface() {
     </div>
   );
 }
-
-
