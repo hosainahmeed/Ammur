@@ -84,7 +84,7 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-slate-50">
+    <div className="flex h-[calc(100vh-70px)] w-full overflow-hidden bg-slate-50">
       {/* Mobile menu button */}
       {!sidebarOpen && (
         <Button
