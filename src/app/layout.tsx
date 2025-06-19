@@ -4,8 +4,12 @@ import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
-  title: 'Family legacy',
-  description: 'Honoring our history while shaping a brighter future. Together, we preserve the past and inspire tomorrow‘s possibilities.',
+  title: {
+    default: 'Family legacy',
+    template: '%s | Family legacy',
+  },
+  description:
+    'Honoring our history while shaping a brighter future. Together, we preserve the past and inspire tomorrow‘s possibilities.',
 };
 
 export default function RootLayout({
@@ -17,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`antialiased`}>
         <NextTopLoader />
-        <Toaster position='top-center' />
+        <Toaster position="top-center" />
         {children}
       </body>
     </html>

@@ -1,4 +1,10 @@
 import ChatInterface from '@/components/message/ChatInterface';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Message',
+}
+
 
 export default function page() {
   return (

@@ -33,7 +33,7 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <div className="py-20 text-center">Loading legacy entries...</div>
+        <div className="py-20 min-h-screen text-center">Loading legacy entries...</div>
       }
     >
       <LegacyList />

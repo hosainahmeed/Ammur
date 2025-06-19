@@ -2,7 +2,12 @@
 import ArchiveEntry from '@/components/archive/ArchiveEntry';
 import { PaginationControl } from '@/components/recipe/PaginationControlProps';
 import { archiveData } from '@/lib/archiveData';
+import { Metadata } from 'next';
 import React from 'react';
+
+export const metadata: Metadata = {
+  title: 'Archives',
+}
 
 const page = ({ searchParams }: any) => {
   const page = Number(searchParams.page) || 1;
