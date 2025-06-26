@@ -1,0 +1,70 @@
+import baseApis from "../query/baseApis";
+
+export const authApis = baseApis.injectEndpoints({
+    endpoints: (builder) => ({
+        signUp: builder.mutation({
+            query: (data) => ({
+                url: '/users/create-user',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+        login: builder.mutation({
+            query: (data) => ({
+                url: '/auth/login',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+        changePassword: builder.mutation({
+            query: (data) => ({
+                url: '/auth/change-password',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+        sendVerificationEmail: builder.mutation({
+            query: (data) => ({
+                url: '/verification/create',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+        verifyOtp: builder.mutation({
+            query: (data) => ({
+                url: '/verification/verify',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+        resetPassword: builder.mutation({
+            query: (data) => ({
+                url: '/auth/reset-password',
+                method: 'POST',
+                body: data,
+                headers: {
+                    Authorization: `${localStorage.getItem('resetToken')}`,
+                },
+            }),
+        }),
+        resendResetOtp: builder.mutation({
+            query: (data) => ({
+                url: '/auth/resend-reset-code',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+    }),
+});
+
+export const {
+    useSignUpMutation,
+    useLoginMutation,
+    useChangePasswordMutation,
+    useSendVerificationEmailMutation,
+    useVerifyOtpMutation,
+    useResetPasswordMutation,
+    useResendResetOtpMutation,
+} = authApis;
+
+export default authApis;

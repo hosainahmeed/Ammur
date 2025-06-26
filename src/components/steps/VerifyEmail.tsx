@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import { useState } from 'react';
 import { Input, Button, Typography } from 'antd';
-// import { useRouter } from 'next/navigation';
 import 'antd/dist/reset.css';
 import { CreateAccountProps } from './create-account';
 
@@ -11,22 +9,10 @@ const { Text } = Typography;
 const VerifyEmail = ({ onContinue }: CreateAccountProps) => {
   const [otp, setOtp] = useState('');
   const [verifyEmail, setEmail] = useState('');
-  //   const router = useRouter();
-
-  //   useEffect(() => {
-  //     const email = localStorage.getItem('register-email');
-  //     if (!email) {
-  //       //   toast.error('Email not found! Please enter your email again.');
-  //       router.push('/register');
-  //     } else {
-  //       setEmail(email);
-  //     }
-  //   }, [router]);
 
   const handleVerify = async () => {
     const otpNumberConvert = Number(otp);
     if (!otp || otp.length !== 5) {
-      //   toast.error('Please enter a valid 5-digit OTP.');
       return;
     }
 
@@ -37,51 +23,16 @@ const VerifyEmail = ({ onContinue }: CreateAccountProps) => {
     console.log(data);
     localStorage.setItem('login', 'true');
     onContinue();
-    // try {
-    //   const response = await verifycode({ data }).unwrap();
-    //   console.log(response);
-    //   if (response?.success) {
-    //     Cookies.remove('token');
-    //     Cookies.set('token', response?.data?.accessToken);
-    //     localStorage.setItem('accessToken', response?.data?.accessToken);
-    //     toast.success('User registered successfully.');
-    //     const accToken = localStorage.getItem('accessToken');
-    //     const condition = accToken !== null;
-    //     if (condition) {
-    //       window.location.href = '/';
-    //     }
-    //   }
-    // } catch (err) {
-    //   console.error(err);
-    //   toast.error('Invalid OTP. Please try again.');
-    // }
   };
 
   const handleResendOtp = async () => {
     const email = localStorage.getItem('register-email');
 
     if (!email) {
-      //   toast.error('No email found. Please try again.');
       return;
     }
     const data = { email };
     console.log(data);
-    // try {
-    //   const response = await resentOtp(data).unwrap();
-
-    //   if (response?.success) {
-    //     toast.success('OTP has been resent successfully. Check your email.');
-    //   } else {
-    //     const errorMessage =
-    //       response?.message || 'Failed to resend OTP. Please try again.';
-    //     toast.error(errorMessage);
-    //   }
-    // } catch (err) {
-    //   console.error('Failed to resend OTP:', err);
-    //   const errorMessage =
-    //     err?.data?.message || 'Something went wrong. Please try again later.';
-    //   toast.error(errorMessage);
-    // }
   };
 
   return (
@@ -116,7 +67,6 @@ const VerifyEmail = ({ onContinue }: CreateAccountProps) => {
           type="primary"
           block
           onClick={() => handleVerify()}
-          //   disabled={otp.length !== 5 || isLoading}
           className="!text-white !bg-[#072A5E] !my-4"
         >
           {/* {isLoading ? 'Verifying OTP...' : 'Verify OTP'} */}Verify OTP

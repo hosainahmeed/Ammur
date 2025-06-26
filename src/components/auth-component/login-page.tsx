@@ -6,16 +6,22 @@ import { toast } from 'sonner';
 const { Title, Text, Paragraph } = Typography;
 const { Content } = Layout;
 import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { login } from '@/app/provider/Redux/slices/authSlice';
+
 export default function LoginPage() {
+  const dispatch = useDispatch();
   const handleSetCookie = () => {
     Cookies.set('token', 'true');
     localStorage.setItem('login', 'true');
+    dispatch(login(true));
     window.location.href = '/';
   };
 
   const handleSubmit = () => {
     localStorage.setItem('login', 'true');
     toast.success('Sign in Successfully');
+    dispatch(login(true));
     window.location.href = '/';
   };
   return (

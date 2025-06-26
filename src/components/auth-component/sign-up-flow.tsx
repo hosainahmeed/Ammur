@@ -24,7 +24,7 @@ export default function SignUpFlow() {
   const [steps, setSteps] = useState<Step[]>([
     {
       id: 1,
-      title: 'Cradintials',
+      title: 'Credentials',
       description: 'Provide your information',
       icon: 'user',
       completed: false,
@@ -48,7 +48,7 @@ export default function SignUpFlow() {
     },
     {
       id: 4,
-      title: 'Choose yor plan',
+      title: 'Choose your plan',
       description: 'Get plan to more access and smooth experience',
       icon: 'price',
       completed: false,
