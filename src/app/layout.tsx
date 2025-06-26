@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
+import ReduxWrapper from './provider/Redux/ReduxWrapper';
 
 export const metadata: Metadata = {
   title: {
@@ -18,12 +19,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`antialiased`}>
-        <NextTopLoader />
-        <Toaster position="top-center" />
-        {children}
-      </body>
-    </html>
+    <ReduxWrapper>
+      <html lang="en">
+        <body className={`antialiased`}>
+          <NextTopLoader />
+          <Toaster position="top-center" />
+          {children}
+        </body>
+      </html>
+    </ReduxWrapper>
   );
 }
