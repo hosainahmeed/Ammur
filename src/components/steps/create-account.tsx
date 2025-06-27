@@ -9,6 +9,9 @@ import { IState, ICity } from 'country-state-city';
 import { Country, State, City } from 'country-state-city';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
+import { register } from '@/app/provider/Redux/slices/authSlice';
+import { useSelector } from 'react-redux';
 
 export interface CreateAccountProps {
   onContinue?: any;
@@ -20,19 +23,22 @@ interface FormValues {
   email: string;
   contactNo: string;
   country: string;
-  state: string;
-  city: string;
+  state?: string;
+  city?: string;
 }
 
 export default function CreateAccount({ onContinue }: CreateAccountProps) {
+  const dispatch = useDispatch();
+  const registerData = useSelector((state: any) => state.auth);
+  console.log(registerData);
   const { Text } = Typography;
   const initialValues: FormValues = {
-    fullName: '',
-    email: '',
-    contactNo: '',
-    country: '',
-    state: '',
-    city: '',
+    fullName: registerData.fullName,
+    email: registerData.email,
+    contactNo: registerData.contactNo,
+    country: registerData.country,
+    state: registerData.state,
+    city: registerData.city,
   };
   const [form] = Form.useForm<FormValues>();
   const [contactNo, setContactNo] = useState<string>('');
@@ -74,13 +80,14 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
 
   const handleSubmit = (values: FormValues) => {
     const formData = {
-      ...values,
-      contactNo,
-      country: countries.find((c) => c.isoCode === country)?.name || country,
-      state: states.find((s) => s.isoCode === state)?.name || state,
-      city,
+      fullName: values.fullName,
+      email: values.email,
+      contactNo: values.contactNo,
+      address: `${city}, ${state}, ${country}`,
     };
+    dispatch(register(formData));
     onContinue(formData);
+
   };
 
   return (
@@ -136,6 +143,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
               label="Phone Number"
               name="contactNo"
               required
+              rules={[{ required: true, message: 'Please enter your phone number!' }]}
             >
               <ReactPhoneInput
                 country={'us'}
@@ -146,7 +154,9 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
             </Form.Item>
           </div>
           <div className="space-y-2">
-            <Form.Item<FormValues> label="Country" name="country" required>
+            <Form.Item<FormValues> label="Country" name="country"
+              rules={[{ required: true, message: 'Please select your country!' }]}
+            >
               <Select
                 showSearch
                 placeholder="Select country"
@@ -167,7 +177,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
           </div>
 
           <div className="space-y-2">
-            <Form.Item<FormValues> label="State/Province" name="state" required>
+            <Form.Item<FormValues> label="State/Province" name="state">
               <Select
                 showSearch
                 placeholder="Select state"

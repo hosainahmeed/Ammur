@@ -7,8 +7,6 @@ import CreateAccount from '../steps/create-account';
 import Welcome from '../steps/welcome';
 import VerifyEmail from '../steps/VerifyEmail';
 import PersonalInformation from '../steps/personalInformation';
-import Pricing from '../steps/Pricing';
-
 export type Step = {
   id: number;
   title: string;
@@ -48,14 +46,6 @@ export default function SignUpFlow() {
     },
     {
       id: 4,
-      title: 'Choose your plan',
-      description: 'Get plan to more access and smooth experience',
-      icon: 'price',
-      completed: false,
-      current: false,
-    },
-    {
-      id: 5,
       title: 'Welcome to Family legacy!',
       description: 'Thank you for join our family',
       icon: 'zap',
@@ -77,7 +67,7 @@ export default function SignUpFlow() {
       setFormData((prev) => ({ ...prev, step1: step1Data }));
     }
 
-    if (currentStep < 5) {
+    if (currentStep < 4) {
       const newSteps = steps.map((step) => {
         if (step.id === currentStep) {
           return { ...step, completed: true, current: false };
@@ -151,8 +141,7 @@ export default function SignUpFlow() {
               />
             )}
             {currentStep === 3 && <VerifyEmail onContinue={goToNextStep} />}
-            {currentStep === 4 && <Pricing onContinue={goToNextStep} />}
-            {currentStep === 5 && <Welcome />}
+            {currentStep === 4 && <Welcome />}
           </div>
         </div>
       </div>

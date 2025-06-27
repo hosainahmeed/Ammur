@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
-  name: "register",
+  name: "auth",
   initialState: {
     fullName: "",
     email: "",
@@ -27,7 +27,6 @@ const authSlice = createSlice({
       state.eldestRelative = action.payload.eldestRelative;
       state.familySide = action.payload.familySide;
       state.familyName = action.payload.familyName;
-      state.role = action.payload.role;
     },
   },
 });

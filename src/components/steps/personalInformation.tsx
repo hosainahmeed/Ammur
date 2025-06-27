@@ -1,18 +1,23 @@
+'use client';
 import React from 'react';
-import { CreateAccountProps } from './create-account';
-import { Button, Form, Input, Select, message } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
+import { toast } from 'sonner';
+import { useSelector } from 'react-redux';
+// import { useCreateMemberMutation } from '@/app/provider/Redux/services/memberApi';
 
 interface PersonalInfoValues {
   profession: string;
-  relative: string;
+  eldestRelative: string;
   familySide: string;
   password: string;
-  confirmPassword: string;
+  familyName?: string;
 }
 
-function PersonalInformation({ onContinue }: CreateAccountProps) {
+function PersonalInformation({ onContinue }: { onContinue: () => void }) {
   const [form] = Form.useForm<PersonalInfoValues>();
   const [loading, setLoading] = React.useState(false);
+  // const [createMember] = useCreateMemberMutation();
+  const registerData = useSelector((state: any) => state.auth);
 
   const professionOptions = [
     { value: 'doctor', label: 'Doctor' },
@@ -33,36 +38,28 @@ function PersonalInformation({ onContinue }: CreateAccountProps) {
   const handleSubmit = async (values: PersonalInfoValues) => {
     try {
       setLoading(true);
+      const finalPayload = {
+        fullName: registerData.fullName,
+        email: registerData.email,
+        contactNo: registerData.contactNo,
+        password: values.password,
+        preferedContactMethod: 'email',
+        address: registerData.address,
+        proffession: values.profession,
+        eldestRelative: values.eldestRelative,
+        familySide: values.familySide,
+        familyName: values.familyName || 'Murphy',
+        role: 'member',
+      };
 
-      // Additional validation
-      if (values.password !== values.confirmPassword) {
-        form.setFields([
-          {
-            name: 'confirmPassword',
-            errors: ['Passwords do not match'],
-          },
-        ]);
-        return;
-      }
+      toast.success('Member created successfully!');
+      console.log('Backend Response:', finalPayload);
 
-      if (values.password.length < 8) {
-        form.setFields([
-          {
-            name: 'password',
-            errors: ['Password must be at least 8 characters'],
-          },
-        ]);
-        return;
-      }
+      // if (onContinue) onContinue(); // move to next step
 
-      // Call parent component's continue handler with the form values
-      onContinue(values);
-
-      // Optional: Show success message
-      message.success('Personal information submitted successfully!');
-    } catch (error) {
-      console.error('Submission error:', error);
-      message.error('Failed to submit personal information');
+    } catch (error: any) {
+      console.error('API error:', error);
+      toast.error(error?.data?.message || 'Something went wrong!');
     } finally {
       setLoading(false);
     }
@@ -70,12 +67,8 @@ function PersonalInformation({ onContinue }: CreateAccountProps) {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <h1 className="text-2xl font-semibold text-center mb-2">
-        Personal Information
-      </h1>
-      <p className="text-gray-500 text-center mb-6">
-        Complete your profile information.
-      </p>
+      <h1 className="text-2xl font-semibold text-center mb-2">Personal Information</h1>
+      <p className="text-gray-500 text-center mb-6">Complete your profile information.</p>
 
       <Form
         requiredMark={false}
@@ -92,17 +85,13 @@ function PersonalInformation({ onContinue }: CreateAccountProps) {
           <Select
             showSearch
             placeholder="Select your profession"
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-            }
             options={professionOptions}
           />
         </Form.Item>
 
         <Form.Item<PersonalInfoValues>
           label="Eldest Relative You Know"
-          name="relative"
+          name="eldestRelative"
           rules={[{ required: true, message: 'Please enter relative name' }]}
         >
           <Input placeholder="Enter eldest relative's name" />
@@ -113,10 +102,7 @@ function PersonalInformation({ onContinue }: CreateAccountProps) {
           name="familySide"
           rules={[{ required: true, message: 'Please select family side' }]}
         >
-          <Select
-            placeholder="Select your family side"
-            options={familySideOptions}
-          />
+          <Select placeholder="Select your family side" options={familySideOptions} />
         </Form.Item>
 
         <Form.Item<PersonalInfoValues>
@@ -131,22 +117,10 @@ function PersonalInformation({ onContinue }: CreateAccountProps) {
         </Form.Item>
 
         <Form.Item<PersonalInfoValues>
-          label="Confirm Password"
-          name="confirmPassword"
-          dependencies={['password']}
-          rules={[
-            { required: true, message: 'Please confirm your password!' },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error('Passwords do not match!'));
-              },
-            }),
-          ]}
+          label="Family Name"
+          name="familyName"
         >
-          <Input.Password placeholder="Confirm your password" />
+          <Input placeholder="Enter family name (optional)" />
         </Form.Item>
 
         <div className="pt-4">
