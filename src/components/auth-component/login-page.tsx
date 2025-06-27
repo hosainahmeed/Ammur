@@ -5,24 +5,19 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 const { Title, Text, Paragraph } = Typography;
 const { Content } = Layout;
-import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
-import { login } from '@/app/provider/Redux/slices/authSlice';
 
+interface LoginData {
+  email: string;
+  password: string;
+}
 export default function LoginPage() {
-  const dispatch = useDispatch();
-  const handleSetCookie = () => {
-    Cookies.set('token', 'true');
-    localStorage.setItem('login', 'true');
-    dispatch(login(true));
-    window.location.href = '/';
-  };
-
-  const handleSubmit = () => {
-    localStorage.setItem('login', 'true');
-    toast.success('Sign in Successfully');
-    dispatch(login(true));
-    window.location.href = '/';
+  const handleSubmit = (value: LoginData) => {
+    const loginData = {
+      email: value.email,
+      password: value.password,
+    }
+    console.log(loginData)
+    toast.success('Sign in Successfully')
   };
   return (
     <Layout className="min-h-screen">
@@ -85,6 +80,7 @@ export default function LoginPage() {
                 <Form.Item
                   label={<Text type="secondary">Users name or Email</Text>}
                   style={{ marginBottom: 16 }}
+                  name="email"
                 >
                   <Input
                     placeholder="Please Input Emial or User name"
@@ -95,6 +91,7 @@ export default function LoginPage() {
                 <Form.Item
                   label={<Text type="secondary">Password</Text>}
                   style={{ marginBottom: 8 }}
+                  name='password'
                 >
                   <Input.Password
                     placeholder="please Enter password"
@@ -109,11 +106,10 @@ export default function LoginPage() {
                 </div>
 
                 <Button
-                  type="primary"
                   htmlType="submit"
                   size="large"
                   block
-                  style={{ backgroundColor: '#072a5e' }}
+                  style={{ backgroundColor: '#072a5e', color: 'white' }}
                 >
                   Sign in
                 </Button>
@@ -128,7 +124,7 @@ export default function LoginPage() {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
-                  onClick={() => handleSetCookie()}
+
                 >
                   <Image
                     src="/icons/google.png"

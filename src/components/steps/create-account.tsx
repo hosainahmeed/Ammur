@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import type React from 'react';
 import { useState, useEffect } from 'react';
@@ -15,9 +16,9 @@ export interface CreateAccountProps {
 }
 
 interface FormValues {
-  name: string;
+  fullName: string;
   email: string;
-  phoneNumber: string;
+  contactNo: string;
   country: string;
   state: string;
   city: string;
@@ -26,15 +27,15 @@ interface FormValues {
 export default function CreateAccount({ onContinue }: CreateAccountProps) {
   const { Text } = Typography;
   const initialValues: FormValues = {
-    name: '',
+    fullName: '',
     email: '',
-    phoneNumber: '',
+    contactNo: '',
     country: '',
     state: '',
     city: '',
   };
   const [form] = Form.useForm<FormValues>();
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [contactNo, setContactNo] = useState<string>('');
   const [city, setCity] = useState<string>('');
   const [state, setState] = useState<string>('');
   const [country, setCountry] = useState<string>('');
@@ -68,26 +69,13 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
     }
   }, [state, country]);
 
-  const handlePhoneChange = (value: string) => {
-    setPhoneNumber(value);
-  };
 
-  const handleCityChange = (value: string) => {
-    setCity(value);
-  };
 
-  const handleStateChange = (value: string) => {
-    setState(value);
-  };
-
-  const handleCountryChange = (value: string) => {
-    setCountry(value);
-  };
 
   const handleSubmit = (values: FormValues) => {
     const formData = {
       ...values,
-      phoneNumber,
+      contactNo,
       country: countries.find((c) => c.isoCode === country)?.name || country,
       state: states.find((s) => s.isoCode === state)?.name || state,
       city,
@@ -116,7 +104,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
           <div className="space-y-2">
             <Form.Item<FormValues>
               label="Full Name"
-              name="name"
+              name="fullName"
               rules={[{ required: true, message: 'Please enter your name!' }]}
             >
               <Input
@@ -146,13 +134,13 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
           <div className="space-y-2">
             <Form.Item<FormValues>
               label="Phone Number"
-              name="phoneNumber"
+              name="contactNo"
               required
             >
               <ReactPhoneInput
                 country={'us'}
-                value={phoneNumber}
-                onChange={handlePhoneChange}
+                value={contactNo}
+                onChange={(value) => setContactNo(value)}
                 inputStyle={{ width: '100%' }}
               />
             </Form.Item>
@@ -163,7 +151,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
                 showSearch
                 placeholder="Select country"
                 optionFilterProp="children"
-                onChange={handleCountryChange}
+                onChange={(value) => setCountry(value)}
                 value={country || undefined}
                 filterOption={(input, option) =>
                   (option?.label ?? '')
@@ -184,7 +172,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
                 showSearch
                 placeholder="Select state"
                 optionFilterProp="children"
-                onChange={handleStateChange}
+                onChange={(value) => setState(value)}
                 value={state || undefined}
                 disabled={!country}
                 filterOption={(input, option) =>
@@ -206,7 +194,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
                 showSearch
                 placeholder="Select city"
                 optionFilterProp="children"
-                onChange={handleCityChange}
+                onChange={(value) => setCity(value)}
                 value={city || undefined}
                 disabled={!state}
                 filterOption={(input, option) =>
