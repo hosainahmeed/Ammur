@@ -18,10 +18,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   return (
-    <GoogleOAuthProvider
-      clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}
-    >
+    <GoogleOAuthProvider clientId={clientId as string}>
       <ReduxWrapper>
         <html lang="en">
           <body className={`antialiased`}>

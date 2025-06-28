@@ -1,5 +1,5 @@
 import baseApis from "../query/baseApis";
-
+import Cookies from "js-cookie";
 
 export const profileApis = baseApis.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,7 +8,7 @@ export const profileApis = baseApis.injectEndpoints({
         url: '/users/me',
         method: 'GET',
         headers: {
-          Authorization: `${localStorage.getItem('accessToken')}`,
+          Authorization: `${Cookies.get('accessToken')}`,
         },
       }),
       providesTags: ['profile'],

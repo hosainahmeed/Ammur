@@ -58,6 +58,7 @@ export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const { data } = useGetProfileDataQuery();
+  console.log("data",data);
   const router = useRouter();
   useEffect(() => {
     setIsClient(true);
