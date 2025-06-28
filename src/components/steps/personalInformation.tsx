@@ -1,24 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React from 'react';
 import { Button, Form, Input, Select } from 'antd';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
-// import { useCreateMemberMutation } from '@/app/provider/Redux/services/memberApi';
-
+import { useSignUpMutation } from '@/app/provider/Redux/service/authApis';
+import { useGetFamiliesQuery } from '@/app/provider/Redux/service/familyApis';
 interface PersonalInfoValues {
-  profession: string;
+  proffession: string;
   eldestRelative: string;
   familySide: string;
   password: string;
   familyName?: string;
 }
 
-function PersonalInformation({ onContinue }: { onContinue: () => void }) {
+function PersonalInformation({ onContinue }: { onContinue: any }) {
   const [form] = Form.useForm<PersonalInfoValues>();
-  const [loading, setLoading] = React.useState(false);
-  // const [createMember] = useCreateMemberMutation();
-  const registerData = useSelector((state: any) => state.auth);
+  const [signUp, { isLoading: signUpLoading }] = useSignUpMutation();
+  const { data: families = [], isLoading: familiesLoading } = useGetFamiliesQuery();
 
+  const registerData = useSelector((state: any) => state.auth);
   const professionOptions = [
     { value: 'doctor', label: 'Doctor' },
     { value: 'teacher', label: 'Teacher' },
@@ -29,46 +30,46 @@ function PersonalInformation({ onContinue }: { onContinue: () => void }) {
     { value: 'other', label: 'Other' },
   ];
 
-  const familySideOptions = [
-    { value: 'paternal', label: 'Paternal' },
-    { value: 'maternal', label: 'Maternal' },
-    { value: 'both', label: 'Both' },
-  ];
-
   const handleSubmit = async (values: PersonalInfoValues) => {
     try {
-      setLoading(true);
-      const finalPayload = {
+      const data = {
         fullName: registerData.fullName,
         email: registerData.email,
         contactNo: registerData.contactNo,
         password: values.password,
         preferedContactMethod: 'email',
         address: registerData.address,
-        proffession: values.profession,
+        proffession: values.proffession,
         eldestRelative: values.eldestRelative,
         familySide: values.familySide,
-        familyName: values.familyName || 'Murphy',
+        familyName: values.familyName,
         role: 'member',
       };
 
-      toast.success('Member created successfully!');
-      console.log('Backend Response:', finalPayload);
-
-      // if (onContinue) onContinue(); // move to next step
-
+      await signUp(data)
+        .unwrap()
+        .then((res) => {
+          console.log(res);
+          if (res?.success && res?.data?.approvalStatus === 'pending') {
+            toast.dismiss();
+            toast.success(res?.message);
+            if (onContinue) onContinue(res?.data);
+          }
+        });
     } catch (error: any) {
       console.error('API error:', error);
       toast.error(error?.data?.message || 'Something went wrong!');
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <h1 className="text-2xl font-semibold text-center mb-2">Personal Information</h1>
-      <p className="text-gray-500 text-center mb-6">Complete your profile information.</p>
+      <h1 className="text-2xl font-semibold text-center mb-2">
+        Personal Information
+      </h1>
+      <p className="text-gray-500 text-center mb-6">
+        Complete your profile information.
+      </p>
 
       <Form
         requiredMark={false}
@@ -79,7 +80,7 @@ function PersonalInformation({ onContinue }: { onContinue: () => void }) {
       >
         <Form.Item<PersonalInfoValues>
           label="Profession"
-          name="profession"
+          name="proffession"
           rules={[{ required: true, message: 'Please select your profession' }]}
         >
           <Select
@@ -102,7 +103,18 @@ function PersonalInformation({ onContinue }: { onContinue: () => void }) {
           name="familySide"
           rules={[{ required: true, message: 'Please select family side' }]}
         >
-          <Select placeholder="Select your family side" options={familySideOptions} />
+          <Select
+            allowClear
+            loading={familiesLoading}
+            placeholder="Select your family side"
+            optionFilterProp="children"
+          >
+            {families?.data?.map((fam: any) => (
+              <Select.Option key={fam._id} value={fam.name}>
+                {fam.name}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
 
         <Form.Item<PersonalInfoValues>
@@ -116,10 +128,7 @@ function PersonalInformation({ onContinue }: { onContinue: () => void }) {
           <Input.Password placeholder="Enter password (min 8 characters)" />
         </Form.Item>
 
-        <Form.Item<PersonalInfoValues>
-          label="Family Name"
-          name="familyName"
-        >
+        <Form.Item<PersonalInfoValues> label="Family Name" name="familyName">
           <Input placeholder="Enter family name (optional)" />
         </Form.Item>
 
@@ -128,9 +137,9 @@ function PersonalInformation({ onContinue }: { onContinue: () => void }) {
             type="primary"
             htmlType="submit"
             className="!w-full !bg-[#0D2A59] hover:!bg-[#0a1f42]"
-            loading={loading}
+            loading={signUpLoading}
           >
-            Submit
+            {signUpLoading ? 'Submitting...' : 'Submit'}
           </Button>
         </div>
       </Form>

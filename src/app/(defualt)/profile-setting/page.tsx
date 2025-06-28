@@ -1,9 +1,10 @@
+'use client';
 import React from 'react';
 import Image from 'next/image';
-import { User, Mail, MapPin, Phone, Users, Crown, Edit } from 'lucide-react';
+import { User, Mail, MapPin, Phone, Users, Edit } from 'lucide-react';
 import Link from 'next/link';
+import { useGetProfileDataQuery } from '@/app/provider/Redux/service/profileApis';
 
-// Define types for user data
 interface UserData {
   name: string;
   profession: string;
@@ -12,10 +13,9 @@ interface UserData {
   phone: string;
   familyStatus: string;
   subscription: string;
-  avatar: string;
+  image: string;
 }
 
-// Define props for InfoCard component
 interface InfoCardProps {
   icon: React.ReactNode;
   title: string;
@@ -23,19 +23,19 @@ interface InfoCardProps {
 }
 
 const ProfilePage: React.FC = () => {
-  // Mock user data - in a real app this would come from API or context
+  const { data } = useGetProfileDataQuery();
+  console.log(data);
   const userData: UserData = {
-    name: 'Sarah Johnson',
-    profession: 'Senior UI/UX Designer',
-    address: '123 Main Street, San Francisco, CA',
-    email: 'sarah.johnson@example.com',
-    phone: '+1 (555) 123-4567',
-    familyStatus: 'Married, 2 children',
-    subscription: 'Premium Plan',
-    avatar: 'https://avatar.iran.liara.run/public/5',
+    name: data?.data?.fullName || 'Not available',
+    profession: data?.data?.proffession || 'Not available',
+    address: data?.data?.address || 'Not available',
+    email: data?.data?.email || 'Not available',
+    phone: data?.data?.contactNo || 'Not available',
+    familyStatus: data?.data?.familyStatus || 'Not available',
+    subscription: data?.data?.subscription || 'Not available',
+    image: data?.data?.img || 'https://avatar.iran.liara.run/public/5',
   };
 
-  // Info card component for each information section
   const InfoCard: React.FC<InfoCardProps> = ({ icon, title, value }) => (
     <div className="flex items-start gap-3 sm:gap-4 bg-white p-3 sm:p-4 rounded-lg shadow-sm">
       <div className="mt-0.5 sm:mt-1 text-[#072A5E]">
@@ -56,10 +56,10 @@ const ProfilePage: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-12 sm:pb-16">
         {/* Profile header section */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-8 sm:mb-12">
+        <div className="flex bg-gradient-to-r from-[#072A5E] to-[#072A5E] p-4 rounded-2xl flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-8 sm:mb-12">
           <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full overflow-hidden p-1 ring-2 sm:ring-4 ring-white shadow-lg mx-auto sm:mx-0">
             <Image
-              src={userData.avatar}
+              src={userData?.image}
               width={400}
               height={400}
               className="w-full h-full rounded-full object-cover"
@@ -69,15 +69,15 @@ const ProfilePage: React.FC = () => {
           </div>
           <div className="md:flex-1 w-full text-center sm:text-left">
             <div className="mb-3 sm:mb-0">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                {userData.name}
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                {userData?.name}
               </h1>
-              <p className="text-base sm:text-lg text-[#072A5E]">
-                {userData.profession}
+              <p className="text-base sm:text-lg text-white">
+                {userData?.profession}
               </p>
             </div>
             <Link href={'/profile-setting/edit-profile'}>
-              <button className="mt-3 sm:mt-2 cursor-pointer flex w-full sm:w-fit items-center justify-center sm:justify-start gap-2 bg-[#072A5E] hover:bg-[#072A5E] !text-white py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg transition-colors text-sm sm:text-base">
+              <button className="mt-3 sm:mt-2 cursor-pointer flex w-full sm:w-fit items-center justify-center sm:justify-start gap-2 bg-white hover:bg-gray-100 !text-[#072A5E] py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg transition-colors text-sm sm:text-base">
                 <Edit size={16} />
                 Edit Profile
               </button>
@@ -86,7 +86,7 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Subscription banner */}
-        <div className="bg-gradient-to-r from-[#072A5E] to-[#072A5E] !text-white p-3 sm:p-4 rounded-lg mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+        {/* <div className="bg-gradient-to-r from-[#072A5E] to-[#072A5E] !text-white p-3 sm:p-4 rounded-lg mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
           <div className="flex items-center gap-2 sm:gap-3">
             <Crown size={20} className="flex-shrink-0" />
             <div>
@@ -94,7 +94,7 @@ const ProfilePage: React.FC = () => {
                 Active Subscription
               </p>
               <p className="text-base sm:text-lg font-semibold">
-                {userData.subscription}
+                {userData?.subscription}
               </p>
             </div>
           </div>
@@ -103,7 +103,7 @@ const ProfilePage: React.FC = () => {
               Manage
             </button>
           </Link>
-        </div>
+        </div> */}
 
         {/* Personal information section */}
         <div>
@@ -111,26 +111,26 @@ const ProfilePage: React.FC = () => {
             Personal Information
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            <InfoCard icon={<User />} title="Full Name" value={userData.name} />
+            <InfoCard icon={<User />} title="Full Name" value={userData?.name} />
             <InfoCard
               icon={<Mail />}
               title="Email Address"
-              value={userData.email}
+              value={userData?.email}
             />
             <InfoCard
               icon={<MapPin />}
               title="Address"
-              value={userData.address}
+              value={userData?.address}
             />
             <InfoCard
               icon={<Phone />}
               title="Phone Number"
-              value={userData.phone}
+              value={userData?.phone}
             />
             <InfoCard
               icon={<Users />}
               title="Family Status"
-              value={userData.familyStatus}
+              value={userData?.familyStatus}
             />
           </div>
         </div>

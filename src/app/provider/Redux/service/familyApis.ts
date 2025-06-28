@@ -1,15 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import baseApis from "../query/baseApis";
 
-const familyApis = baseApis.injectEndpoints({
+export const familyApis = baseApis.injectEndpoints({
     endpoints: (builder) => ({
-        createFamily: builder.mutation({
-            query: (data) => ({
-                url: '/family',
-                method: 'POST',
-                body: data,
+        getFamilies: builder.query<any, void>({
+            query: () => ({
+                url: '/families',
+                method: 'GET',
             }),
+            providesTags: ['family'],
         }),
-    })
-})
+    }),
+});
 
-export const { useCreateFamilyMutation } = familyApis;
+export const {
+    useGetFamiliesQuery,
+} = familyApis;

@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState } from 'react';
 import Sidebar from './sidebar';
 import CreateAccount from '../steps/create-account';
 import Welcome from '../steps/welcome';
-import VerifyEmail from '../steps/VerifyEmail';
 import PersonalInformation from '../steps/personalInformation';
 export type Step = {
   id: number;
@@ -18,7 +16,6 @@ export type Step = {
 
 export default function SignUpFlow() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [value, setValues] = useState({});
   const [steps, setSteps] = useState<Step[]>([
     {
       id: 1,
@@ -38,14 +35,6 @@ export default function SignUpFlow() {
     },
     {
       id: 3,
-      title: 'Verify your email',
-      description: 'Enter your verification code',
-      icon: 'mail',
-      completed: false,
-      current: false,
-    },
-    {
-      id: 4,
       title: 'Welcome to Family legacy!',
       description: 'Thank you for join our family',
       icon: 'zap',
@@ -54,20 +43,8 @@ export default function SignUpFlow() {
     },
   ]);
 
-  const [formData, setFormData] = useState<{
-    step1: Record<string, any>;
-    step2: Record<string, any>;
-  }>({
-    step1: {},
-    step2: {},
-  });
-  console.log(value);
-  const goToNextStep = (step1Data?: Record<string, any>) => {
-    if (currentStep === 1 && step1Data) {
-      setFormData((prev) => ({ ...prev, step1: step1Data }));
-    }
-
-    if (currentStep < 4) {
+  const goToNextStep = () => {
+    if (currentStep < 3) {
       const newSteps = steps.map((step) => {
         if (step.id === currentStep) {
           return { ...step, completed: true, current: false };
@@ -96,14 +73,7 @@ export default function SignUpFlow() {
     }
   };
 
-  const handleFinalSubmit = (step2Data: Record<string, any>) => {
-    const completeData = {
-      ...formData.step1,
-      ...step2Data,
-    };
-    console.log('Complete form data:', completeData);
-    alert('Form submitted successfully!');
-    console.log(value);
+  const handleFinalSubmit = () => {
     goToNextStep();
   };
 
@@ -131,17 +101,11 @@ export default function SignUpFlow() {
         </div>
         <div className="flex-1 flex items-center justify-center p-8">
           <div className="w-full ">
-            {currentStep === 1 && (
-              <CreateAccount onContinue={goToNextStep} setValues={setValues} />
-            )}
+            {currentStep === 1 && <CreateAccount onContinue={goToNextStep} />}
             {currentStep === 2 && (
-              <PersonalInformation
-                onContinue={handleFinalSubmit}
-                setValues={setValues}
-              />
+              <PersonalInformation onContinue={handleFinalSubmit} />
             )}
-            {currentStep === 3 && <VerifyEmail onContinue={goToNextStep} />}
-            {currentStep === 4 && <Welcome />}
+            {currentStep === 3 && <Welcome />}
           </div>
         </div>
       </div>

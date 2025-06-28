@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
+import { useLoginMutation } from '@/app/provider/Redux/service/authApis';
 import { Button, Input, Divider, Typography, Form, Layout, Space } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+import { GoogleLogin } from '@react-oauth/google';
 const { Title, Text, Paragraph } = Typography;
 const { Content } = Layout;
 
@@ -11,14 +16,32 @@ interface LoginData {
   password: string;
 }
 export default function LoginPage() {
-  const handleSubmit = (value: LoginData) => {
-    const loginData = {
+  const [login, { isLoading: loginLoading }] = useLoginMutation();
+  const router = useRouter();
+
+  const handleSubmit = async (value: LoginData) => {
+    const data = {
       email: value.email,
       password: value.password,
+    };
+    try {
+      await login(data)
+        .unwrap()
+        .then((res) => {
+          if (res?.success) {
+            Cookies.remove('accessToken');
+            Cookies.set('accessToken', res?.data?.accessToken);
+            toast.success(res?.message);
+            router.push('/');
+          }
+        });
+    } catch (error: any) {
+      console.log(error);
+      toast.dismiss();
+      toast.error(error?.data?.message || 'Something went wrong!');
     }
-    console.log(loginData)
-    toast.success('Sign in Successfully')
   };
+
   return (
     <Layout className="min-h-screen">
       <Content className="h-screen grid lg:grid-cols-2">
@@ -83,6 +106,7 @@ export default function LoginPage() {
                   name="email"
                 >
                   <Input
+                    defaultValue={'niximew@mailinator.com'}
                     placeholder="Please Input Emial or User name"
                     size="large"
                   />
@@ -91,9 +115,10 @@ export default function LoginPage() {
                 <Form.Item
                   label={<Text type="secondary">Password</Text>}
                   style={{ marginBottom: 8 }}
-                  name='password'
+                  name="password"
                 >
                   <Input.Password
+                    defaultValue={'StrongP@ssw0rd'}
                     placeholder="please Enter password"
                     size="large"
                   />
@@ -109,6 +134,7 @@ export default function LoginPage() {
                   htmlType="submit"
                   size="large"
                   block
+                  loading={loginLoading}
                   style={{ backgroundColor: '#072a5e', color: 'white' }}
                 >
                   Sign in
@@ -116,7 +142,8 @@ export default function LoginPage() {
 
                 <Divider plain>or</Divider>
 
-                <Button
+                {/* <Button
+                  onClick={handleGoogleLogin}
                   size="large"
                   block
                   style={{
@@ -124,7 +151,6 @@ export default function LoginPage() {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
-
                 >
                   <Image
                     src="/icons/google.png"
@@ -134,7 +160,16 @@ export default function LoginPage() {
                     style={{ marginRight: 8 }}
                   />
                   Sign in with Google
-                </Button>
+                </Button> */}
+
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    console.log(credentialResponse);
+                  }}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
+                />
 
                 <div style={{ textAlign: 'center', marginTop: 24 }}>
                   <Text type="secondary" style={{ fontSize: '14px' }}>

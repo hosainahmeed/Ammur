@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Avatar, Badge, Dropdown, Menu } from 'antd';
@@ -14,6 +14,7 @@ import { UserOutlined, LogoutOutlined, BellOutlined } from '@ant-design/icons';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
 import { FaAngleDown } from 'react-icons/fa';
+import { useGetProfileDataQuery } from '@/app/provider/Redux/service/profileApis';
 type NavItem = {
   label: string;
   href: string;
@@ -56,7 +57,8 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isLogin, setIsLogin] = useState(false);
   const [isClient, setIsClient] = useState(false);
-
+  const { data } = useGetProfileDataQuery();
+  const router = useRouter();
   useEffect(() => {
     setIsClient(true);
     setIsMenuOpen(false);
@@ -64,12 +66,21 @@ export default function Navbar() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // const login = localStorage.getItem('login');
-      const login = Cookies.get('token');
-      console.log(login);
-      setIsLogin(login === 'true');
+      const token = Cookies.get('accessToken');
+      if (token) {
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
     }
-  }, []);
+  }, [router]);
+
+  const handleSignOut = () => {
+    Cookies.remove('accessToken');
+    toast.success('Log Out successfully');
+    router.push('/');
+    setIsLogin(false);
+  };
 
   const navItems: NavItem[] = [
     { label: 'Home', href: '/' },
@@ -95,13 +106,13 @@ export default function Navbar() {
           width={200}
           height={200}
           className="!w-12 !h-12 object-cover overflow-hidden rounded-full"
-          src={'https://avatar.iran.liara.run/public/16'}
+          src={'https://avatar.iran.liara.run/public/5'}
           alt="user profile image"
         />
         <div>
-          <h1 className="text-lg text-[#072B5F]">Sarah Johnson</h1>
+          <h1 className="text-lg text-[#072B5F]">{data?.data?.fullName}</h1>
           <h1 className="text-sm !font-normal leading-none">
-            sarah.johnson@example.com
+            {data?.data?.email}
           </h1>
         </div>
       </div>
@@ -112,12 +123,7 @@ export default function Navbar() {
       <Menu.Divider />
       <Menu.Item
         key="4"
-        onClick={() => {
-          localStorage.removeItem('login');
-          Cookies.remove('token');
-          toast.success('Log Out successfully');
-          window.location.reload();
-        }}
+        onClick={() => handleSignOut()}
         icon={<LogoutOutlined />}
       >
         Log out
@@ -133,7 +139,10 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full h-fit z-[999] backdrop-blur-2xl bg-[#0C469DB2]/80 !text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <motion.div whileHover={{ scale: 1.05 }}>
-          <Link href="/home" className="flex items-center gap-2">
+          <Link
+            href={`${isLogin ? '/home' : '/'}`}
+            className="flex items-center gap-2"
+          >
             <div className="relative w-8 h-8 rounded-full overflow-hidden bg-orange-500 flex items-center justify-center">
               <Image
                 src="/icons/IconOnly.svg"
@@ -191,7 +200,7 @@ export default function Navbar() {
               <div className="flex items-center justify-center gap-2 cursor-pointer">
                 <Avatar
                   size={40}
-                  src={'https://avatar.iran.liara.run/public/16'}
+                  src={'https://avatar.iran.liara.run/public/5'}
                   className="cursor-pointer"
                 />{' '}
                 <span>
@@ -318,7 +327,7 @@ export default function Navbar() {
                   <Button
                     onClick={() => {
                       localStorage.removeItem('login');
-                      Cookies.remove('token');
+                      Cookies.remove('accessToken');
                       toast.success('Log Out successfully');
                       window.location.reload();
                     }}

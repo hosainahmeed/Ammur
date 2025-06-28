@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Mail, User, Zap } from 'lucide-react';
 import type { Step } from './sign-up-flow';
 import Image from 'next/image';
-import { IoIosPricetag } from 'react-icons/io';
 import { MdMedicalInformation } from 'react-icons/md';
 interface SidebarProps {
   steps: Step[];
@@ -25,8 +24,6 @@ export default function Sidebar({
         return <MdMedicalInformation className="h-5 w-5 !text-white" />;
       case 'mail':
         return <Mail className="h-5 w-5 !text-white" />;
-      case 'price':
-        return <IoIosPricetag className="h-5 w-5 !text-white" />;
       case 'zap':
         return <Zap className="h-5 w-5 !text-white" />;
       default:
