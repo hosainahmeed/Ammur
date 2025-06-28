@@ -5,7 +5,7 @@ export interface TimelineEntryType {
   title: string;
   description: string;
   graveyard: string;
-  imageUrl: string;
+  img: string;
   comments: {
     authId: string;
     authImage: string;

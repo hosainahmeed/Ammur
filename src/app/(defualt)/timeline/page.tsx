@@ -2,22 +2,13 @@
 import TimelineEntry from '@/components/Sections/timeline-page/TimelineEntry';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
-import { timelineData } from '@/lib/timelineData';
 import React from 'react';
 import { Empty } from 'antd';
+import { useGetTimelinesQuery } from '@/app/provider/Redux/service/timelineApis';
 
 function Page() {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const filteredTimelineData = timelineData.filter(({ title, description }) => {
-    const titleMatches = title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const descriptionMatches = description
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    return titleMatches || descriptionMatches;
-  });
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const { data } = useGetTimelinesQuery({ searchTerm: searchQuery });
 
   return (
     <div className="container mx-auto px-4 py-8 bg-white min-h-screen">
@@ -26,14 +17,15 @@ function Page() {
         setSearchQuery={setSearchQuery}
       />
       <div className="mt-12 space-y-24">
-        {filteredTimelineData.length === 0 ? (
+        {data?.data?.length === 0 ? (
           <div className="text-center text-gray-600">
             <Empty description="No results found" />
           </div>
         ) : (
-          filteredTimelineData.map((entry, index) => (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          data?.data?.map((entry: any, index: number) => (
             <TimelineEntry
-              key={entry.id}
+              key={entry?._id}
               entry={entry}
               isAlternate={index % 2 === 1}
             />
