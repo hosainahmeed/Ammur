@@ -30,10 +30,10 @@ const LegacyEntry = ({ entry }: TimelineEntryProps) => {
 
   const handleSubmit = (values: { comment: string }) => {
     const newComment = {
-      authId: 'new_user_id',
-      authImage: '/default-avatar.jpg',
-      authName: 'New User',
-      commentDescription: values.comment,
+      userId: 'new_user_id',
+      img: '/default-avatar.jpg',
+      name: 'New User',
+      description: values.comment,
     };
     setComments([...comments, newComment]);
     form.resetFields();
@@ -58,7 +58,7 @@ const LegacyEntry = ({ entry }: TimelineEntryProps) => {
           )}
         >
           <Image
-            src={entry.imageUrl || '/placeholder.svg'}
+            src={entry.img || '/placeholder.svg'}
             alt={entry.title}
             width={1200}
             height={1200}
@@ -130,7 +130,7 @@ const LegacyEntry = ({ entry }: TimelineEntryProps) => {
             <span>{comments.length}</span>
           </Button>
             <Button
-              onClick={() => handleClick(entry.id)}
+              onClick={() => handleClick(entry._id)}
               icon={<FaEye />}
               className="!w-fit !px-2  !bg-[#E7EDF5] "
             >
@@ -181,20 +181,20 @@ const LegacyEntry = ({ entry }: TimelineEntryProps) => {
                           <Avatar
                             shape="circle"
                             size={24}
-                            src={comment.authImage || '/default-avatar.jpg'}
+                            src={comment.img || '/default-avatar.jpg'}
                             className="rounded-md"
                           />
                         }
                         title={
                           <div className="flex items-center gap-2">
                             <span className="font-bold">
-                              {comment.authName}
+                              {comment.name}
                             </span>
                           </div>
                         }
                         description={
                           <div className="line-clamp-2 text-sm text-gray-600">
-                            {comment.commentDescription}
+                            {comment.description}
                           </div>
                         }
                       />

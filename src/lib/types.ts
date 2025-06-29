@@ -1,5 +1,5 @@
 export interface TimelineEntryType {
-  id: string;
+  _id: string;
   date: string;
   year: string;
   title: string;
@@ -7,10 +7,13 @@ export interface TimelineEntryType {
   graveyard: string;
   img: string;
   comments: {
-    authId: string;
-    authImage: string;
-    authName: string;
-    commentDescription: string;
+    fullName: string;
+    userId: {
+      _id: string;
+      fullName: string;
+      img: string;
+    }
+    description: string;
   }[];
 }
 export interface ArchiveEntryType {
@@ -22,10 +25,10 @@ export interface ArchiveEntryType {
   description: string;
   imageUrl: string;
   comments: {
-    authId: string;
-    authImage: string;
-    authName: string;
-    commentDescription: string;
+    userId: string;
+    img: string;
+    name: string;
+    description: string;
   }[];
 }
 export interface LagecyEntryType {
@@ -37,14 +40,14 @@ export interface LagecyEntryType {
   description: string;
   imageUrl: string;
   comments: {
-    authId: string;
-    authImage: string;
-    authName: string;
-    commentDescription: string;
+    userId: string;
+    img: string;
+    name: string;
+    description: string;
   }[];
 }
 export type Category = {
-  id?:string,
+  id?: string,
   title: string;
   icon: string;
 };

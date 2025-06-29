@@ -40,6 +40,22 @@ const timelineApis = baseApis.injectEndpoints({
       }),
       invalidatesTags: ['timeline', 'timelineSingle'],
     }),
+    getComment: builder.query<any, { id: string }>({
+      query: ({ id }: { id: string }) => ({
+        url: `/comments`,
+        method: 'GET',
+        params: { timelineId: id },
+      }),
+      providesTags: ['comment', 'timelineSingle', 'timeline'],
+    }),
+    createComment: builder.mutation({
+      query: ({ data }) => ({
+        url: `/comments/create-comment`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['comment', 'timelineSingle', 'timeline'],
+    }),
   }),
 });
 
@@ -49,4 +65,7 @@ export const {
   useDeleteTimelineEntryMutation,
   useGetSingleTimelineEntryQuery,
   useUpdateTimelineEntryMutation,
+  //comment
+  useGetCommentQuery,
+  useCreateCommentMutation,
 } = timelineApis;

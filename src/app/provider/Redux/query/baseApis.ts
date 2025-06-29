@@ -9,7 +9,7 @@ const baseApis = createApi({
             Authorization: `${Cookies.get('accessToken')}`,
         },
     }),
-    tagTypes: ['timeline', 'timelineSingle', 'archive', 'archiveSub', 'family', 'profile'],
+    tagTypes: ['timeline', 'timelineSingle', 'archive', 'archiveSub', 'family', 'profile', 'comment'],
     endpoints: () => ({}),
 });
 
