@@ -46,11 +46,7 @@ export interface LagecyEntryType {
     description: string;
   }[];
 }
-export type Category = {
-  id?: string,
-  title: string;
-  icon: string;
-};
+
 
 export type Blog = {
   title: string;
