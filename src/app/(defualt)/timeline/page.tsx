@@ -3,36 +3,38 @@ import TimelineEntry from '@/components/Sections/timeline-page/TimelineEntry';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
 import React from 'react';
-import { Empty } from 'antd';
+import { Empty, Spin } from 'antd';
 import { useGetTimelinesQuery } from '@/app/provider/Redux/service/timelineApis';
+import { TimelineEntryType } from '@/types/models';
 
 function Page() {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const { data } = useGetTimelinesQuery({ searchTerm: searchQuery });
+  const { data, isLoading } = useGetTimelinesQuery({ searchTerm: searchQuery });
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-white min-h-screen">
-      <TimelineHeader
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      <div className="mt-12 space-y-24">
-        {data?.data?.length === 0 ? (
-          <div className="text-center text-gray-600">
-            <Empty description="No results found" />
-          </div>
-        ) : (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          data?.data?.map((entry: any, index: number) => (
-            <TimelineEntry
-              key={entry?._id}
-              entry={entry}
-              isAlternate={index % 2 === 1}
-            />
-          ))
-        )}
+    <Spin spinning={isLoading}>
+      <div className="container mx-auto px-4 py-8 bg-white min-h-screen">
+        <TimelineHeader
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+        <div className="mt-12 space-y-24">
+          {data?.data?.length === 0 ? (
+            <div className="text-center text-gray-600">
+              <Empty description="No results found" />
+            </div>
+          ) : (
+            data?.data?.map((entry: TimelineEntryType, index: number) => (
+              <TimelineEntry
+                key={entry?._id}
+                entry={entry}
+                isAlternate={index % 2 === 1}
+              />
+            ))
+          )}
+        </div>
       </div>
-    </div>
+    </Spin>
   );
 }
 

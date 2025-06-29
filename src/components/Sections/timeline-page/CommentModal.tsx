@@ -91,7 +91,6 @@ function CommentModal({
         </div>
 
         <div className="border-t pt-4">
-          {/* <h3 className="text-lg font-semibold mb-3">Leave a comment...</h3> */}
           <Form form={form} onFinish={handleSubmit}>
             <Form.Item
               name="description"

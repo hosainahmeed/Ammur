@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import baseApis from "../query/baseApis";
 
 export const familyApis = baseApis.injectEndpoints({
@@ -10,9 +9,20 @@ export const familyApis = baseApis.injectEndpoints({
             }),
             providesTags: ['family'],
         }),
+        familyDirection: builder.query<any, { searchTerm: string }>({
+            query: ({ searchTerm }) => ({
+                url: `/users`,
+                method: 'GET',
+                params: {
+                    proffession: searchTerm,
+
+                }
+            }),
+        }),
     }),
 });
 
 export const {
     useGetFamiliesQuery,
+    useFamilyDirectionQuery,
 } = familyApis;

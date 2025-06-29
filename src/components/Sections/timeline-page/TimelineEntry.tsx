@@ -3,13 +3,13 @@ import Image from 'next/image';
 import { useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import type { TimelineEntryType } from '@/lib/types';
 import { Button, Modal, Form } from 'antd';
 import { MdInsertComment } from 'react-icons/md';
 import { useGetProfileDataQuery } from '@/app/provider/Redux/service/profileApis';
 import { useCreateCommentMutation } from '@/app/provider/Redux/service/timelineApis';
 import { toast } from 'sonner';
 import CommentModal from './CommentModal';
+import { TimelineEntryType } from '@/types/models';
 interface TimelineEntryProps {
   entry: TimelineEntryType;
   isAlternate?: boolean;

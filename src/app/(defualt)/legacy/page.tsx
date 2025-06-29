@@ -1,7 +1,6 @@
 'use client';
 
 import LegacyEntry from '@/components/lagacy/LegacyEntry';
-import { timelineData } from '@/lib/timelineData';
 import { useSearchParams } from 'next/navigation';
 import React, { Suspense } from 'react';
 
@@ -20,7 +19,7 @@ function LegacyList() {
         Family Legacy & Tributes
       </h1>
       <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {paginationTimelineData.map((entry) => (
+        {paginationTimelineData.map((entry: any) => (
           <LegacyEntry key={entry.id} entry={entry} />
         ))}
       </div>

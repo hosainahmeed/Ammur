@@ -36,7 +36,7 @@ export default function BlogDetailPage() {
         <Image
           src={data?.data?.img}
           alt={data?.data?.title}
-          className="w-full h-[600px] object-cover mb-8"
+          className="w-full h-auto max-h-[400px] object-contain mb-8"
           width={400}
           height={400}
         />

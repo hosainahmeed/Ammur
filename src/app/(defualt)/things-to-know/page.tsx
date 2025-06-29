@@ -23,7 +23,7 @@ export default function ThingsToKnow() {
 
   return (
     <Spin spinning={isLoading}>
-      <div className="my-28">
+      <div className="my-28 min-h-screen">
         <Head>
           <title>Things to Know</title>
         </Head>
@@ -44,7 +44,7 @@ export default function ThingsToKnow() {
                     height={60}
                     className="mb-4 max-w-[60px] max-h-[60px] h-[60px] w-[60px] object-cover"
                   />
-                  <h3 className="text-blue-800 text-lg font-semibold mb-4">
+                  <h3 className="text-blue-800 text-center text-lg font-semibold mb-4">
                     {category?.title}
                   </h3>
                   <Button

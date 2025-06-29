@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Input, Card, Typography, Badge } from 'antd';
+import { useState } from 'react';
+import { Input, Card, Typography, Badge, Spin, Empty } from 'antd';
 import {
   SearchOutlined,
   EnvironmentOutlined,
@@ -10,8 +10,9 @@ import {
   TeamOutlined,
 } from '@ant-design/icons';
 import Image from 'next/image';
-import { FamilyMember } from '@/lib/types';
-import { familyMembers } from '@/lib/familyData';
+import { FamilyMember } from '@/types/models';
+import { useFamilyDirectionQuery } from '@/app/provider/Redux/service/familyApis';
+import debounce from 'lodash/debounce';
 
 const { Title, Text } = Typography;
 
@@ -28,25 +29,29 @@ const MemberCard = ({ member }: MemberCardProps) => {
       <div className="relative">
         <div className="h-64 w-full bg-gray-200">
           <Image
-            src={member.photoUrl}
-            alt={member.name}
+            src={member.img}
+            alt={member.fullName}
             className="!w-full !h-full !object-cover"
             width={400}
             height={250}
           />
         </div>
-        <Badge.Ribbon text={member.role} color="blue" className="font-medium" />
+        <Badge.Ribbon
+          text={member.proffession}
+          color="black"
+          className="font-medium"
+        />
       </div>
 
       <div className="p-6">
         <Title level={4} className="mb-4 font-bold">
-          {member.name}
+          {member.fullName}
         </Title>
 
         <div className="space-y-3">
           <div className="flex items-center text-gray-600">
             <EnvironmentOutlined className="mr-2 text-blue-600" />
-            <Text className="text-sm">{member.location}</Text>
+            <Text className="text-sm">{member.eldestRelative}</Text>
           </div>
 
           <div className="flex items-center text-gray-600">
@@ -56,94 +61,79 @@ const MemberCard = ({ member }: MemberCardProps) => {
 
           <div className="flex items-center text-gray-600">
             <PhoneOutlined className="mr-2 text-blue-600" />
-            <Text className="text-sm">{member.phone}</Text>
+            <Text className="text-sm">{member.contactNo}</Text>
           </div>
 
           <div className="flex items-center text-gray-600">
             <TeamOutlined className="mr-2 text-blue-600" />
-            <Text className="text-sm">{member.family}</Text>
+            <Text className="text-sm">{member.familyName}</Text>
           </div>
         </div>
-
-        {/* <div className="mt-6 pt-4 border-t border-gray-200">
-          <button className="w-full py-2 !bg-[#072A5E] !text-white rounded-md hover:!bg-[#072A5E] transition-colors duration-300">
-            View Profile
-          </button>
-        </div> */}
       </div>
     </Card>
   );
 };
 
 export default function DirectoryPage() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const { data } = useFamilyDirectionQuery({ searchTerm: searchTerm });
 
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-    }, 500); // Delay of 500ms
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [searchTerm]);
-
-  const filteredMembers = familyMembers.filter(
-    (member) =>
-      member.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
-      member.role.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
-      member.family.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-  );
+  const debouncedSearchTerm = debounce((value: string) => {
+    setLoading(true);
+    setSearchTerm(value.toLowerCase());
+    setLoading(false);
+  }, 500);
 
   return (
-    <div className="py-28 bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <Title level={1} className="text-4xl font-bold mb-4">
-            Our Family Directory
-          </Title>
-          <Text className="text-lg text-gray-600">
-            Connect with our extended family members across the world
-          </Text>
-        </div>
+    <Spin spinning={loading}>
+      <div className="py-28 bg-gray-50 min-h-screen">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <Title level={1} className="text-4xl font-bold mb-4">
+              Our Family Directory
+            </Title>
+            <Text className="text-lg text-gray-600">
+              Connect with our extended family members across the world
+            </Text>
+          </div>
 
-        <div className="mb-12 flex justify-center">
-          <Input
-            placeholder="Search by name, role or family"
-            prefix={<SearchOutlined className="text-gray-400" />}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full max-w-md text-lg py-2 rounded-full shadow"
-            size="large"
-          />
-        </div>
-
-        {debouncedSearchTerm && (
-          <p className="text-center text-gray-500 mb-8">
-            Search results for{' '}
-            <span className="font-medium">{`"${debouncedSearchTerm}"`}</span>
-          </p>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredMembers.length > 0 ? (
-            filteredMembers.map((member: FamilyMember, index) => (
-              <MemberCard key={index} member={member} />
-            ))
-          ) : (
-            <div className="col-span-3 py-16 text-center">
-              <Title level={4} className="text-gray-500">
-                No family members found
-              </Title>
-              <Text className="text-gray-400">
-                Try adjusting your search criteria
-              </Text>
-            </div>
-          )}
+          <div className="mb-12 flex justify-center">
+            <Input
+              placeholder="Search by profession"
+              prefix={<SearchOutlined className="text-gray-400" />}
+              onChange={(e) => debouncedSearchTerm(e.target.value)}
+              className="w-full max-w-md text-lg py-2 rounded-full shadow"
+              size="large"
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {data?.data?.length > 0 ? (
+              data?.data?.map((member: FamilyMember, index: number) => (
+                <MemberCard key={index} member={member} />
+              ))
+            ) : searchTerm === '' ? (
+              <div className="col-span-3 py-16 text-center">
+                <Title level={4} className="text-gray-500">
+                  Please search with profession
+                </Title>
+                <Text className="text-gray-400">
+                  Try adjusting your search criteria
+                </Text>
+              </div>
+            ) : (
+              <div className="col-span-3 py-16 text-center">
+                <Title level={4} className="text-gray-500">
+                  No family members found
+                </Title>
+                <Text className="text-gray-400">
+                  Try adjusting your search criteria
+                </Text>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </Spin>
   );
 }
