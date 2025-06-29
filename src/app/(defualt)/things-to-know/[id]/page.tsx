@@ -11,13 +11,23 @@ export default function CategoryPage() {
   const router = useRouter();
   const params = useParams();
   const id = params?.id;
-  const { data } = useSingleThingsToKnowQuery({ id: id as string });
+  const { data, isLoading } = useSingleThingsToKnowQuery({ id: id as string });
   const handleCardClick = (blog: any) => {
     router.push(`/things-to-know/${id}/${blog?._id}`);
   };
 
+  if (isLoading) {
+    return (
+      <div className="container mx-auto my-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+          <Card className="h-48" loading key={item} />
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div className="px-2 py-28">
+    <div className="px-2 my-28">
       <div className="mx-auto container">
         <Alert
           className="!mb-5"
@@ -28,7 +38,11 @@ export default function CategoryPage() {
                   title: <Link href="/things-to-know">Things to know</Link>,
                 },
                 {
-                  title: <Link href={`/things-to-know/${id}`}>{data?.data?.title}</Link>,
+                  title: (
+                    <Link href={`/things-to-know/${id}`}>
+                      {data?.data?.title}
+                    </Link>
+                  ),
                 },
               ]}
             />

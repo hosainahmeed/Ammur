@@ -12,18 +12,28 @@ export type Category = {
   img: string;
 };
 
+const LoadingSkeleton = () => (
+  <div className="grid container min-h-screen my-28 mx-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {[1, 2, 3, 4, 5, 6].map((i) => (
+      <Card key={i} loading className="h-48" />
+    ))}
+  </div>
+);
 
 export default function ThingsToKnow() {
   const { data, isLoading } = useGetThingsToKnowQuery();
-  console.log(data);
   const router = useRouter();
   const handleClick = (category: Category) => {
     router.push(`/things-to-know/${category._id}`);
   };
 
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
+
   return (
     <Spin spinning={isLoading}>
-      <div className="my-28 min-h-screen">
+      <div className="my-28">
         <Head>
           <title>Things to Know</title>
         </Head>

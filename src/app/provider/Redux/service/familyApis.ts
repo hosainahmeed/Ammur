@@ -14,7 +14,7 @@ export const familyApis = baseApis.injectEndpoints({
                 url: `/users`,
                 method: 'GET',
                 params: {
-                    proffession: searchTerm,
+                    searchTerm: searchTerm,
 
                 }
             }),

@@ -3,13 +3,41 @@ import TimelineEntry from '@/components/Sections/timeline-page/TimelineEntry';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
 import React from 'react';
-import { Empty, Spin } from 'antd';
+import { Card, Empty, Skeleton, Spin } from 'antd';
 import { useGetTimelinesQuery } from '@/app/provider/Redux/service/timelineApis';
 import { TimelineEntryType } from '@/types/models';
 
 function Page() {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const { data, isLoading } = useGetTimelinesQuery({ searchTerm: searchQuery });
+  const { data, isLoading,isError } = useGetTimelinesQuery({ searchTerm: searchQuery });
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto my-28 px-4 py-8 bg-white">
+        {Array(2)
+          .fill(0)
+          .map((_, index: number) => (
+            <div
+              key={index}
+              className={`flex items-start !mb-12 gap-4 ${
+                index % 2 === 1 ? 'flex-row-reverse' : 'flex-row'
+              }`}
+            >
+              <Card loading className="w-full h-48"></Card>
+              <Skeleton loading title active className="w-full" />
+            </div>
+          ))}
+      </div>
+    );
+  }
+
+  if(isError){
+    return (
+      <div className="container mx-auto my-28 px-4 py-8 bg-white">
+        <Empty description="No results found" />
+      </div>
+    );
+  }
 
   return (
     <Spin spinning={isLoading}>
