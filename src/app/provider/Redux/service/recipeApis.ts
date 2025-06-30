@@ -2,7 +2,7 @@ import baseApis from "../query/baseApis";
 
 const recipeApis = baseApis.injectEndpoints({
   endpoints: (builder) => ({
-    getRecipe: builder.query({
+    getRecipe: builder.query<any, void>({
       query: () => ({
         url: `/recipes`,
         method: 'GET',
@@ -17,7 +17,7 @@ const recipeApis = baseApis.injectEndpoints({
       }),
       invalidatesTags: ['recipe'],
     }),
-    updateRecipe: builder.mutation({
+    updateRecipe: builder.mutation<string, any>({
       query: ({ id, data }) => ({
         url: `/recipes/${id}`,
         method: 'PATCH',
@@ -25,14 +25,14 @@ const recipeApis = baseApis.injectEndpoints({
       }),
       invalidatesTags: ['recipe'],
     }),
-    deleteRecipe: builder.mutation({
+    deleteRecipe: builder.mutation<any, any>({
       query: ({ id }) => ({
         url: `/recipes/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['recipe'],
     }),
-    getSingleRecipe: builder.query({
+    getSingleRecipe: builder.query<any, any>({
       query: ({ id }) => ({
         url: `/recipes/${id}`,
         method: 'GET',
