@@ -4,6 +4,7 @@ import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 import ReduxWrapper from './provider/Redux/ReduxWrapper';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { SocketProvider } from '@/context/SocketContext';
 export const metadata: Metadata = {
   title: {
     default: 'Family legacy',
@@ -22,13 +23,15 @@ export default function RootLayout({
   return (
     <GoogleOAuthProvider clientId={clientId as string}>
       <ReduxWrapper>
-        <html lang="en">
-          <body className={`antialiased`}>
-            <NextTopLoader />
-            <Toaster position="top-center" />
-            {children}
-          </body>
-        </html>
+        <SocketProvider>
+          <html lang="en">
+            <body className={`antialiased`}>
+              <NextTopLoader />
+              <Toaster position="top-center" />
+              {children}
+            </body>
+          </html>
+        </SocketProvider>
       </ReduxWrapper>
     </GoogleOAuthProvider>
   );

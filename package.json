@@ -27,6 +27,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "country-state-city": "^3.2.1",
+    "emoji-picker-react": "^4.12.3",
     "family-chart": "^0.2.1",
     "file-saver": "^2.0.5",
     "framer-motion": "^12.10.4",
@@ -44,6 +45,7 @@
     "react-phone-input-2": "^2.15.1",
     "react-redux": "^9.2.0",
     "react-window": "^1.8.11",
+    "socket.io-client": "^4.8.1",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.2.0",
     "xlsx": "^0.18.5"

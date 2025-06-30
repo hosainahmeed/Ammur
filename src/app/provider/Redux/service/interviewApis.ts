@@ -36,7 +36,7 @@ const interviewApis = baseApis.injectEndpoints({
     }),
     // interview
     getAllInterview: builder.query({
-      query: (id) => ({
+      query: ({ id }) => ({
         url: `/interviews/category-id/${id}`,
         method: 'GET',
       }),
@@ -68,6 +68,13 @@ const interviewApis = baseApis.injectEndpoints({
       },
       invalidatesTags: ['interview'],
     }),
+    getSingleInterview: builder.query({
+      query: (id) => ({
+        url: `/interviews/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['interview'],
+    }),
   }),
 });
 
@@ -82,4 +89,5 @@ export const {
   useDeleteInterviewMutation,
   useUpdateInterviewMutation,
   useCreateInterviewMutation,
+  useGetSingleInterviewQuery,
 } = interviewApis;

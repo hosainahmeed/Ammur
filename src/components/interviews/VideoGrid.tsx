@@ -8,6 +8,7 @@ import VideoCard from './VideoCardProps';
 import Pagination from '../ui/pagination';
 import { Breadcrumb } from 'antd';
 import Link from 'next/link';
+import { useGetAllInterviewQuery } from '@/app/provider/Redux/service/interviewApis';
 
 export const allVideos = [
   ...videos,
@@ -61,11 +62,12 @@ export const allVideos = [
   },
 ];
 
-export default function VideoGrid({ slug }: { slug: any }) {
+export default function VideoGrid({ slug }: { slug: string }) {
   const [selectedVideo, setSelectedVideo] = useState<(typeof videos)[0] | null>(
     null
   );
-  console.log(slug);
+  const { data } = useGetAllInterviewQuery({ id: slug }, { skip: !slug });
+  console.log(data?.data);
   const [currentPage, setCurrentPage] = useState(1);
   const videosPerPage = 6;
 
@@ -93,7 +95,7 @@ export default function VideoGrid({ slug }: { slug: any }) {
         ]}
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {currentVideos.map((video) => (
+        {data?.data?.map((video: any) => (
           <VideoCard key={video.id} video={video} />
         ))}
       </div>

@@ -67,7 +67,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
       >
         <div
           className={cn(
-            'relative overflow-hidden rounded-lg shadow-md aspect-[5/3]',
+            'relative overflow-hidden rounded-lg shadow-md sm:aspect-[5/3] md:aspect-[16/9]',
             isAlternate && 'lg:col-start-2'
           )}
         >
@@ -103,7 +103,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
           <p
             className="text-gray-600 text-lg mb-4 leading-relaxed"
             dangerouslySetInnerHTML={{
-              __html: entry?.description.slice(0, 400) + '...',
+              __html: entry?.description.slice(0, 300) + '...',
             }}
           />
           <div className="flex items-center justify-start gap-2">
@@ -112,7 +112,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
                 setSelectPost(entry);
                 handleComment();
               }}
-              className="!w-fit  !my-12 !bg-[#E7EDF5] !p-4 !py-6"
+              className="!w-fit !bg-[#E7EDF5] !p-4 !py-6"
             >
               <MdInsertComment />
               <span>{entry?.comments?.length}</span>

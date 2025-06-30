@@ -3,11 +3,10 @@
 import Image from 'next/image';
 import { Play, Clock } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Video } from '@/lib/types';
 import { useParams, useRouter } from 'next/navigation';
 
 interface VideoCardProps {
-  video: Video;
+  video: any;
 }
 
 export default function VideoCard({ video }: VideoCardProps) {
@@ -15,19 +14,18 @@ export default function VideoCard({ video }: VideoCardProps) {
   const router = useRouter();
 
   const handleCardClick = (id: string) => {
-    console.log(id)
     router.push(`/interviews/${slug}/${id}`);
   };
 
   return (
     <Card
       className="overflow-hidden transition-all duration-300  hover:shadow-lg cursor-pointer group"
-      onClick={() => handleCardClick(video.id)}
+      onClick={() => handleCardClick(video?._id)}
     >
       <div className="relative aspect-video">
         <Image
-          src={video.thumbnail || '/placeholder.svg'}
-          alt={video.title}
+          src={video?.img || '/placeholder.svg'}
+          alt={video?.title}
           fill
           className="!w-full !h-full object-cover"
         />
@@ -39,14 +37,14 @@ export default function VideoCard({ video }: VideoCardProps) {
       </div>
       <CardContent className="p-4">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="font-semibold text-lg">{video.title}</h3>
+          <h3 className="font-semibold text-lg">{video?.title}</h3>
           <div className="flex items-center text-sm text-gray-500">
             <Clock className="h-3 w-3 mr-1" />
-            <span>{video.duration}</span>
+            <span>{video?.duration}</span>
           </div>
         </div>
         <p className="text-sm text-gray-600 line-clamp-2">
-          {video.description}
+          {video?.description}
         </p>
       </CardContent>
     </Card>

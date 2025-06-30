@@ -21,6 +21,8 @@ const baseApis = createApi({
         'interview',
         'interviewCategory',
         'notification',
+        'room',
+        'recipe',
     ],
     endpoints: () => ({}),
 });
