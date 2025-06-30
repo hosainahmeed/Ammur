@@ -1,25 +1,20 @@
 'use client';
 
 import LegacyEntry from '@/components/lagacy/LegacyEntry';
-import { useSearchParams } from 'next/navigation';
+import { useGetLegacyQuery } from '@/lib/lagecyApis';
+// import { useSearchParams } from 'next/navigation';
 import React, { Suspense } from 'react';
 
 function LegacyList() {
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get('page')) || 1;
-  const recipesPerPage = 6;
-
-  const startIndex = (page - 1) * recipesPerPage;
-  const endIndex = startIndex + recipesPerPage;
-  const paginationTimelineData = timelineData.slice(startIndex, endIndex);
-
+  const { data, isLoading, error } = useGetLegacyQuery();
+  console.log(data?.data);
   return (
     <div className="container mx-auto px-4 py-28 bg-white min-h-screen">
       <h1 className="text-3xl font-bold text-center mb-8">
         Family Legacy & Tributes
       </h1>
       <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {paginationTimelineData.map((entry: any) => (
+        {data?.data?.map((entry: any) => (
           <LegacyEntry key={entry.id} entry={entry} />
         ))}
       </div>
@@ -32,7 +27,9 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <div className="py-20 min-h-screen text-center">Loading legacy entries...</div>
+        <div className="py-20 min-h-screen text-center">
+          Loading legacy entries...
+        </div>
       }
     >
       <LegacyList />

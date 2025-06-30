@@ -23,6 +23,7 @@ const baseApis = createApi({
         'notification',
         'room',
         'recipe',
+        'legacy',
     ],
     endpoints: () => ({}),
 });
