@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import Cookies from 'js-cookie';
 import { FaAngleDown } from 'react-icons/fa';
 import { useGetProfileDataQuery } from '@/app/provider/Redux/service/profileApis';
+import { useGetNotificationQuery } from '@/app/provider/Redux/service/notificationApis';
 type NavItem = {
   label: string;
   href: string;
@@ -58,6 +59,7 @@ export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const { data } = useGetProfileDataQuery();
+  const { data: notificationData } = useGetNotificationQuery();
   const router = useRouter();
   useEffect(() => {
     setIsClient(true);
@@ -99,6 +101,9 @@ export default function Navbar() {
     return pathname === href || (href !== '/' && pathname.startsWith(href));
   };
 
+  const unreadCount =
+    notificationData?.data?.filter((notif: any) => !notif?.isRead).length || 0;
+  console.log(notificationData);
   const menu = (
     <Menu className="min-w-48 rounded-xl shadow-lg">
       <div className="p-4 flex items-center gap-3">
@@ -186,8 +191,8 @@ export default function Navbar() {
         {isLogin ? (
           <div className="items-center 2xl:flex hidden gap-4 text-2xl">
             <Link href={'/notification'}>
-              <Badge count={3} size="small" color="#3b5560">
-                <Button className="!text-white bg-transparent hover:bg-black/10 !rounded-full">
+              <Badge count={unreadCount} size="small" color="#3b5560">
+                <Button className="!text-white bg-transparent hover:bg-black/10 w-10 h-10 !rounded-full">
                   <BellOutlined />
                 </Button>
               </Badge>
@@ -245,7 +250,7 @@ export default function Navbar() {
             className="2xl:hidden !text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
             href={'/notification'}
           >
-            <Badge count={3} size="small" color="#3b5560">
+            <Badge count={unreadCount} size="small" color="#3b5560">
               <Button className="!text-white bg-transparent hover:bg-black/10 !rounded-full">
                 <BellOutlined size={12} />
               </Button>

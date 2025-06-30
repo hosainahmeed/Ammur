@@ -65,17 +65,16 @@ export default function VideoGrid({ slug }: { slug: any }) {
   const [selectedVideo, setSelectedVideo] = useState<(typeof videos)[0] | null>(
     null
   );
+  console.log(slug);
   const [currentPage, setCurrentPage] = useState(1);
   const videosPerPage = 6;
 
-  // Calculate the videos to display on the current page
   const currentVideos = useMemo(() => {
     const indexOfLastVideo = currentPage * videosPerPage;
     const indexOfFirstVideo = indexOfLastVideo - videosPerPage;
     return allVideos.slice(indexOfFirstVideo, indexOfLastVideo);
   }, [currentPage]);
 
-  // Calculate total number of pages
   const totalPages = Math.ceil(allVideos.length / videosPerPage);
 
   return (
@@ -95,7 +94,7 @@ export default function VideoGrid({ slug }: { slug: any }) {
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {currentVideos.map((video) => (
-          <VideoCard key={video.id} video={video} /> 
+          <VideoCard key={video.id} video={video} />
         ))}
       </div>
 

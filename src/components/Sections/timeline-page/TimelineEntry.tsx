@@ -17,7 +17,7 @@ interface TimelineEntryProps {
 
 const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectPost, setSelectPost] = useState<TimelineEntryType | null>(null);
+  const [selectPost, setSelectPost] = useState<any | null>(null);
   const [form] = Form.useForm();
   const { data: profileData } = useGetProfileDataQuery();
   const [createComment, { isLoading: isCommentLoading }] =
@@ -76,7 +76,7 @@ const TimelineEntry = ({ entry, isAlternate = false }: TimelineEntryProps) => {
             alt={entry?.title}
             width={400}
             height={400}
-            className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500"
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60"></div>
         </div>

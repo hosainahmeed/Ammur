@@ -1,128 +1,210 @@
-'use client'
-import { Button } from '@/components/ui/button';
-import React from 'react';
+'use client';
+import React, { useMemo, useCallback, memo } from 'react';
+import { FixedSizeList as List } from 'react-window';
+import { FaBell, FaUser } from 'react-icons/fa';
+import { CiSettings } from 'react-icons/ci';
+import { Button, Card, Spin, Badge } from 'antd';
+import {
+  useGetNotificationQuery,
+  useMarkAsReadMutation,
+} from '@/app/provider/Redux/service/notificationApis';
+import { toast } from 'sonner';
+import { MdEmojiEvents } from 'react-icons/md';
 
-interface NotificationItem {
-  id: string;
-  message: string;
-  time: string;
-  timestamp: string;
-}
+const AllNotificationPage = () => {
+  const { data, isLoading, error } = useGetNotificationQuery();
+  const [markAsReadApis, { isLoading: markAsReadLoading }] =
+    useMarkAsReadMutation();
+  const notifications = useMemo(() => data?.data || [], [data]);
 
-const NotificationComponent: React.FC = () => {
-  const notifications: NotificationItem[] = [
-    {
-      id: '1',
-      message: 'A new comment has been uploaded to Block History Timeline',
-      time: 'a new message has arrived',
-      timestamp: '2 hours ago',
-    },
-    {
-      id: '2',
-      message: 'A new comment has been uploaded to Block History Timeline',
-      time: 'a new message has arrived',
-      timestamp: '3 hours ago',
-    },
-    {
-      id: '3',
-      message: 'A new comment has been uploaded to Block History Timeline',
-      time: 'a new message has arrived',
-      timestamp: '5 hours ago',
-    },
-    {
-      id: '4',
-      message: 'A new comment has been uploaded to Block History Timeline',
-      time: 'a new message has arrived',
-      timestamp: '1 day ago',
-    },
-    {
-      id: '5',
-      message: 'A new comment has been uploaded to Block History Timeline',
-      time: 'a new message has arrived',
-      timestamp: '2 days ago',
-    },
-  ];
+  const renderIcon = useCallback((type: string) => {
+    switch (type) {
+      case 'newJoined':
+        return <FaUser />;
+      case 'newEvent':
+        return <MdEmojiEvents />;
+      default:
+        return <CiSettings />;
+    }
+  }, []);
+
+  const formatTime = useCallback((dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInMinutes = Math.floor(
+      (now.getTime() - date.getTime()) / (1000 * 60)
+    );
+
+    if (diffInMinutes < 1) return 'Just now';
+    if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+    if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
+    return `${Math.floor(diffInMinutes / 1440)}d ago`;
+  }, []);
+
+  const markAsRead = async (id: string) => {
+    try {
+      await markAsReadApis({ id })
+        .unwrap()
+        .then((res) => {
+          if (res?.success) {
+            toast.success(res?.message || 'Notification marked as read');
+          }
+        });
+    } catch (error: any) {
+      toast.error(
+        error?.data?.message || 'Failed to mark notification as read'
+      );
+    }
+  };
+
+  const NotificationItem = memo(
+    ({ index, style }: { index: number; style: any }) => {
+      const item = notifications[index];
+      return (
+        <div style={style}>
+          <div
+            className={`px-4 sm:px-6 py-4 border-b border-gray-100 transition-colors ${
+              !item?.isRead ? 'bg-blue-50 border-l-4 border-blue-500' : ''
+            } hover:bg-gray-50 flex flex-col sm:flex-row justify-between`}
+          >
+            <div className="flex items-start gap-4">
+              <div
+                className={`text-xl flex-shrink-0 ${
+                  !item?.isRead ? 'text-blue-600' : 'text-gray-400'
+                }`}
+              >
+                {renderIcon(item?.type)}
+              </div>
+
+              <div className="flex-grow min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3
+                    className={`font-medium truncate ${
+                      !item?.isRead ? 'text-gray-900' : 'text-gray-600'
+                    }`}
+                  >
+                    {item?.title}
+                  </h3>
+                  {!item?.isRead && (
+                    <Badge
+                      size="small"
+                      color="blue"
+                      className="flex-shrink-0"
+                    />
+                  )}
+                </div>
+
+                <p
+                  className={`text-sm line-clamp-2 mb-2 ${
+                    !item?.isRead ? 'text-gray-700' : 'text-gray-500'
+                  }`}
+                >
+                  {item?.message}
+                </p>
+
+                <span className="text-xs text-gray-400">
+                  {formatTime(item?.createdAt)}
+                </span>
+              </div>
+            </div>
+
+            {item?.isRead !== true && (
+              <div className="mt-2 sm:mt-0 sm:ml-4">
+                <Button
+                  size="small"
+                  type="link"
+                  className="text-blue-500 hover:text-blue-600 p-0 h-auto"
+                  onClick={() => markAsRead(item?._id)}
+                >
+                  {markAsReadLoading ? <Spin size="small" /> : 'Mark as read'}
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+  );
+
+  NotificationItem.displayName = 'NotificationItem';
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <p className="text-red-500 text-lg mb-2">
+            Error fetching notifications
+          </p>
+          <p className="text-gray-500">Please try again later</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full min-h-screen bg-white">
-      {/* Container with responsive padding */}
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-28">
-        
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-6 border-b border-gray-200 mb-2">
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900">
-            Notifications
-          </h2>
-          <Button className="gradient-button w-full sm:w-auto text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-2">
-            Mark All Read
-          </Button>
+    <Spin spinning={isLoading}>
+      <div className="min-h-screen pt-24 pb-6 px-4 sm:px-6 md:px-8 container mx-auto flex flex-col">
+        <div className="flex-shrink-0 bg-white border-b border-gray-200 p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
+                Notifications
+              </h1>
+              {data?.meta?.unreadCount > 0 && (
+                <Badge
+                  count={data.meta.unreadCount}
+                  className="bg-blue-500"
+                  overflowCount={999}
+                />
+              )}
+            </div>
+            <div className="text-sm text-gray-500">
+              {data?.meta?.total || 0} total
+              {data?.meta?.unreadCount > 0 && (
+                <span className="ml-2 text-blue-600">
+                  • {data.meta.unreadCount} unread
+                </span>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* Notification List */}
-        <div className="divide-y divide-gray-100 bg-white rounded-lg sm:shadow-sm">
-          {notifications.map((notification) => (
-            <div
-              key={notification.id}
-              className="p-3 sm:p-4 md:p-6 hover:bg-gray-50 transition-colors duration-150 first:rounded-t-lg last:rounded-b-lg"
+        <div className="flex-1 bg-white overflow-hidden">
+          <Card className="h-full border-0 rounded-none">
+            {notifications.length > 0 ? (
+              <List
+                width="100%"
+                height={
+                  typeof window !== 'undefined' ? window.innerHeight - 320 : 500
+                }
+                itemCount={notifications.length}
+                itemSize={150}
+                className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+              >
+                {NotificationItem}
+              </List>
+            ) : (
+              <div className="flex flex-col items-center justify-center min-h-[200px] text-gray-500">
+                <FaBell className="text-3xl sm:text-4xl mb-4 text-gray-300" />
+                <p className="text-sm sm:text-base">No notifications found</p>
+              </div>
+            )}
+          </Card>
+        </div>
+
+        {data?.meta?.totalPage > data?.meta?.page && (
+          <div className="flex-shrink-0 p-4 border-t border-gray-200 bg-white text-center">
+            <Button
+              type="link"
+              className="text-blue-500 hover:text-blue-600 text-sm sm:text-base"
             >
-              {/* Mobile Layout (stacked) */}
-              <div className="block sm:hidden">
-                <div className="flex justify-between items-start mb-2">
-                  <div className="flex flex-col gap-1">
-                    <p className="text-xs text-gray-500">{notification.time}</p>
-                    <strong className="text-xs text-gray-400">{notification.timestamp}</strong>
-                  </div>
-                  <button
-                    className="text-blue-500 hover:text-blue-700 text-sm font-medium transition-colors duration-150 flex-shrink-0"
-                    onClick={() => console.log(`View notification ${notification.id}`)}
-                  >
-                    View
-                  </button>
-                </div>
-                <p className="text-sm text-gray-900 leading-relaxed">
-                  {notification.message}
-                </p>
-              </div>
-
-              {/* Tablet and Desktop Layout (side by side) */}
-              <div className="hidden sm:flex justify-between items-start">
-                <div className="flex-1 pr-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-2 sm:mb-3">
-                    <p className="text-sm md:text-base text-gray-500">{notification.time}</p>
-                    <strong className="text-sm md:text-base text-gray-400">
-                      {notification.timestamp}
-                    </strong>
-                  </div>
-                  <p className="text-sm sm:text-base md:text-lg text-gray-900 leading-relaxed">
-                    {notification.message}
-                  </p>
-                </div>
-                <button
-                  className="text-blue-500 hover:text-blue-700 text-sm sm:text-base md:text-lg font-medium transition-colors duration-150 flex-shrink-0"
-                  onClick={() => console.log(`View notification ${notification.id}`)}
-                >
-                  View
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Empty state for when no notifications exist */}
-        {notifications.length === 0 && (
-          <div className="text-center py-12 sm:py-16 md:py-20">
-            <div className="text-gray-400 mb-4">
-              <svg className="mx-auto h-12 w-12 sm:h-16 sm:w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5V2h0z" />
-              </svg>
-            </div>
-            <h3 className="text-lg sm:text-xl font-medium text-gray-900 mb-2">No notifications</h3>
-            <p className="text-sm sm:text-base text-gray-500">You&lsquo;re all caught up! Check back later for new updates.</p>
+              Load more notifications
+            </Button>
           </div>
         )}
       </div>
-    </div>
+    </Spin>
   );
 };
 
-export default NotificationComponent;
+export default AllNotificationPage;

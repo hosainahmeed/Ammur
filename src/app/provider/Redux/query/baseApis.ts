@@ -17,7 +17,11 @@ const baseApis = createApi({
         'profile',
         'comment',
         'thingsToKnow',
-        'thingsToKnow-single'],
+        'thingsToKnow-single',
+        'interview',
+        'interviewCategory',
+        'notification',
+    ],
     endpoints: () => ({}),
 });
 
