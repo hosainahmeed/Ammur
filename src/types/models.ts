@@ -47,15 +47,6 @@ export interface TimelineEntryType {
     }[];
   }
   
-  
-  export type Blog = {
-    title: string;
-    imageUrl: string;
-    date: string;
-    author: string;
-    summary: string;
-    slug: string;
-  };
   export interface FamilyMember {
     _id: string,
     fullName: string,

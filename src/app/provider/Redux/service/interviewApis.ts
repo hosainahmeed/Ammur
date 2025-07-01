@@ -11,29 +11,6 @@ const interviewApis = baseApis.injectEndpoints({
       }),
       providesTags: ['interviewCategory'],
     }),
-    createCategory: builder.mutation({
-      query: ({ data }) => ({
-        url: '/interview-categories/create-interview-category',
-        method: 'POST',
-        body: data,
-      }),
-      invalidatesTags: ['interviewCategory'],
-    }),
-    deleteCategory: builder.mutation({
-      query: ({ id }) => ({
-        url: `/interview-categories/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['interviewCategory'],
-    }),
-    updateCategory: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `/interview-categories/${id}`,
-        method: 'PATCH',
-        body: data,
-      }),
-      invalidatesTags: ['interviewCategory'],
-    }),
     // interview
     getAllInterview: builder.query({
       query: ({ id }) => ({
@@ -41,32 +18,6 @@ const interviewApis = baseApis.injectEndpoints({
         method: 'GET',
       }),
       providesTags: ['interview'],
-    }),
-    deleteInterview: builder.mutation({
-      query: (id) => ({
-        url: `/interviews/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['interview', 'interviewCategory'],
-    }),
-    updateInterview: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `/interviews/${id}`,
-        method: 'PATCH',
-        body: data,
-      }),
-      invalidatesTags: ['interview'],
-    }),
-    createInterview: builder.mutation({
-      query: ({ data }) => {
-        console.log(data);
-        return {
-          url: '/interviews/create-interview',
-          method: 'POST',
-          body: data,
-        };
-      },
-      invalidatesTags: ['interview'],
     }),
     getSingleInterview: builder.query({
       query: (id) => ({
@@ -81,13 +32,7 @@ const interviewApis = baseApis.injectEndpoints({
 export const {
   //category
   useGetAllInterCategoryQuery,
-  useCreateCategoryMutation,
-  useDeleteCategoryMutation,
-  useUpdateCategoryMutation,
   // interview CRUD
   useGetAllInterviewQuery,
-  useDeleteInterviewMutation,
-  useUpdateInterviewMutation,
-  useCreateInterviewMutation,
   useGetSingleInterviewQuery,
 } = interviewApis;
