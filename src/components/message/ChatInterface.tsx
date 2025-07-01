@@ -49,7 +49,6 @@ export default function ChatInterface() {
 
   const [messages, setMessages] = useState<Message[]>([]);
 
-  console.log(data?.data);
   const [newMessage, setNewMessage] = useState<string>('');
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   const [filePreview, setFilePreview] = useState<{

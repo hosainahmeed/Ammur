@@ -6,13 +6,19 @@ import {
   FormInstance,
   Input,
   List,
+  Popconfirm,
   Spin,
 } from 'antd';
 import Image from 'next/image';
 import React, { memo } from 'react';
 import { IoSend } from 'react-icons/io5';
-import { useGetCommentQuery } from '@/app/provider/Redux/service/timelineApis';
 import { imageUrl } from '@/lib/server';
+import { DeleteOutlined } from '@ant-design/icons';
+import {
+  useDeleteLegacyCommentMutation,
+  useGetLegacyCommentQuery,
+} from '@/app/provider/Redux/service/lagecyApis';
+import { toast } from 'sonner';
 interface CommentModalProps {
   selectPost: any;
   form: FormInstance;
@@ -26,10 +32,29 @@ function LegecyCommentModal({
   handleSubmit,
   isCommentLoading,
 }: CommentModalProps) {
-  const { data, isLoading } = useGetCommentQuery(
-    { id: selectPost?._id },
-    { skip: !selectPost?._id }
-  );
+  const { data, isLoading } = useGetLegacyCommentQuery({ id: selectPost?._id });
+  const [deleteLegacyComment] = useDeleteLegacyCommentMutation();
+
+  const handleDeleteComment = async (id: string) => {
+    try {
+      await deleteLegacyComment({ id })
+        .unwrap()
+        .then((res) => {
+          if (res?.success) {
+            toast.dismiss();
+            toast.success(res?.message || 'Comment deleted successfully');
+          }
+        });
+    } catch (error: any) {
+      if (error?.data?.message === 'Unauthorized') {
+        toast.dismiss();
+        toast.error('You are not authorized to delete this comment');
+      } else {
+        toast.dismiss();
+        toast.error(error?.data?.message || 'Failed to delete comment');
+      }
+    }
+  };
   return (
     <div>
       <div className="mb-6">
@@ -52,7 +77,7 @@ function LegecyCommentModal({
       <Spin spinning={isLoading}>
         <div className="mb-6 overflow-y-scroll max-h-[300px]">
           <h3 className="text-lg font-semibold mb-2">Comments</h3>
-          {data?.data?.length === 0 ? (
+          {data?.data === null || data?.data?.length === 0 ? (
             <Empty description={'No Comment in this post'} />
           ) : (
             <List
@@ -82,6 +107,17 @@ function LegecyCommentModal({
                       </div>
                     }
                   />
+                  <Popconfirm
+                    placement="bottomRight"
+                    title="Are you sure to delete this comment?"
+                    onConfirm={() => handleDeleteComment(comment._id)}
+                  >
+                    <Button
+                      shape="circle"
+                      type="link"
+                      icon={<DeleteOutlined />}
+                    />
+                  </Popconfirm>
                 </List.Item>
               )}
             />

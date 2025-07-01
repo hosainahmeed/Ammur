@@ -6,26 +6,17 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { useGetLegacyByIdQuery } from '@/lib/lagecyApis';
+import { useGetLegacyByIdQuery } from '@/app/provider/Redux/service/lagecyApis';
 import { imageUrl } from '@/lib/server';
 import dayjs from 'dayjs';
 
 function Page() {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading, error } = useGetLegacyByIdQuery({ id });
-  console.log(data);
+  const { data, isLoading } = useGetLegacyByIdQuery({ id });
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <h1 className="text-2xl font-semibold text-gray-600">Loading...</h1>
-      </div>
-    );
-  }
-  if (error) {
-    console.log(error);
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <h1 className="text-2xl font-semibold text-gray-600">Error</h1>
       </div>
     );
   }
@@ -55,6 +46,7 @@ function Page() {
         transition={{ duration: 0.5 }}
       >
         <Alert
+          className="!w-full !my-3"
           message={
             <Breadcrumb
               items={[
@@ -68,7 +60,6 @@ function Page() {
             />
           }
           type="info"
-          className="!w-full !my-2"
         />
         <motion.div
           className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300"

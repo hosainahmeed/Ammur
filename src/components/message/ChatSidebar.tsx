@@ -8,7 +8,6 @@ function ChatSidebar({
   handleConversationClick,
   activeConversation,
 }: any) {
-  console.log(data?.data);
   return (
     <ScrollArea className="flex-1 px-2 pb-2">
       <div className="space-y-1 pt-1">

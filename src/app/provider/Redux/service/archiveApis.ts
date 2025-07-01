@@ -3,72 +3,29 @@ import baseApis from "../query/baseApis";
 
 const archiveApis = baseApis.injectEndpoints({
   endpoints: (builder) => ({
-    fetchAllArchives: builder.query({
-      query: () => ({
+    fetchAllArchives: builder.query<any, { searchTerm: string }>({
+      query: ({ searchTerm }) => ({
         url: '/archieve-categories',
         method: 'GET',
+        params: { searchTerm },
       }),
       providesTags: ['archive'],
     }),
-    createArchive: builder.mutation({
-      query: ({ data }) => ({
-        url: '/archieve-categories/create-archieve-category',
-        method: 'POST',
-        body: data,
-      }),
-      invalidatesTags: ['archive'],
-    }),
-    updateArchive: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `/archieve-categories/${id}`,
-        method: 'PATCH',
-        body: data,
-      }),
-      invalidatesTags: ['archive'],
-    }),
-    deleteArchive: builder.mutation({
-      query: ({ id }) => ({
-        url: `/archieve-categories/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['archive'],
-    }),
+
     //sub category
-    fetchAllSubArchives: builder.query({
-      query: ({ id }) => ({
+    fetchAllSubArchives: builder.query<any, { id: string; searchTerm: string }>({
+      query: ({ id, searchTerm }) => ({
         url: '/archieves',
         method: 'GET',
-        params: { archieveCategoryId: id },
+        params: { archieveCategoryId: id, searchTerm },
       }),
       providesTags: ['archive', 'archiveSub'],
     }),
-    createSubArchive: builder.mutation({
-      query: ({ data }) => ({
-        url: '/archieves/create-archieve',
-        method: 'POST',
-        body: data,
-      }),
-      invalidatesTags: ['archive', 'archiveSub'],
-    }),
-    updateSubArchive: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `/archieves/${id}`,
-        method: 'PATCH',
-        body: data,
-      }),
-      invalidatesTags: ['archive', 'archiveSub'],
-    }),
-    deleteSubArchive: builder.mutation({
-      query: ({ id }) => ({
-        url: `/archieves/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['archive', 'archiveSub'],
-    }),
-    getSingleSubArchive: builder.query({
-      query: ({ id }) => ({
+    getSingleSubArchive: builder.query<any, { id: string; searchTerm: string }>({
+      query: ({ id, searchTerm }) => ({
         url: `/archieves/${id}`,
         method: 'GET',
+        params: { searchTerm },
       }),
       providesTags: ['archive', 'archiveSub'],
     }),
@@ -76,14 +33,8 @@ const archiveApis = baseApis.injectEndpoints({
 });
 
 export const {
-  useCreateArchiveMutation,
   useFetchAllArchivesQuery,
-  useUpdateArchiveMutation,
-  useDeleteArchiveMutation,
   //sub category
   useFetchAllSubArchivesQuery,
-  useCreateSubArchiveMutation,
-  useUpdateSubArchiveMutation,
-  useDeleteSubArchiveMutation,
   useGetSingleSubArchiveQuery,
 } = archiveApis;

@@ -11,7 +11,6 @@ import Link from 'next/link';
 
 const ProfilePage = () => {
   const { data: profileData, isLoading } = useGetProfileDataQuery();
-  console.log(profileData);
   const [image, setImage] = useState<File | null | string>(
     profileData?.data?.img
   );

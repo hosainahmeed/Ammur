@@ -14,7 +14,6 @@ interface RecipeCardProps {
 }
 
 export function RecipeCard({ recipe }: RecipeCardProps) {
-  console.log(recipe);
   return (
     <div className="shadow rounded-lg overflow-hidden p-2 flex justify-between gap-3 flex-col items-center sm:flex-row-reverse">
       <div className="relative h-48 rounded-lg overflow-hidden w-56 min-w-56">

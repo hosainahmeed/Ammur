@@ -8,10 +8,10 @@ import { cn } from '@/lib/utils';
 import { Button, Modal, Form } from 'antd';
 import { MdInsertComment } from 'react-icons/md';
 import LegecyCommentModal from './LegecyCommentModal';
-import { useCreateCommentMutation } from '@/app/provider/Redux/service/timelineApis';
 import { useGetProfileDataQuery } from '@/app/provider/Redux/service/profileApis';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useCreateLegacyCommentMutation } from '@/app/provider/Redux/service/lagecyApis';
 
 interface LegacyEntryProps {
   entry: {
@@ -36,7 +36,7 @@ const LegacyEntry = ({ entry }: LegacyEntryProps) => {
   const [selectPost, setSelectPost] = useState<any | null>(null);
   const [form] = Form.useForm();
   const [createComment, { isLoading: isCommentLoading }] =
-    useCreateCommentMutation();
+    useCreateLegacyCommentMutation();
   const handleComment = () => {
     setSelectPost(entry);
     setIsModalOpen(true);
@@ -54,9 +54,9 @@ const LegacyEntry = ({ entry }: LegacyEntryProps) => {
     async (values: { description: string }) => {
       try {
         const data = {
-          description: values.description,
+          description: values?.description,
           userId: profileData?.data?._id,
-          timelineId: entry?._id,
+          legacyId: entry?._id,
         };
         await createComment({ data })
           .unwrap()
@@ -141,7 +141,6 @@ const LegacyEntry = ({ entry }: LegacyEntryProps) => {
               className="!w-fit !bg-[#E7EDF5] !p-2"
             >
               <MdInsertComment />
-              <span>{entry?.comments?.length || 0}</span>
             </Button>
             <Button
               onClick={() => handleClick(entry?._id)}

@@ -1,7 +1,7 @@
 'use client';
 
 import LegacyEntry from '@/components/lagacy/LegacyEntry';
-import { useGetLegacyQuery } from '@/lib/lagecyApis';
+import { useGetLegacyQuery } from '@/app/provider/Redux/service/lagecyApis';
 import { Input, Spin } from 'antd';
 import React, { Suspense, useEffect } from 'react';
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
@@ -53,7 +53,7 @@ function LegacyList() {
         />
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
           {data?.data?.map((entry: any) => (
-            <LegacyEntry key={entry.id} entry={entry} />
+            <LegacyEntry key={entry?._id} entry={entry} />
           ))}
         </div>
       </div>
