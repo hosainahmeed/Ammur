@@ -3,10 +3,13 @@ import baseApis from "@/app/provider/Redux/query/baseApis";
 
 const legacyApis = baseApis.injectEndpoints({
   endpoints: (builder) => ({
-    getLegacy: builder.query({
-      query: () => ({
+    getLegacy: builder.query<any, { searchTerm: string }>({
+      query: ({ searchTerm }) => ({
         url: '/legacies',
         method: 'GET',
+        params: {
+          searchTerm,
+        },
       }),
       providesTags: ['legacy'],
     }),
@@ -33,6 +36,13 @@ const legacyApis = baseApis.injectEndpoints({
       }),
       invalidatesTags: ['legacy'],
     }),
+    getLegacyById: builder.query<any, { id: string }>({
+      query: ({ id }) => ({
+        url: `/legacies/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['legacy'],
+    }),
   }),
 });
 
@@ -41,4 +51,5 @@ export const {
   useDeleteLegacyMutation,
   useCreateLegacyMutation,
   useUpdateLegacyMutation,
+  useGetLegacyByIdQuery,
 } = legacyApis;

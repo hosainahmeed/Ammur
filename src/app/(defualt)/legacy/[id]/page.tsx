@@ -1,26 +1,50 @@
 'use client';
-import { timelineData } from '@/lib/timelineData';
-import { Breadcrumb } from 'antd';
+
+import { Alert, Breadcrumb, Tag } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
+import { useGetLegacyByIdQuery } from '@/lib/lagecyApis';
+import { imageUrl } from '@/lib/server';
+import dayjs from 'dayjs';
 
 function Page() {
   const { id } = useParams<{ id: string }>();
-  const data = timelineData.filter((item) => String(item.id) === id);
-
-  if (data.length === 0) {
+  const { data, isLoading, error } = useGetLegacyByIdQuery({ id });
+  console.log(data);
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <h1 className="text-2xl font-semibold text-gray-600">Loading...</h1>
+      </div>
+    );
+  }
+  if (error) {
+    console.log(error);
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <h1 className="text-2xl font-semibold text-gray-600">Error</h1>
+      </div>
+    );
+  }
+  if (data?.data.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <h1 className="text-2xl font-semibold text-gray-600">No Data Found</h1>
       </div>
     );
   }
-
-  const legacy = data[0];
-  const { date, description, imageUrl, title, year } = legacy;
+  const {
+    title,
+    familyName,
+    dateOfBirth,
+    burial,
+    description,
+    img,
+    createdAt,
+  } = data?.data;
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -30,24 +54,21 @@ function Page() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Breadcrumb
-          className="mb-8 text-lg text-gray-500"
-          items={[
-            {
-              title: (
-                <Link href="/legacy" className="hover:text-gray-700 transition">
-                  Legacy & Tribute
-                </Link>
-              ),
-            },
-            {
-              title: (
-                <Link href="" className="hover:text-gray-700 transition">
-                  {title.slice(0, 20)}...
-                </Link>
-              ),
-            },
-          ]}
+        <Alert
+          message={
+            <Breadcrumb
+              items={[
+                {
+                  title: <Link href="/legacy">Legacy & Tribute</Link>,
+                },
+                {
+                  title: <Link href="">{title.slice(0, 20)}...</Link>,
+                },
+              ]}
+            />
+          }
+          type="info"
+          className="!w-full !my-2"
         />
         <motion.div
           className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300"
@@ -56,18 +77,35 @@ function Page() {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <Image
-            src={imageUrl}
-            width={1500}
+            src={imageUrl(img)}
+            width={700}
             height={600}
             alt={title}
             className="w-full h-96 object-cover rounded-xl mb-6 shadow-md"
           />
-          <h1 className="text-4xl font-bold mb-4 text-gray-800">{title}</h1>
-          <div className="flex items-center gap-4 text-gray-500 mb-4">
-            <time className="text-lg">{year}</time>
-            <span className="text-lg">{date}</span>
+          <div className="lg:col-span-6 flex flex-col justify-center">
+            <h1 className="text-4xl font-serif font-bold text-gray-800 mb-4">
+              {title}
+            </h1>
+            <p className="text-sm text-gray-500 mb-2">
+              <strong>Family Name:</strong> {familyName}
+            </p>
+            <p className="text-sm text-gray-500 mb-2">
+              <strong>Date of Birth:</strong>{' '}
+              {dayjs(dateOfBirth).format('MMMM D, YYYY')}
+            </p>
+            <p className="text-sm text-gray-500 mb-4">
+              <strong>Burial:</strong> {burial}
+            </p>
+            <Tag className="!w-fit" color="blue">
+              <strong>Created At: </strong>
+              {dayjs(createdAt).format('MMMM D, YYYY')}
+            </Tag>
+            <div
+              className="prose prose-lg text-gray-700"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
           </div>
-          <p className="text-lg leading-relaxed text-gray-600">{description}</p>
         </motion.div>
 
         <div className="mt-12 pt-6 border-t border-gray-200 flex justify-start">

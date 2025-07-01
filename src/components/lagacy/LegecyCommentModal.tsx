@@ -1,4 +1,3 @@
-import { imageUrl } from '@/lib/server';
 import {
   Avatar,
   Button,
@@ -13,6 +12,7 @@ import Image from 'next/image';
 import React, { memo } from 'react';
 import { IoSend } from 'react-icons/io5';
 import { useGetCommentQuery } from '@/app/provider/Redux/service/timelineApis';
+import { imageUrl } from '@/lib/server';
 interface CommentModalProps {
   selectPost: any;
   form: FormInstance;
@@ -20,13 +20,12 @@ interface CommentModalProps {
   isCommentLoading: boolean;
 }
 
-function CommentModal({
+function LegecyCommentModal({
   selectPost,
   form,
   handleSubmit,
   isCommentLoading,
 }: CommentModalProps) {
-  console.log(selectPost?._id)
   const { data, isLoading } = useGetCommentQuery(
     { id: selectPost?._id },
     { skip: !selectPost?._id }
@@ -113,4 +112,4 @@ function CommentModal({
   );
 }
 
-export default memo(CommentModal);
+export default memo(LegecyCommentModal);
