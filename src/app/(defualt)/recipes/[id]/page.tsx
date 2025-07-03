@@ -6,8 +6,7 @@ import { Alert, Breadcrumb } from 'antd';
 import Link from 'next/link';
 import { useGetSingleRecipeQuery } from '@/app/provider/Redux/service/recipeApis';
 import { MdFamilyRestroom } from 'react-icons/md';
-
-export default function RecipePage({ params }: { params: { id: string } }) {
+export default function RecipePage({ params }: any) {
   const { data } = useGetSingleRecipeQuery({ id: params.id });
   return (
     <div className="container mx-auto  py-28 px-4">
@@ -19,9 +18,6 @@ export default function RecipePage({ params }: { params: { id: string } }) {
           {
             title: <Link href="/recipes">Recipes</Link>,
           },
-          // {
-          //   title: recipe.recipe_name,
-          // },
         ]}
       />
       <main className="max-w-3xl mx-auto">
@@ -73,7 +69,6 @@ export default function RecipePage({ params }: { params: { id: string } }) {
           }.`}
           type="info"
           showIcon={true}
-          
         />
         <div>
           <h1 className="text-2xl font-bold mt-4">Ingredients :</h1>

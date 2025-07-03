@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import { useLoginMutation } from '@/app/provider/Redux/service/authApis';
 import { Button, Input, Divider, Typography, Form, Layout, Space } from 'antd';
@@ -34,7 +34,6 @@ export default function LoginPage() {
           }
         });
     } catch (error: any) {
-      console.log(error);
       toast.dismiss();
       toast.error(error?.data?.message || 'Something went wrong!');
     }
@@ -52,12 +51,11 @@ export default function LoginPage() {
         );
 
         const userInfo = await res.json();
-        console.log(userInfo);
       } catch (error) {
         console.error('Failed to fetch user info', error);
       }
     },
-    onError: (error) => console.log(error),
+    onError: (error) => console.error(error),
   });
 
   return (

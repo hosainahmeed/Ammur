@@ -1,4 +1,14 @@
-import { FamilyTree } from "./types";
+interface FamilyTree {
+    id: string;
+    name: string;
+    birthDate: string;
+    image: string;
+    generation: number;
+    position: number;
+    parentIds?: string[];
+    color: string;
+    status: string;
+}
 
 export const familyData: FamilyTree[] = [
     {

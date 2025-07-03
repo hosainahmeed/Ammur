@@ -11,17 +11,14 @@ import {
   LoadingOutlined,
 } from '@ant-design/icons';
 import Image from 'next/image';
-import { FamilyMember } from '@/types/models';
 import { useFamilyDirectionQuery } from '@/app/provider/Redux/service/familyApis';
 import debounce from 'lodash/debounce';
+import { FamilyMember } from '@/types/models';
+import LoadingSkeleton from '@/components/ui/LoadingSkeleton';
 
 const { Title, Text } = Typography;
 
-interface MemberCardProps {
-  member: FamilyMember;
-}
-
-const MemberCard = ({ member }: MemberCardProps) => {
+const MemberCard = ({ member }: { member: FamilyMember }) => {
   return (
     <Card className="overflow-hidden shadow-lg rounded-lg transition-all duration-300">
       <div className="relative">
@@ -71,14 +68,7 @@ const MemberCard = ({ member }: MemberCardProps) => {
     </Card>
   );
 };
-
-export const LoadingSkeleton = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    {[1, 2, 3, 4, 5, 6].map((i) => (
-      <Card key={i} loading className="h-96" />
-    ))}
-  </div>
-);
+;
 
 const EmptyState = ({ searchTerm }: { searchTerm: string }) => (
   <div className="col-span-3 py-16 text-center">

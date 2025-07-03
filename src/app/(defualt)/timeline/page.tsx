@@ -9,7 +9,7 @@ import { TimelineEntryType } from '@/types/models';
 
 function Page() {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const { data, isLoading,isError } = useGetTimelinesQuery({ searchTerm: searchQuery });
+  const { data, isLoading } = useGetTimelinesQuery({ searchTerm: searchQuery });
 
   if (isLoading) {
     return (
@@ -31,14 +31,6 @@ function Page() {
     );
   }
 
-  if(isError){
-    return (
-      <div className="container mx-auto my-28 px-4 py-8 bg-white">
-        <Empty description="No results found" />
-      </div>
-    );
-  }
-
   return (
     <Spin spinning={isLoading}>
       <div className="container mx-auto px-4 py-8 bg-white min-h-screen">
@@ -48,7 +40,7 @@ function Page() {
         />
         <div className="mt-12 space-y-24">
           {data?.data?.length === 0 ? (
-            <div className="text-center text-gray-600">
+            <div className="text-center !h-screen !flex !items-center !justify-center !text-gray-600">
               <Empty description="No results found" />
             </div>
           ) : (

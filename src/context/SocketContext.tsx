@@ -1,6 +1,4 @@
 'use client';
-
-import { url } from '@/lib/server';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import Cookies from 'js-cookie';
@@ -21,18 +19,25 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketInstance = io(url, {
+    const socketInstance = io(`http://10.0.60.52:5001/api/v1/message`, {
       auth: {
         token: Cookies.get('accessToken') || '',
       },
+      transports: ['websocket'],
       withCredentials: true,
     });
 
     socketInstance.on('connect', () => {
+      console.log('✅ Socket connected:', socketInstance.id);
       setIsConnected(true);
     });
 
+    socketInstance.on('connect_error', (err) => {
+      console.error('❌ Socket connect error:', err.message);
+    });
+
     socketInstance.on('disconnect', () => {
+      console.log('❌ Socket disconnected');
       setIsConnected(false);
     });
 

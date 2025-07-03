@@ -26,7 +26,6 @@ function CommentModal({
   handleSubmit,
   isCommentLoading,
 }: CommentModalProps) {
-  console.log(selectPost?._id)
   const { data, isLoading } = useGetCommentQuery(
     { id: selectPost?._id },
     { skip: !selectPost?._id }

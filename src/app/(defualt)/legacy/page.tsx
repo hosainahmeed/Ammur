@@ -2,7 +2,7 @@
 
 import LegacyEntry from '@/components/lagacy/LegacyEntry';
 import { useGetLegacyQuery } from '@/app/provider/Redux/service/lagecyApis';
-import { Input, Spin } from 'antd';
+import { Empty, Input, Spin } from 'antd';
 import React, { Suspense, useEffect } from 'react';
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import { useState } from 'react';
@@ -52,9 +52,15 @@ function LegacyList() {
           size="large"
         />
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-          {data?.data?.map((entry: any) => (
-            <LegacyEntry key={entry?._id} entry={entry} />
-          ))}
+          {data?.data?.length > 0 ? (
+            data?.data?.map((entry: any) => (
+              <LegacyEntry key={entry?._id} entry={entry} />
+            ))
+          ) : (
+            <div className="text-center col-span-4">
+              <Empty description="No legacy entries found" />
+            </div>
+          )}
         </div>
       </div>
     </Spin>

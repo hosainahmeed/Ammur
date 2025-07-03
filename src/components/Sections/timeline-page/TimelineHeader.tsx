@@ -5,7 +5,6 @@ import { useState } from "react"
 
 export default function TimelineHeader() {
     const [searchQuery, setSearchQuery] = useState("")
-    console.log(searchQuery)
     return (
         <div className="flex mt-28 flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <h1 className="text-2xl md:text-3xl font-serif font-bold tracking-tight text-gray-900">History timeline</h1>

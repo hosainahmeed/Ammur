@@ -103,7 +103,6 @@ export default function Navbar() {
 
   const unreadCount =
     notificationData?.data?.filter((notif: any) => !notif?.isRead).length || 0;
-  console.log(notificationData);
   const menu = (
     <Menu className="min-w-48 rounded-xl shadow-lg">
       <div className="p-4 flex items-center gap-3">

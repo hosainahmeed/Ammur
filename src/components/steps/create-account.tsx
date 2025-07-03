@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import type React from 'react';
 import { useState, useEffect } from 'react';
@@ -30,7 +29,6 @@ interface FormValues {
 export default function CreateAccount({ onContinue }: CreateAccountProps) {
   const dispatch = useDispatch();
   const registerData = useSelector((state: any) => state.auth);
-  console.log(registerData);
   const { Text } = Typography;
   const initialValues: FormValues = {
     fullName: registerData.fullName,

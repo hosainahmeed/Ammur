@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import React from "react";
 import { Button, Form, Input } from "antd";
@@ -14,7 +15,6 @@ const ChangePassword = () => {
       newPassword: values.newPassword,
       confirmPassword: values.confirmPassword,
     };
-    console.log(ChangePasswordDatas)
   };
   return (
     <Form

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import { Button, Form, Input, message, ConfigProvider, Breadcrumb } from 'antd';
 import { useState } from 'react';
@@ -5,7 +6,6 @@ import { MailOutlined, UserOutlined } from '@ant-design/icons';
 import Head from 'next/head';
 import Link from 'next/link';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomInput = ({ label, name, prefix, placeholder, rules }: any) => (
   <Form.Item label={label} name={name} rules={rules}>
     <Input
@@ -27,7 +27,6 @@ const GetInTouch = () => {
   }) => {
     setLoading(true);
     try {
-      console.log('Form values:', values); // Normally, send this to an API
       message.success(
         'Thank you for getting in touch! We will get back to you soon.'
       );

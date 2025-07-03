@@ -6,7 +6,8 @@
     "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rd /s /q .next"
   },
   "dependencies": {
     "@balkangraph/orgchart.js": "^8.16.24",

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React from 'react';
 import { Button, Form, Input, Select } from 'antd';
@@ -49,7 +48,6 @@ function PersonalInformation({ onContinue }: { onContinue: any }) {
       await signUp(data)
         .unwrap()
         .then((res) => {
-          console.log(res);
           if (res?.success && res?.data?.approvalStatus === 'pending') {
             toast.dismiss();
             toast.success(res?.message);

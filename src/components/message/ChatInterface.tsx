@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
@@ -43,7 +44,6 @@ interface Message {
 export default function ChatInterface() {
   const { socket, isConnected } = useSocket();
   const { data, isLoading, error } = useGetAllRoomQuery();
-
   const [activeConversation, setActiveConversation] =
     useState<Conversation | null>(null);
 
