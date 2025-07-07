@@ -1,44 +1,69 @@
+'use client';
+
 import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { Avatar } from 'antd';
 import Image from 'next/image';
-import React, { memo } from 'react';
+import { memo } from 'react';
+
+interface ChatSidebarProps {
+  data: any;
+  handleConversationClick: (conversation: any) => void;
+  activeConversation: any;
+  userStatuses: Record<string, string>;
+}
 
 function ChatSidebar({
   data,
   handleConversationClick,
   activeConversation,
-}: any) {
+  userStatuses,
+}: ChatSidebarProps) {
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'online':
+        return 'bg-green-500';
+      case 'offline':
+      default:
+        return 'bg-gray-400';
+    }
+  };
+
   return (
-    <ScrollArea className="flex-1 px-2 pb-2">
-      <div className="space-y-1 pt-1">
-        {data?.data.map((conversation: any) => (
+    <ScrollArea className="h-full">
+      <div className="space-y-1 p-3">
+        {data?.data?.map((conversation: any) => (
           <div
-            key={conversation?._id}
-            className={`p-3 my-1 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors ${
-              activeConversation?._id === conversation?._id
+            key={conversation._id}
+            className={`p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-slate-100 transition ${
+              activeConversation?._id === conversation._id
                 ? 'bg-slate-100 border-l-4 border-blue-500'
                 : ''
             }`}
             onClick={() => handleConversationClick(conversation)}
           >
-            <div className="flex items-center gap-3">
-              <Avatar className="border-2 border-slate-200">
+            <div className="relative">
+              <Avatar className="border border-slate-200">
                 <Image
                   width={40}
                   height={40}
-                  src={conversation?.img || '/placeholder.svg'}
-                  alt={conversation?.familyName}
-                  className="h-10 w-10 rounded-full object-cover"
+                  src={conversation.img || '/placeholder.svg'}
+                  alt={conversation.familyName}
+                  className="rounded-full object-cover"
                 />
               </Avatar>
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm text-slate-800">
-                  {conversation?.familyName}
-                </p>
-                <p className="text-xs text-slate-500 truncate">
-                  {new Date(conversation?.createdAt).toLocaleString()}
-                </p>
-              </div>
+              <span
+                className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white ${getStatusColor(
+                  userStatuses[conversation._id] || 'offline'
+                )}`}
+              />
+            </div>
+            <div className="min-w-0">
+              <p className="font-medium truncate">{conversation.familyName}</p>
+              <p className="text-xs text-gray-500">
+                {userStatuses[conversation._id] === 'online'
+                  ? 'Online'
+                  : new Date(conversation.createdAt).toLocaleDateString()}
+              </p>
             </div>
           </div>
         ))}

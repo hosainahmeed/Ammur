@@ -110,7 +110,7 @@ export default function Navbar() {
           width={200}
           height={200}
           className="!w-12 !h-12 object-cover overflow-hidden rounded-full"
-          src={'https://avatar.iran.liara.run/public/5'}
+          src={data?.data?.img}
           alt="user profile image"
         />
         <div>
@@ -204,7 +204,7 @@ export default function Navbar() {
               <div className="flex items-center justify-center gap-2 cursor-pointer">
                 <Avatar
                   size={40}
-                  src={'https://avatar.iran.liara.run/public/5'}
+                  src={data?.data?.img}
                   className="cursor-pointer"
                 />{' '}
                 <span>

@@ -5,6 +5,7 @@ import { Toaster } from 'sonner';
 import ReduxWrapper from './provider/Redux/ReduxWrapper';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { SocketProvider } from '@/context/SocketContext';
+import { UserProvider } from '@/context/userContext';
 export const metadata: Metadata = {
   title: {
     default: 'Family legacy',
@@ -24,13 +25,15 @@ export default function RootLayout({
     <GoogleOAuthProvider clientId={clientId as string}>
       <ReduxWrapper>
         <SocketProvider>
-          <html lang="en">
-            <body className={`antialiased`}>
-              <NextTopLoader />
-              <Toaster position="top-center" />
-              {children}
-            </body>
-          </html>
+          <UserProvider>
+            <html lang="en">
+              <body className={`antialiased`}>
+                <NextTopLoader />
+                <Toaster position="top-center" />
+                {children}
+              </body>
+            </html>
+          </UserProvider>
         </SocketProvider>
       </ReduxWrapper>
     </GoogleOAuthProvider>

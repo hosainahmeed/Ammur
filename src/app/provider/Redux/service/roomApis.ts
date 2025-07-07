@@ -9,7 +9,14 @@ const roomApis = baseApis.injectEndpoints({
             }),
             providesTags: ['room'],
         }),
+        getSingleRoom: builder.query<any, { id: string }>({
+            query: ({ id }) => ({
+                url: `/messages/${id}/messages`,
+                method: 'GET',
+            }),
+            providesTags: ['room'],
+        }),
     })
 })
 
-export const { useGetAllRoomQuery } = roomApis;
+export const { useGetAllRoomQuery, useGetSingleRoomQuery } = roomApis;
