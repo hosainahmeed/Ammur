@@ -173,9 +173,7 @@ const ChatRoom = ({
               <div className="flex items-start gap-2 relative">
                 <div className="flex-1">
                   <div className="text-xs md:text-sm font-medium text-gray-900 mb-1">
-                    {msg?.senderId === currentUser?._id
-                      ? ''
-                      : msg?.senderName}
+                    {msg?.senderId === currentUser?._id ? '' : msg?.senderName}
                   </div>
                   <motion.div
                     className={`rounded-2xl px-3 py-2 md:px-4 md:py-3 shadow-md transition-all duration-200 relative ${
@@ -285,6 +283,12 @@ const ChatRoom = ({
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 onKeyPress={handleKeyPress}
+                onFocus={(e) => {
+                  e.target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                  });
+                }}
                 placeholder="Type your message..."
               />
             </div>

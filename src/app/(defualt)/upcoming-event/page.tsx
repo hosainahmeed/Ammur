@@ -1,11 +1,15 @@
 'use client';
-import { useGetEventQuery } from '@/app/provider/Redux/service/eventApis';
+import {
+  useGetEventQuery,
+  useJoinEventMutation,
+} from '@/app/provider/Redux/service/eventApis';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Alert } from 'antd';
+import { Alert, Button, Popconfirm } from 'antd';
 import DynamicHeader from '@/components/share/DynamicHeader';
 import { Card, Typography } from 'antd';
 import { CalendarOutlined, EyeOutlined } from '@ant-design/icons';
+import { useUserContext } from '@/context/userContext';
+import { toast } from 'sonner';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -20,11 +24,33 @@ interface Event {
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
+  joinedMembers: string[];
 }
 
 export default function Page() {
   const { data, isLoading } = useGetEventQuery();
-
+  const { currentUser } = useUserContext();
+  const [joinEvent] = useJoinEventMutation();
+  console.log(currentUser);
+  const handleJoinEvent = async (id: string) => {
+    if (!currentUser?._id) {
+      toast.error('Please login first');
+      return;
+    }
+    try {
+      await joinEvent({ id, userId: currentUser?._id })
+        .unwrap()
+        .then((res) => {
+          console.log(res);
+          if (res?.success) {
+            toast.success('You have joined the event');
+          }
+        });
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.data?.message || 'Something went wrong!');
+    }
+  };
   return (
     <>
       <DynamicHeader title="Upcoming Event" />
@@ -44,6 +70,9 @@ export default function Page() {
             </div>
           }
         />
+        <Title level={4} style={{ marginBottom: '24px' }}>
+          Family News & Announcements
+        </Title>
         {isLoading ? (
           <div className="text-center py-32 text-gray-500">
             Loading events...
@@ -53,26 +82,9 @@ export default function Page() {
             No results found
           </div>
         ) : (
-          <div className="space-y-10">
+          <div className="space-y-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {data?.data?.map((event: Event) => (
               <div key={event?._id} style={{ marginBottom: '24px' }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '16px',
-                  }}
-                >
-                  <Title level={4} style={{ margin: 0 }}>
-                    Family News & Announcements
-                  </Title>
-                  <Link href={'/upcoming-event'}>
-                    {' '}
-                    <Button className="gradient-button">View all</Button>
-                  </Link>
-                </div>
-
                 <Card
                   style={{
                     background: '#f0f5ff',
@@ -81,19 +93,12 @@ export default function Page() {
                   }}
                   bodyStyle={{ padding: '0' }}
                 >
-                  <div style={{ padding: '16px' }}>
-                    <Text style={{ fontSize: '24px' }} strong>
-                      Upcoming event :
-                    </Text>
-                  </div>
-
                   <div style={{ position: 'relative', padding: '20px' }}>
                     <div
                       style={{
                         width: '100%',
                         height: '250px',
-                        background:
-                          'url("/image 31.png") center/cover no-repeat',
+                        background: `url("${event?.img}") center/cover no-repeat`,
                         borderRadius: '4px',
                       }}
                     />
@@ -102,9 +107,9 @@ export default function Page() {
                   <div style={{ padding: '16px' }}>
                     <Title
                       level={5}
-                      style={{ color: '#0C469D', margin: '0 0 4px 0' }}
+                      style={{ color: '#0C469D', marginBottom: '4px' }}
                     >
-                      Johnson Family Reunion 2025
+                      {event?.title}
                     </Title>
 
                     <div
@@ -118,19 +123,35 @@ export default function Page() {
                         <CalendarOutlined
                           style={{ color: '#1890ff', marginRight: '8px' }}
                         />
-                        <Text type="secondary">April 27, 2025</Text>
+                        <Text type="secondary">{event?.date}</Text>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <EyeOutlined style={{ marginRight: '8px' }} />
-                        <Text type="secondary">3 people joined</Text>
+                        <Text type="secondary">
+                          {event?.joinedMembers?.length} people joined
+                        </Text>
                       </div>
                     </div>
 
                     <Paragraph style={{ margin: '0 0 16px 0' }}>
-                      Join us for a day of family, food, games, and celebration!
+                      {event?.description}
                     </Paragraph>
 
-                    <Button className="gradient-button">Respond Now</Button>
+                    <span style={{ color: '#1890ff', display: 'block' }}>
+                      CountDown :{event?.date}
+                    </span>
+                    <Popconfirm
+                      placement="bottom"
+                      okText="Join"
+                      cancelText="Cancel"
+                      okButtonProps={{ className: 'gradient-button' }}
+                      title="Are you sure to join this event?"
+                      onConfirm={() => handleJoinEvent(event?._id)}
+                    >
+                      <Button className="gradient-button hover:!bg-[linear-gradient(125deg,#0C469D,#0C469D,#FFFFFF)]">
+                        Respond Now
+                      </Button>
+                    </Popconfirm>
                   </div>
                 </Card>
               </div>

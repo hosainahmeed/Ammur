@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { register } from '@/app/provider/Redux/slices/authSlice';
 import { useSelector } from 'react-redux';
+import { useGoogleLogin } from '@react-oauth/google';
 
 export interface CreateAccountProps {
   onContinue?: any;
@@ -74,7 +75,23 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
   }, [state, country]);
 
 
-
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse: any) => {
+      console.log(tokenResponse)
+      try {
+       const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        })
+        const userInfo = await res.json();
+        console.log(userInfo);
+      } catch (error) {
+        console.error('Failed to fetch user info', error);
+      }
+    },
+    onError: (error) => console.error(error),
+  });
 
   const handleSubmit = (values: FormValues) => {
     const formData = {
@@ -234,6 +251,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
         <Divider>or</Divider>
 
         <Button
+          onClick={() => googleLogin()}
           size="large"
           block
           style={{

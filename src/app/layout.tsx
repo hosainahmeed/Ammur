@@ -29,7 +29,12 @@ export default function RootLayout({
             <html lang="en">
               <body className={`antialiased`}>
                 <NextTopLoader />
-                <Toaster position="top-center" />
+                <Toaster
+                  duration={1000}
+                  mobileOffset={100}
+                  richColors
+                  position="top-center"
+                />
                 {children}
               </body>
             </html>

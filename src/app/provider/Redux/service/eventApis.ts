@@ -33,6 +33,14 @@ const eventApis = baseApis.injectEndpoints({
       }),
       invalidatesTags: ['event'],
     }),
+    joinEvent: builder.mutation({
+      query: ({ id, userId }) => ({
+        url: `/events/member-join/${id}`,
+        method: 'PATCH',
+        body: { userId },
+      }),
+      invalidatesTags: ['event'],
+    }),
   }),
 });
 
@@ -41,4 +49,5 @@ export const {
   useCreateEventMutation,
   useUpdateEventMutation,
   useDeleteEventMutation,
+  useJoinEventMutation,
 } = eventApis;

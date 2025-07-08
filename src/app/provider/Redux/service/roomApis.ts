@@ -10,9 +10,10 @@ const roomApis = baseApis.injectEndpoints({
             providesTags: ['room'],
         }),
         getSingleRoom: builder.query<any, { id: string; limit?: number }>({
-            query: ({ id }) => ({
+            query: ({ id, limit }) => ({
                 url: `/messages/${id}/messages`,
                 method: 'GET',
+                params: { limit },
             }),
             providesTags: ['room'],
         }),

@@ -39,18 +39,18 @@ export default function LoginPage() {
     }
   };
   const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
+    onSuccess: async (tokenResponse: any) => {
       try {
-        const res = await fetch(
-          'https://www.googleapis.com/oauth2/v3/userinfo',
-          {
-            headers: {
-              Authorization: `Bearer ${tokenResponse.access_token}`,
-            },
+        await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        }).then((res) => {
+          if (res.ok) {
+            const userInfo = res.json();
+            console.log(userInfo);
           }
-        );
-
-        const userInfo = await res.json();
+        });
       } catch (error) {
         console.error('Failed to fetch user info', error);
       }

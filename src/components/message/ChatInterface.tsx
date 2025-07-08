@@ -4,6 +4,7 @@ import ChatSidebar from './ChatSidebar';
 import ChatRoom from './ChatRoom';
 import { useSocket } from '@/context/SocketContext';
 import { useGetAllRoomQuery } from '@/app/provider/Redux/service/roomApis';
+import { Spin } from 'antd';
 
 const ChatInterface = () => {
   const { socket } = useSocket();
@@ -52,6 +53,13 @@ const ChatInterface = () => {
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen w-full">
+        <Spin spinning />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-[calc(100vh-100px)] bg-white text-gray-800 relative">
@@ -98,26 +106,19 @@ const ChatInterface = () => {
           />
         ) : (
           <div className="flex items-center justify-center h-full text-gray-400 text-lg px-4">
-            {isLoading ? (
-              <div className="flex flex-col items-center justify-center space-y-4">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                <p className="text-center">Loading Conversations...</p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center space-y-4">
-                <p className="text-center">
-                  Select a conversation to start chatting
-                </p>
-                {isMobile && (
-                  <button
-                    onClick={toggleSidebar}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-                  >
-                    View Conversations
-                  </button>
-                )}
-              </div>
-            )}
+            <div className="flex flex-col items-center justify-center space-y-4">
+              <p className="text-center">
+                Select a conversation to start chatting
+              </p>
+              {isMobile && (
+                <button
+                  onClick={toggleSidebar}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                  View Conversations
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>

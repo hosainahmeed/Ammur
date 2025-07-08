@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout, Card, Typography, Row, Col, Space } from 'antd';
 import { CalendarOutlined, EyeOutlined } from '@ant-design/icons';
 import Head from 'next/head';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useGetEventQuery } from '@/app/provider/Redux/service/eventApis';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -21,6 +22,8 @@ interface Imenu {
 export default function Home() {
   const [userName, setUserName] = useState('Ahmad');
   const [familyName, setFamilyName] = useState('Johnson / Williams');
+   const [event,setEvent] = useState([]);
+  const { data } = useGetEventQuery();
 
   const menuItems: Imenu[] = [
     {
@@ -80,6 +83,10 @@ export default function Home() {
       url: '/archives',
     },
   ];
+
+useEffect(() => {
+  const backendMsgs = data?.data?.slice().reverse();
+}, [data]);
 
   return (
     <Layout
@@ -164,66 +171,68 @@ export default function Home() {
               <Button className="gradient-button">View all</Button>
             </Link>
           </div>
-
-          <Card
-            style={{
-              background: '#f0f5ff',
-              borderRadius: '8px',
-              overflow: 'hidden',
-            }}
-            bodyStyle={{ padding: '0' }}
-          >
-            <div style={{ padding: '16px' }}>
-              <Text style={{ fontSize: '24px' }} strong>
-                Upcoming event :
-              </Text>
-            </div>
-
-            <div style={{ position: 'relative', padding: '20px' }}>
-              <div
-                style={{
-                  width: '100%',
-                  height: '250px',
-                  background: 'url("/image 31.png") center/cover no-repeat',
-                  borderRadius: '4px',
-                }}
-              />
-            </div>
-
-            <div style={{ padding: '16px' }}>
-              <Title
-                level={5}
-                style={{ color: '#0C469D', margin: '0 0 4px 0' }}
-              >
-                Johnson Family Reunion 2025
-              </Title>
-
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  marginBottom: '8px',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <CalendarOutlined
-                    style={{ color: '#1890ff', marginRight: '8px' }}
-                  />
-                  <Text type="secondary">April 27, 2025</Text>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <EyeOutlined style={{ marginRight: '8px' }} />
-                  <Text type="secondary">3 people joined</Text>
-                </div>
+          {data?.data?.map((item: any) => (
+            <Card
+              key={item._id}
+              style={{
+                background: '#f0f5ff',
+                borderRadius: '8px',
+                overflow: 'hidden',
+              }}
+              styles={{ body: { padding: '0' } }}
+            >
+              <div style={{ padding: '16px' }}>
+                <Text style={{ fontSize: '24px' }} strong>
+                  Upcoming event :
+                </Text>
               </div>
 
-              <Paragraph style={{ margin: '0 0 16px 0' }}>
-                Join us for a day of family, food, games, and celebration!
-              </Paragraph>
+              <div style={{ position: 'relative', padding: '20px' }}>
+                <div
+                  style={{
+                    width: '100%',
+                    height: '250px',
+                    background: 'url("/image 31.png") center/cover no-repeat',
+                    borderRadius: '4px',
+                  }}
+                />
+              </div>
 
-              <Button className="gradient-button">Respond Now</Button>
-            </div>
-          </Card>
+              <div style={{ padding: '16px' }}>
+                <Title
+                  level={5}
+                  style={{ color: '#0C469D', margin: '0 0 4px 0' }}
+                >
+                  Johnson Family Reunion 2025
+                </Title>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginBottom: '8px',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <CalendarOutlined
+                      style={{ color: '#1890ff', marginRight: '8px' }}
+                    />
+                    <Text type="secondary">April 27, 2025</Text>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <EyeOutlined style={{ marginRight: '8px' }} />
+                    <Text type="secondary">3 people joined</Text>
+                  </div>
+                </div>
+
+                <Paragraph style={{ margin: '0 0 16px 0' }}>
+                  Join us for a day of family, food, games, and celebration!
+                </Paragraph>
+
+                <Button className="gradient-button">Respond Now</Button>
+              </div>
+            </Card>
+          ))}
         </div>
       </Content>
     </Layout>
