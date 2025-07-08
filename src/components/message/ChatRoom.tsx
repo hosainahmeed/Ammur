@@ -22,8 +22,7 @@ const ChatRoom = ({ roomId }: { roomId: string }) => {
   const { socket, sendMessage, joinRoom } = useSocket();
   const { currentUser } = useUserContext();
   const { data } = useGetSingleRoomQuery({ id: roomId, limit: 999 });
-  const [isHovered, setIsHovered] = useState(false);
-
+  const [hoveredMessageId, setHoveredMessageId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -142,10 +141,10 @@ const ChatRoom = ({ roomId }: { roomId: string }) => {
                     }`}
                     whileHover={{ scale: 1.02 }}
                     onMouseEnter={() => {
-                      setIsHovered(true);
+                      setHoveredMessageId(msg._id);
                     }}
                     onMouseLeave={() => {
-                      setIsHovered(false);
+                      setHoveredMessageId(null);
                     }}
                   >
                     {msg?.text}
@@ -158,19 +157,17 @@ const ChatRoom = ({ roomId }: { roomId: string }) => {
                         className="max-w-[500px] rounded-full"
                       />
                     )}
-                    {isHovered && (
-                      <motion.div
-                        className="absolute bottom-0 right-0 bg-gray-800/80 text-white px-2 py-1 rounded-full text-[10px] font-medium"
-                        initial={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {new Date(msg?.createdAt).toLocaleTimeString('en-US', {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </motion.div>
-                    )}
+                    <motion.div
+                      className="absolute bottom-0 right-0 bg-gray-800/80 text-white px-2 py-1 rounded-full text-[10px] font-medium"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: hoveredMessageId === msg._id ? 1 : 0, y: hoveredMessageId === msg._id ? 0 : 10 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {new Date(msg?.createdAt).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </motion.div>
                   </motion.div>
                 </div>
               </div>
