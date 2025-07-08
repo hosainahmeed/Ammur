@@ -40,12 +40,11 @@ const ChatRoom = ({
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
   const [hasFetched, setHasFetched] = useState(false);
   const [file, setFile] = useState<File | null | undefined>(null);
   const [uploadImageUrl, setUploadImageUrl] = useState('');
   const [uploadImage] = useUploadImageMutation();
-
+  const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     setHasFetched(false);
     setMessages([]);
@@ -53,8 +52,7 @@ const ChatRoom = ({
 
   useEffect(() => {
     if (data?.data && !hasFetched) {
-      const backendMsgs = data.data.slice().reverse();
-      setMessages(backendMsgs);
+      setMessages(data?.data);
       setHasFetched(true);
     }
   }, [data, hasFetched]);
@@ -75,10 +73,6 @@ const ChatRoom = ({
       socket.off('receiveMessage', onReceiveMessage);
     };
   }, [roomId, socket, currentUser?._id]);
-
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
 
   const handleSend = async () => {
     if (!text.trim() || !currentUser?._id) return;
@@ -103,7 +97,7 @@ const ChatRoom = ({
       createdAt: new Date().toISOString(),
     };
 
-    setMessages((prev) => [...prev, optimisticMessage]);
+    setMessages((prev) => [optimisticMessage, ...prev]);
 
     sendMessage({
       roomId,
@@ -131,8 +125,20 @@ const ChatRoom = ({
     setFile(file);
   };
 
-  console.log(messages);
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const handleWheel = (e: any) => {
+      e.preventDefault(); // stop default scroll
+      container.scrollTop -= e.deltaY; // reverse direction
+    };
 
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
+  }, [containerRef]);
   return (
     <div className="flex w-screen md:w-[calc(100vw-300px)] lg:w-[calc(100vw-384px)]  flex-col  h-full bg-gray-50">
       {/* Header */}
@@ -147,7 +153,17 @@ const ChatRoom = ({
         )}
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
-            {activeConversation?.familyName?.charAt(0) || 'C'}
+            {activeConversation?.img ? (
+              <Image
+                src={activeConversation?.img || '/placeholder.svg'}
+                alt={activeConversation?.familyName}
+                width={40}
+                height={40}
+                className="rounded-full object-cover"
+              />
+            ) : (
+              activeConversation?.familyName?.charAt(0) || 'C'
+            )}
           </div>
           <div className="min-w-0">
             <h3 className="font-semibold text-gray-900 truncate">
@@ -159,7 +175,15 @@ const ChatRoom = ({
       </div>
 
       {/* Messages */}
-      <div className="flex-1  overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4 bg-gradient-to-b from-gray-50 via-white to-blue-50">
+
+      <div
+        style={{
+          direction: 'rtl',
+          scrollBehavior: 'smooth',
+        }}
+        ref={containerRef}
+        className="flex-1 rotate-180 overflow-y-auto min-h-[calc(100vh-250px)] p-3 md:p-6 space-y-3 md:space-y-4 bg-gradient-to-b from-gray-50 via-white to-blue-50"
+      >
         {messages.map((msg) => (
           <div
             key={msg?._id}
@@ -169,7 +193,7 @@ const ChatRoom = ({
                 : 'justify-start'
             }`}
           >
-            <div className="max-w-[85%] md:max-w-[70%] lg:max-w-[60%]">
+            <div className="max-w-[85%] rotate-180 md:max-w-[70%] lg:max-w-[60%]">
               <div className="flex items-start gap-2 relative">
                 <div className="flex-1">
                   <div className="text-xs md:text-sm font-medium text-gray-900 mb-1">
@@ -233,7 +257,6 @@ const ChatRoom = ({
             </div>
           </div>
         ))}
-        <div ref={scrollRef} />
       </div>
 
       {/* File Preview */}
