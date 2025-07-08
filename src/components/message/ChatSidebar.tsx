@@ -27,25 +27,24 @@ function ChatSidebar({
         return 'bg-gray-400';
     }
   };
-
   return (
-    <ScrollArea className="h-full">
-      <div className="space-y-1 p-3">
+    <ScrollArea className="h-full bg-gray-50">
+      <div className="space-y-2 p-4">
         {data?.data?.map((conversation: any) => (
           <div
             key={conversation._id}
-            className={`p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-slate-100 transition ${
-              activeConversation?._id === conversation._id
-                ? 'bg-slate-100 border-l-4 border-blue-500'
-                : ''
+            className={`p-4 flex items-center gap-4 rounded-xl cursor-pointer transition-all duration-200 ${
+              activeConversation?._id === conversation?._id
+                ? 'bg-blue-50 border-l-4 border-blue-500 shadow-sm'
+                : 'hover:bg-gray-100'
             }`}
             onClick={() => handleConversationClick(conversation)}
           >
             <div className="relative">
-              <Avatar className="border border-slate-200">
+              <Avatar className="border-2 border-white bg-white">
                 <Image
-                  width={40}
-                  height={40}
+                  width={48}
+                  height={48}
                   src={conversation.img || '/placeholder.svg'}
                   alt={conversation.familyName}
                   className="rounded-full object-cover"
@@ -57,13 +56,18 @@ function ChatSidebar({
                 )}`}
               />
             </div>
-            <div className="min-w-0">
-              <p className="font-medium truncate">{conversation.familyName}</p>
-              <p className="text-xs text-gray-500">
+            <div className="min-w-0 flex-1">
+              <p className="font-medium text-gray-900 truncate">{conversation.familyName}</p>
+              <p className="text-sm text-gray-500">
                 {userStatuses[conversation._id] === 'online'
                   ? 'Online'
                   : new Date(conversation.createdAt).toLocaleDateString()}
               </p>
+            </div>
+            <div className="flex items-center justify-end flex-1">
+              {userStatuses[conversation._id] === 'online' && (
+                <span className="text-sm text-green-500">• Online</span>
+              )}
             </div>
           </div>
         ))}

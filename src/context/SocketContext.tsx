@@ -30,7 +30,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const { currentUser } = useUserContext();
- console.log(currentUser)
   useEffect(() => {
     const socketInstance = io('http://10.0.60.52:5001', {
       auth: {

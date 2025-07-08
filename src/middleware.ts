@@ -15,9 +15,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (pathname === '/message' && !token) {
+    return NextResponse.redirect(new URL('/auth/sign-in', request.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/', '/home'],
+  matcher: ['/', '/home', '/message'],
 };

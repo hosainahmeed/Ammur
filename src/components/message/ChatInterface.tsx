@@ -28,9 +28,9 @@ const ChatInterface = () => {
       setActiveConversation(roomData.data[0]);
     }
   }, [roomData, activeConversation]);
-  console.log(activeConversation);
+
   return (
-    <div className="flex h-[calc(100vh-64px)] bg-white text-gray-800">
+    <div className="flex h-[calc(100vh-100px)] bg-white text-gray-800">
       <div className="w-[300px] border-r border-gray-200 bg-gray-50">
         <ChatSidebar
           data={roomData}
@@ -45,7 +45,15 @@ const ChatInterface = () => {
           <ChatRoom roomId={activeConversation?.roomId} />
         ) : (
           <div className="flex items-center justify-center h-full text-gray-400 text-lg">
-            {isLoading ? 'Loading conversations...' : 'Select a conversation'}
+            {isLoading ? (
+              <div className="flex items-center justify-center h-[calc(100vh-100px)] w-[calc(100vw-300px)] text-gray-400 text-lg">
+                Loading Conversation...
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-400 text-lg">
+                Select a conversation
+              </div>
+            )}
           </div>
         )}
       </div>
