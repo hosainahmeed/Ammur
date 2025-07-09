@@ -2,13 +2,15 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
 import { useEffect, useState } from 'react';
-import { Layout, Card, Typography, Row, Col, Space } from 'antd';
+import { Layout, Card, Typography, Row, Col, Space, Modal } from 'antd';
 import { CalendarOutlined, EyeOutlined } from '@ant-design/icons';
 import Head from 'next/head';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useGetEventQuery } from '@/app/provider/Redux/service/eventApis';
+import { useUserContext } from '@/context/userContext';
+import { FaPlayCircle } from 'react-icons/fa';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -20,11 +22,11 @@ interface Imenu {
   url: string;
 }
 export default function Home() {
-  const [userName, setUserName] = useState('Ahmad');
-  const [familyName, setFamilyName] = useState('Johnson / Williams');
-   const [event,setEvent] = useState([]);
+  const { currentUser } = useUserContext();
   const { data } = useGetEventQuery();
-
+  const [showVideo, setShowVideo] = useState(false);
+  const [videoUrl, setVideoUrl] = useState('');
+  console.log(videoUrl);
   const menuItems: Imenu[] = [
     {
       title: 'History Timeline',
@@ -70,7 +72,7 @@ export default function Home() {
     },
     {
       title: 'Legacy',
-      src: '/icons/recipe.png',
+      src: '/icons/legacy.png',
       description: 'Try a family recipe or submit your own',
       color: 'white',
       url: '/legacy',
@@ -83,11 +85,6 @@ export default function Home() {
       url: '/archives',
     },
   ];
-
-useEffect(() => {
-  const backendMsgs = data?.data?.slice().reverse();
-}, [data]);
-
   return (
     <Layout
       className="!py-28"
@@ -105,10 +102,10 @@ useEffect(() => {
         {/* Welcome Header */}
         <div style={{ marginBottom: '24px' }}>
           <Title level={3} style={{ margin: 0 }}>
-            Welcome back, {userName}
+            Welcome back, {currentUser?.fullName}
           </Title>
           <Text type="secondary">
-            You&#39;re viewing: "{familyName}" Family Site
+            You&#39;re viewing: "{currentUser?.familySide}" Family Site
           </Text>
         </div>
 
@@ -171,70 +168,97 @@ useEffect(() => {
               <Button className="gradient-button">View all</Button>
             </Link>
           </div>
-          {data?.data?.map((item: any) => (
-            <Card
-              key={item._id}
-              style={{
-                background: '#f0f5ff',
-                borderRadius: '8px',
-                overflow: 'hidden',
-              }}
-              styles={{ body: { padding: '0' } }}
-            >
-              <div style={{ padding: '16px' }}>
-                <Text style={{ fontSize: '24px' }} strong>
-                  Upcoming event :
-                </Text>
-              </div>
-
-              <div style={{ position: 'relative', padding: '20px' }}>
-                <div
+          {data?.data?.length > 0
+            ? data?.data?.slice(0, 1).map((item: any) => (
+                <Card
+                  key={item._id}
                   style={{
-                    width: '100%',
-                    height: '250px',
-                    background: 'url("/image 31.png") center/cover no-repeat',
-                    borderRadius: '4px',
+                    background: '#f0f5ff',
+                    borderRadius: '8px',
+                    overflow: 'hidden',
                   }}
-                />
-              </div>
-
-              <div style={{ padding: '16px' }}>
-                <Title
-                  level={5}
-                  style={{ color: '#0C469D', margin: '0 0 4px 0' }}
+                  styles={{ body: { padding: '0' } }}
                 >
-                  Johnson Family Reunion 2025
-                </Title>
+                  <div style={{ padding: '16px' }}>
+                    <Text style={{ fontSize: '24px' }} strong>
+                      Upcoming event :
+                    </Text>
+                  </div>
 
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    marginBottom: '8px',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <CalendarOutlined
-                      style={{ color: '#1890ff', marginRight: '8px' }}
+                  <div style={{ position: 'relative', padding: '20px' }}>
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '250px',
+                        background: `url("${
+                          item?.img || '/image 31.png'
+                        }") center/cover no-repeat`,
+                        borderRadius: '4px',
+                      }}
                     />
-                    <Text type="secondary">April 27, 2025</Text>
+                    {item?.video && (
+                      <FaPlayCircle
+                        onClick={() => {
+                          setVideoUrl(item?.video);
+                          setShowVideo(true);
+                        }}
+                        size={50}
+                        className="absolute text-white cursor-pointer hover:scale-105 transition-all z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      />
+                    )}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <EyeOutlined style={{ marginRight: '8px' }} />
-                    <Text type="secondary">3 people joined</Text>
+
+                  <div style={{ padding: '16px' }}>
+                    <Title
+                      level={5}
+                      style={{ color: '#0C469D', margin: '0 0 4px 0' }}
+                    >
+                      {item?.title}
+                    </Title>
+
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        marginBottom: '8px',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <CalendarOutlined
+                          style={{ color: '#1890ff', marginRight: '8px' }}
+                        />
+                        <Text type="secondary">{item?.date}</Text>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <EyeOutlined style={{ marginRight: '8px' }} />
+                        <Text type="secondary">
+                          {item?.joinedMembers?.length} people joined
+                        </Text>
+                      </div>
+                    </div>
+
+                    <Paragraph style={{ margin: '0 0 16px 0' }}>
+                      {item?.description}
+                    </Paragraph>
                   </div>
-                </div>
-
-                <Paragraph style={{ margin: '0 0 16px 0' }}>
-                  Join us for a day of family, food, games, and celebration!
-                </Paragraph>
-
-                <Button className="gradient-button">Respond Now</Button>
-              </div>
-            </Card>
-          ))}
+                </Card>
+              ))
+            : ''}
         </div>
       </Content>
+      <Modal
+        open={showVideo}
+        onCancel={() => setShowVideo(false)}
+        footer={null}
+        width={1200}
+      >
+        <video
+          autoPlay
+          className="!w-full !h-auto !max-h-[70vh] !rounded-lg !mb-6"
+          src={videoUrl}
+          controls
+        />
+      </Modal>
     </Layout>
   );
 }

@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function VideoArchivePage() {
   const { slug } = useParams();
   return (
-    <main className="container mx-auto px-4 py-28">
+    <main className="container  min-h-screen mx-auto px-4 py-28">
       <h1 className="md:text-3xl text-xl font-bold text-center mb-8">
         Voices of Our Legacy: Interviews & Story Archive
       </h1>

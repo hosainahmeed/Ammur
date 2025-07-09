@@ -4,12 +4,14 @@ import {
   useJoinEventMutation,
 } from '@/app/provider/Redux/service/eventApis';
 import Link from 'next/link';
-import { Alert, Button, Popconfirm } from 'antd';
+import { Alert, Button, Modal, Popconfirm } from 'antd';
 import DynamicHeader from '@/components/share/DynamicHeader';
 import { Card, Typography } from 'antd';
 import { CalendarOutlined, EyeOutlined } from '@ant-design/icons';
 import { useUserContext } from '@/context/userContext';
 import { toast } from 'sonner';
+import { FaPlayCircle } from 'react-icons/fa';
+import { useState } from 'react';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -31,6 +33,8 @@ export default function Page() {
   const { data, isLoading } = useGetEventQuery();
   const { currentUser } = useUserContext();
   const [joinEvent] = useJoinEventMutation();
+  const [showVideo, setShowVideo] = useState(false);
+  const [videoUrl, setVideoUrl] = useState('');
   console.log(currentUser);
   const handleJoinEvent = async (id: string) => {
     if (!currentUser?._id) {
@@ -102,6 +106,16 @@ export default function Page() {
                         borderRadius: '4px',
                       }}
                     />
+                    {event?.video && (
+                      <FaPlayCircle
+                        onClick={() => {
+                          setVideoUrl(event?.video);
+                          setShowVideo(true);
+                        }}
+                        size={50}
+                        className="absolute text-white cursor-pointer hover:scale-105 transition-all z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      />
+                    )}
                   </div>
 
                   <div style={{ padding: '16px' }}>
@@ -158,6 +172,19 @@ export default function Page() {
             ))}
           </div>
         )}
+        <Modal
+          open={showVideo}
+          onCancel={() => setShowVideo(false)}
+          footer={null}
+          width={1200}
+        >
+          <video
+            autoPlay
+            className="!w-full !h-auto !max-h-[70vh] !rounded-lg !mb-6"
+            src={videoUrl}
+            controls
+          />
+        </Modal>
       </div>
     </>
   );

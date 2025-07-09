@@ -2,14 +2,13 @@
 import { Alert, Breadcrumb, Spin } from 'antd';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import { useGetSingleInterviewQuery } from '@/app/provider/Redux/service/interviewApis';
 
 function SingleInterView() {
   const { id, slug } = useParams();
-  const { data: singleInterview } = useGetSingleInterviewQuery(id as string);
+  const { data: singleInterview, isLoading } = useGetSingleInterviewQuery(id as string);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isBuffering, setIsBuffering] = useState(false);
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -19,28 +18,21 @@ function SingleInterView() {
         .catch((err) => console.error('Could not autoplay:', err));
     };
 
-    const handleWaiting = () => {
-      setIsBuffering(true);
-    };
-
-    const handlePlaying = () => {
-      setIsBuffering(false);
-    };
 
     if (videoElement) {
       videoElement.addEventListener('canplay', handleCanPlay);
-      videoElement.addEventListener('waiting', handleWaiting);
-      videoElement.addEventListener('playing', handlePlaying);
     }
 
     return () => {
       if (videoElement) {
         videoElement.removeEventListener('canplay', handleCanPlay);
-        videoElement.removeEventListener('waiting', handleWaiting);
-        videoElement.removeEventListener('playing', handlePlaying);
       }
     };
   }, []);
+
+  if (isLoading) {
+    return <div className='my-28 min-h-screen container mx-auto px-4 flex items-center justify-center'><Spin size="large" /></div>;
+  }
 
   return (
     <div className="my-28 min-h-screen container mx-auto px-4">
@@ -68,22 +60,18 @@ function SingleInterView() {
         type="info"
       />
       <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-start">
-        <Spin className="!w-full !h-auto !max-h-[70vh] !rounded-lg !mb-6" spinning={isBuffering}>
-          <video
-            ref={videoRef}
-            src={singleInterview?.data?.video}
-            poster={singleInterview?.data?.img}
-            controls
-            className="!w-full !h-auto !max-h-[70vh] !rounded-lg !mb-6"
-            controlsList="nodownload"
-            playsInline
-            preload="auto"
-            onWaiting={() => setIsBuffering(true)}
-            onPlaying={() => setIsBuffering(false)}
-          >
-            Your browser does not support the video tag.
-          </video>
-        </Spin>
+        <video
+          ref={videoRef}
+          src={singleInterview?.data?.video}
+          poster={singleInterview?.data?.img}
+          controls
+          className="!w-full !h-auto !max-h-[70vh] !rounded-lg !mb-6"
+          controlsList="nodownload"
+          playsInline
+          preload="auto"
+        >
+          Your browser does not support the video tag.
+        </video>
         <div>
           <h1 className="md:text-3xl text-xl font-bold mb-2">
             {singleInterview?.data?.title}
