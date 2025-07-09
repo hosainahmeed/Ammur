@@ -61,6 +61,8 @@ const ChatInterface = () => {
     );
   }
 
+  // issue fixed
+
   return (
     <div className="flex h-[calc(100vh-100px)] bg-white text-gray-800 relative">
       {/* Mobile Overlay */}
