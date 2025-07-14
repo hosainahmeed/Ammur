@@ -47,7 +47,7 @@ export default function Home() {
       src: '/icons/family-directory.png',
       description: 'Find relatives by name, location, or profession',
       color: 'white',
-      url: '/family-direction',
+      url: '/family-directory',
     },
     {
       title: 'Family Tree',

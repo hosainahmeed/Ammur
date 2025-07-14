@@ -74,18 +74,27 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
     }
   }, [state, country]);
 
-
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse: any) => {
-      console.log(tokenResponse)
+      console.log(tokenResponse);
       try {
-       const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: {
-            Authorization: `Bearer ${tokenResponse.access_token}`,
-          },
-        })
+        const res = await fetch(
+          'https://www.googleapis.com/oauth2/v3/userinfo',
+          {
+            headers: {
+              Authorization: `Bearer ${tokenResponse.access_token}`,
+            },
+          }
+        );
         const userInfo = await res.json();
         console.log(userInfo);
+        const data = {
+          fullName: userInfo.name,
+          email: userInfo.email,
+        };
+        dispatch(register(data));
+        alert('User registered successfully');
+        onContinue(data);
       } catch (error) {
         console.error('Failed to fetch user info', error);
       }
@@ -101,8 +110,8 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
       address: `${city}, ${state}, ${country}`,
     };
     dispatch(register(formData));
+    alert('User registered successfully');
     onContinue(formData);
-
   };
 
   return (
@@ -158,7 +167,9 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
               label="Phone Number"
               name="contactNo"
               required
-              rules={[{ required: true, message: 'Please enter your phone number!' }]}
+              rules={[
+                { required: true, message: 'Please enter your phone number!' },
+              ]}
             >
               <ReactPhoneInput
                 country={'us'}
@@ -169,8 +180,12 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
             </Form.Item>
           </div>
           <div className="space-y-2">
-            <Form.Item<FormValues> label="Country" name="country"
-              rules={[{ required: true, message: 'Please select your country!' }]}
+            <Form.Item<FormValues>
+              label="Country"
+              name="country"
+              rules={[
+                { required: true, message: 'Please select your country!' },
+              ]}
             >
               <Select
                 showSearch

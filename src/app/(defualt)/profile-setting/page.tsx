@@ -42,9 +42,9 @@ const ProfilePage: React.FC = () => {
 
   const InfoCard: React.FC<InfoCardProps> = ({ icon, title, value }) => (
     <div className="flex items-start gap-3 sm:gap-4 bg-white p-3 sm:p-4 rounded-lg shadow-sm">
-      <div className="mt-0.5 sm:mt-1 text-[#072A5E]">
+     { icon && <div className="mt-0.5 sm:mt-1 text-[#072A5E]">
         {React.cloneElement(icon as React.ReactElement)}
-      </div>
+      </div>}
       <div className="overflow-hidden">
         <h3 className="text-xs sm:text-sm font-medium text-gray-500 truncate">
           {title}
@@ -145,6 +145,10 @@ const ProfilePage: React.FC = () => {
                 icon={<Users />}
                 title="Family Side"
                 value={userData?.familySide}
+              />
+              <InfoCard
+                title="Profession"
+                value={userData?.profession}
               />
             </div>
           </div>

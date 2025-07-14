@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
 import { useSignUpMutation } from '@/app/provider/Redux/service/authApis';
 import { useGetFamiliesQuery } from '@/app/provider/Redux/service/familyApis';
-interface PersonalInfoValues {
+export interface PersonalInfoValues {
   proffession: string;
   eldestRelative: string;
   familySide: string;
@@ -13,21 +13,23 @@ interface PersonalInfoValues {
   familyName?: string;
 }
 
+export const professionOptions = [
+  { value: 'doctor', label: 'Doctor' },
+  { value: 'teacher', label: 'Teacher' },
+  { value: 'engineer', label: 'Engineer' },
+  { value: 'lawyer', label: 'Lawyer' },
+  { value: 'designer', label: 'Designer' },
+  { value: 'developer', label: 'Developer' },
+  { value: 'other', label: 'Other' },
+];
+
 function PersonalInformation({ onContinue }: { onContinue: any }) {
   const [form] = Form.useForm<PersonalInfoValues>();
   const [signUp, { isLoading: signUpLoading }] = useSignUpMutation();
-  const { data: families = [], isLoading: familiesLoading } = useGetFamiliesQuery();
+  const { data: families = [], isLoading: familiesLoading } =
+    useGetFamiliesQuery();
 
   const registerData = useSelector((state: any) => state.auth);
-  const professionOptions = [
-    { value: 'doctor', label: 'Doctor' },
-    { value: 'teacher', label: 'Teacher' },
-    { value: 'engineer', label: 'Engineer' },
-    { value: 'lawyer', label: 'Lawyer' },
-    { value: 'designer', label: 'Designer' },
-    { value: 'developer', label: 'Developer' },
-    { value: 'other', label: 'Other' },
-  ];
 
   const handleSubmit = async (values: PersonalInfoValues) => {
     try {

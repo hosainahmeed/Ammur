@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import { MdEmojiEvents } from 'react-icons/md';
 
 const AllNotificationPage = () => {
-  const { data, isLoading, error } = useGetNotificationQuery();
+  const { data, isLoading } = useGetNotificationQuery();
   const [markAsReadApis, { isLoading: markAsReadLoading }] =
     useMarkAsReadMutation();
   const notifications = useMemo(() => data?.data || [], [data]);
@@ -127,19 +127,6 @@ const AllNotificationPage = () => {
   );
 
   NotificationItem.displayName = 'NotificationItem';
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <p className="text-red-500 text-lg mb-2">
-            Error fetching notifications
-          </p>
-          <p className="text-gray-500">Please try again later</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <Spin spinning={isLoading}>

@@ -19,9 +19,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth/sign-in', request.url));
   }
 
+  if (pathname === '/upcoming-event' && !token) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/', '/home', '/message'],
+  matcher: ['/', '/home', '/message', '/upcoming-event'],
 };

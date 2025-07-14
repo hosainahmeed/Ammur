@@ -5,6 +5,10 @@ import 'react-phone-input-2/lib/style.css';
 import { Country, State, City } from 'country-state-city';
 import { useUpdateProfileDataMutation } from '@/app/provider/Redux/service/profileApis';
 import { toast } from 'sonner';
+import {
+  PersonalInfoValues,
+  professionOptions,
+} from '../steps/personalInformation';
 
 interface ProfileData {
   fullName: string;
@@ -13,6 +17,7 @@ interface ProfileData {
   country?: string;
   state?: string;
   city?: string;
+  proffession?: string;
 }
 
 interface ProfileEditComponentProps {
@@ -25,7 +30,6 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   image,
 }) => {
   const [form] = Form.useForm();
-
   const countries = Country.getAllCountries();
   const selectedCountry = Form.useWatch('country', form);
   const selectedState = Form.useWatch('state', form);
@@ -56,6 +60,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
         country: data.country,
         state: data.state,
         city: data.city,
+        proffession: data.proffession,
       });
     }
   }, [data, form]);
@@ -76,9 +81,10 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
         data: formData,
         id: data?._id,
       }).unwrap();
-      if (res?.data?.success) {
+      console.log(res)
+      if (res?.success) {
         toast.dismiss();
-        toast.success(res?.data?.message || 'Profile updated successfully');
+        toast.success(res?.message || 'Profile updated successfully');
       }
     } catch (error) {
       console.error('Failed to update profile:', error);
@@ -119,6 +125,17 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
             country={'bd'}
             inputStyle={{ width: '100%', height: '40px' }}
             onChange={(value) => form.setFieldsValue({ contactNo: value })}
+          />
+        </Form.Item>
+        <Form.Item<PersonalInfoValues>
+          label="Profession"
+          name="proffession"
+          rules={[{ required: true, message: 'Please select your profession' }]}
+        >
+          <Select
+            showSearch
+            placeholder="Select your profession"
+            options={professionOptions}
           />
         </Form.Item>
 

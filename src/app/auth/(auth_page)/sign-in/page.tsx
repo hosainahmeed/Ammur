@@ -45,12 +45,11 @@ export default function LoginPage() {
           headers: {
             Authorization: `Bearer ${tokenResponse.access_token}`,
           },
-        }).then((res) => {
-          if (res.ok) {
-            const userInfo = res.json();
-            console.log(userInfo);
-          }
-        });
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          });
       } catch (error) {
         console.error('Failed to fetch user info', error);
       }

@@ -61,6 +61,7 @@ export default function Navbar() {
   const { data } = useGetProfileDataQuery();
   const { data: notificationData } = useGetNotificationQuery();
   const router = useRouter();
+
   useEffect(() => {
     setIsClient(true);
     setIsMenuOpen(false);
@@ -88,7 +89,7 @@ export default function Navbar() {
     { label: 'Home', href: '/' },
     { label: 'Timeline', href: '/timeline' },
     { label: 'Things to Know', href: '/things-to-know' },
-    { label: 'Family direction', href: '/family-direction' },
+    { label: 'Family directory', href: '/family-directory' },
     { label: 'Family tree', href: '/family-tree' },
     { label: 'Interviews', href: '/interviews' },
     { label: 'Recipes', href: '/recipes' },
@@ -141,7 +142,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 w-full h-fit z-[999] backdrop-blur-2xl bg-[#0C469DB2]/80 !text-white p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="container mx-auto flex justify-between  items-center">
         <motion.div whileHover={{ scale: 1.05 }}>
           <Link
             href={`${isLogin ? '/home' : '/'}`}
@@ -162,30 +163,31 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden 2xl:flex items-center gap-1">
-          {navItems.map((item, index) => (
-            <motion.div
-              key={item.href}
-              initial="hidden"
-              animate="visible"
-              custom={index}
-              variants={navItemVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link
-                href={item.disabled ? '#' : item.href}
-                className={cn(
-                  'px-3 py-2 rounded-md text-sm font-normal transition-colors',
-                  isActive(item.href)
-                    ? 'border-b-2 border-white rounded-none !text-white'
-                    : '',
-                  item.disabled && 'cursor-not-allowed opacity-50'
-                )}
+          {isLogin &&
+            navItems.map((item, index) => (
+              <motion.div
+                key={item.href}
+                initial="hidden"
+                animate="visible"
+                custom={index}
+                variants={navItemVariants}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {item.label}
-              </Link>
-            </motion.div>
-          ))}
+                <Link
+                  href={item.disabled ? '#' : item.href}
+                  className={cn(
+                    'px-3 py-2 rounded-md text-sm font-normal transition-colors',
+                    isActive(item.href)
+                      ? 'border-b-2 border-white rounded-none !text-white'
+                      : '',
+                    item.disabled && 'cursor-not-allowed opacity-50'
+                  )}
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
+            ))}
         </div>
         {isLogin ? (
           <div className="items-center 2xl:flex hidden gap-4 text-2xl">
@@ -244,17 +246,19 @@ export default function Navbar() {
         )}
 
         {/* Mobile Menu Button */}
-        <div>
-          <Link
-            className="2xl:hidden !text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
-            href={'/notification'}
-          >
-            <Badge count={unreadCount} size="small" color="#3b5560">
-              <Button className="!text-white bg-transparent hover:bg-black/10 !rounded-full">
-                <BellOutlined size={12} />
-              </Button>
-            </Badge>
-          </Link>
+        <div className="2xl:hidden">
+          {isLogin && (
+            <Link
+              className="2xl:hidden !text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
+              href={'/notification'}
+            >
+              <Badge count={unreadCount} size="small" color="#3b5560">
+                <Button className="!text-white bg-transparent hover:bg-black/10 !rounded-full">
+                  <BellOutlined size={12} />
+                </Button>
+              </Badge>
+            </Link>
+          )}
           <motion.button
             className="2xl:hidden !text-white p-2 rounded-md hover:!bg-[#072A5E] transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -278,28 +282,29 @@ export default function Navbar() {
             className="2xl:hidden  mt-2 p-4 rounded-md"
           >
             <motion.div className="flex flex-col gap-1">
-              {navItems.map((item, index) => (
-                <motion.div
-                  key={item.href}
-                  custom={index}
-                  variants={navItemVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  <Link
-                    href={item.disabled ? '#' : item.href}
-                    className={cn(
-                      'px-3 py-2 rounded-md text-sm font-medium transition-colors block',
-                      isActive(item.href)
-                        ? 'bg-[#072A5E] !text-white'
-                        : 'hover:!bg-[#072A5E] hover:!text-white text-blue-100',
-                      item.disabled && 'cursor-not-allowed opacity-50'
-                    )}
+              {isLogin &&
+                navItems.map((item, index) => (
+                  <motion.div
+                    key={item.href}
+                    custom={index}
+                    variants={navItemVariants}
+                    initial="hidden"
+                    animate="visible"
                   >
-                    {item.label}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={item.disabled ? '#' : item.href}
+                      className={cn(
+                        'px-3 py-2 rounded-md text-sm font-medium transition-colors block',
+                        isActive(item.href)
+                          ? 'bg-[#072A5E] !text-white'
+                          : 'hover:!bg-[#072A5E] hover:!text-white text-blue-100',
+                        item.disabled && 'cursor-not-allowed opacity-50'
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                ))}
 
               <motion.div
                 className="flex flex-col gap-2 mt-4 pt-2 border-t border-blue-700"
