@@ -26,6 +26,9 @@ const baseApis = createApi({
         'legacy',
         'legacyComment',
         'event',
+        'email',
+        'phone',
+        'social',
     ],
     endpoints: () => ({}),
 });

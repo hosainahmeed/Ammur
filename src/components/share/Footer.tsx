@@ -7,11 +7,26 @@ import { motion } from 'framer-motion';
 import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { FaXTwitter } from 'react-icons/fa6';
+import { useSocialMediaQuery } from '@/app/provider/Redux/service/socialApis';
+import { Empty } from 'antd';
 
 export default function Footer() {
   const path = usePathname();
   const footerHide = path === '/message';
   const [socialModalOpen, setSocialModalOpen] = useState(false);
+  const [selectSocial, setSelectSocial] = useState([]);
+  const { data: socialData, isLoading } = useSocialMediaQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const socialTrack = (name: string) => {
+    if (isLoading) {
+      return;
+    }
+    const filtered = socialData?.data?.filter(
+      (item: any) => item.name?.toLowerCase() === name.toLowerCase()
+    );
+    setSelectSocial(filtered);
+  };
   return (
     <div>
       {!footerHide && (
@@ -83,15 +98,33 @@ export default function Footer() {
               <div>
                 <h3 className="font-bold text-lg mb-4">Social Media</h3>
                 <div className="space-y-2">
-                  <h1 onClick={() => setSocialModalOpen(true)} className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors">
+                  <h1
+                    onClick={() => {
+                      socialTrack('Facebook');
+                      setSocialModalOpen(true);
+                    }}
+                    className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors"
+                  >
                     <Facebook size={20} />
                     <span>Facebook</span>
                   </h1>
-                  <h1 onClick={() => setSocialModalOpen(true)} className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors">
+                  <h1
+                    onClick={() => {
+                      socialTrack('Instagram');
+                      setSocialModalOpen(true);
+                    }}
+                    className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors"
+                  >
                     <Instagram size={20} />
                     <span>Instagram</span>
                   </h1>
-                  <h1 onClick={() => setSocialModalOpen(true)} className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors">
+                  <h1
+                    onClick={() => {
+                      socialTrack('Twitter');
+                      setSocialModalOpen(true);
+                    }}
+                    className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors"
+                  >
                     <FaXTwitter className="text-white" size={20} />
                     <span>X</span>
                   </h1>
@@ -133,7 +166,21 @@ export default function Footer() {
                     </div>
 
                     <div className="space-y-2">
-                      {/* country list */}
+                      {selectSocial.length > 0 ? (
+                        selectSocial.map((item: any) => (
+                          <div key={item._id}>
+                            <h1 className="text-lg text-black font-semibold">
+                              {item.name}
+                            </h1>
+                            <Link href={item.url} target="_blank" className="text-sm hover:!text-blue-500 text-gray-500">{item.url}</Link>
+                          </div>
+                        ))
+                      ) : (
+                        <Empty
+                          description="No Social Media Found"
+                          image={Empty.PRESENTED_IMAGE_SIMPLE}
+                        />
+                      )}
                     </div>
                   </div>
                 </motion.div>
