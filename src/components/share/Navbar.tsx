@@ -18,8 +18,9 @@ import { useGetProfileDataQuery } from '@/app/provider/Redux/service/profileApis
 import { useGetNotificationQuery } from '@/app/provider/Redux/service/notificationApis';
 type NavItem = {
   label: string;
-  href: string;
+  href?: string;
   disabled?: boolean;
+  to?: string;
 };
 
 const mobileMenuVariants = {
@@ -93,7 +94,7 @@ export default function Navbar() {
     { label: 'Family tree', href: '/family-tree' },
     { label: 'Interviews', href: '/interviews' },
     { label: 'Recipes', href: '/recipes' },
-    { label: 'Message', href: '/message' },
+    { label: 'Message', to: '/message' },
     { label: 'Legacy', href: '/legacy' },
     { label: 'Archives', href: '/archives' },
   ];
@@ -174,18 +175,35 @@ export default function Navbar() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Link
-                  href={item.disabled ? '#' : item.href}
-                  className={cn(
-                    'px-3 py-2 rounded-md text-sm font-normal transition-colors',
-                    isActive(item.href)
-                      ? 'border-b-2 border-white rounded-none !text-white'
-                      : '',
-                    item.disabled && 'cursor-not-allowed opacity-50'
-                  )}
-                >
-                  {item.label}
-                </Link>
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      'px-3 py-2 rounded-md text-sm font-normal transition-colors',
+                      isActive(item.href)
+                        ? 'border-b-2 border-white rounded-none !text-white'
+                        : '',
+                      item.disabled && 'cursor-not-allowed opacity-50'
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span
+                    onClick={() => {
+                      window.location.href = item?.to || '';
+                    }}
+                    className={cn(
+                      'px-3 py-2 cursor-pointer rounded-md text-sm font-normal transition-colors',
+                      isActive(item?.to || '')
+                        ? 'border-b-2 border-white rounded-none !text-white'
+                        : '',
+                      item.disabled && 'cursor-not-allowed opacity-50'
+                    )}
+                  >
+                    {item.label}
+                  </span>
+                )}
               </motion.div>
             ))}
         </div>

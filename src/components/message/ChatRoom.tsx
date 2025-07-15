@@ -10,6 +10,7 @@ import { ImAttachment } from 'react-icons/im';
 import { useUploadImageMutation } from '@/app/provider/Redux/service/uploadImage';
 import Image from 'next/image';
 import { HiMenu } from 'react-icons/hi';
+import './chat.css';
 
 interface Message {
   _id: string;
@@ -45,7 +46,7 @@ const ChatRoom = ({
   const [file, setFile] = useState<File | null | undefined>(null);
   const [uploadImageUrl, setUploadImageUrl] = useState('');
   const [uploadImage] = useUploadImageMutation();
-
+  const containerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     setHasFetched(false);
     setMessages([]);
@@ -126,7 +127,22 @@ const ChatRoom = ({
     setFile(file);
   };
 
-  console.log(messages);
+  useEffect(() => {
+    const container = containerRef.current;
+
+    const handleWheel = (e: any) => {
+      e.preventDefault();
+      if (container) {
+        container.scrollTop -= e.deltaY;
+      }
+    };
+
+    container?.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      container?.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   return (
     <div className="flex w-screen md:w-[calc(100vw-300px)] lg:w-[calc(100vw-384px)]  flex-col  h-full bg-gray-50">
@@ -164,7 +180,11 @@ const ChatRoom = ({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 rotate-180 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4 bg-gradient-to-b from-gray-50 via-white to-blue-50">
+      <div
+        ref={containerRef}
+        style={{ scrollBehavior: 'smooth' }}
+        className="hide-scroll-bar flex-1 rotate-180 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4 bg-gradient-to-b from-gray-50 via-white to-blue-50"
+      >
         {messages.map((msg) => (
           <div
             key={msg?._id}
