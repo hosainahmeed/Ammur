@@ -53,8 +53,7 @@ const ChatRoom = ({
 
   useEffect(() => {
     if (data?.data && !hasFetched) {
-      const backendMsgs = data.data.slice().reverse();
-      setMessages(backendMsgs);
+      setMessages(data?.data);
       setHasFetched(true);
     }
   }, [data, hasFetched]);
@@ -65,7 +64,7 @@ const ChatRoom = ({
 
     const onReceiveMessage = (msg: Message) => {
       if (msg?.senderId !== currentUser?._id) {
-        setMessages((prev) => [...prev, msg]);
+        setMessages((prev) => [msg, ...prev]);
       }
     };
 
@@ -75,10 +74,6 @@ const ChatRoom = ({
       socket.off('receiveMessage', onReceiveMessage);
     };
   }, [roomId, socket, currentUser?._id]);
-
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
 
   const handleSend = async () => {
     if (!text.trim() || !currentUser?._id) return;
@@ -103,7 +98,7 @@ const ChatRoom = ({
       createdAt: new Date().toISOString(),
     };
 
-    setMessages((prev) => [...prev, optimisticMessage]);
+    setMessages((prev) => [optimisticMessage, ...prev]);
 
     sendMessage({
       roomId,
@@ -169,24 +164,24 @@ const ChatRoom = ({
       </div>
 
       {/* Messages */}
-      <div className="flex-1  overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4 bg-gradient-to-b from-gray-50 via-white to-blue-50">
+      <div className="flex-1 rotate-180 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4 bg-gradient-to-b from-gray-50 via-white to-blue-50">
         {messages.map((msg) => (
           <div
             key={msg?._id}
             className={`flex ${
-              msg?.senderId === currentUser?._id
+              msg?.senderId !== currentUser?._id
                 ? 'justify-end'
                 : 'justify-start'
             }`}
           >
             <div className="max-w-[85%] md:max-w-[70%] lg:max-w-[60%]">
-              <div className="flex items-start gap-2 relative">
+              <div className="flex rotate-180 items-start gap-2 relative">
                 <div className="flex-1">
-                  <div className="text-xs md:text-sm font-medium text-gray-900 mb-1">
+                  <div className="text-xs rotate-0 md:text-sm font-medium text-gray-900 mb-1">
                     {msg?.senderId === currentUser?._id ? '' : msg?.senderName}
                   </div>
                   <motion.div
-                    className={`rounded-2xl px-3 py-2 md:px-4 md:py-3 shadow-md transition-all duration-200 relative ${
+                    className={`rounded-2xl rotate-0 px-3 py-2 md:px-4 md:py-3 shadow-md transition-all duration-200 relative ${
                       msg?.senderId === currentUser?._id
                         ? 'bg-blue-500 text-white rounded-br-sm'
                         : 'bg-white text-gray-900 rounded-bl-sm border border-gray-200'
