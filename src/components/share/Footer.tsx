@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Instagram } from 'lucide-react';
+import { Facebook, Github, Instagram } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { AnimatePresence } from 'framer-motion';
@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { FaXTwitter } from 'react-icons/fa6';
 import { useSocialMediaQuery } from '@/app/provider/Redux/service/socialApis';
 import { Empty } from 'antd';
+import { FaLinkedin } from 'react-icons/fa';
 
 export default function Footer() {
   const path = usePathname();
@@ -97,36 +98,51 @@ export default function Footer() {
               {/* Social Media */}
               <div>
                 <h3 className="font-bold text-lg mb-4">Social Media</h3>
-                <div className="space-y-2">
+                <div className="flex gap-2">
                   <h1
                     onClick={() => {
                       socialTrack('Facebook');
                       setSocialModalOpen(true);
                     }}
-                    className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors"
+                    className="flex items-center justify-center rounded hover:bg-white/30 cursor-pointer backdrop-blur-xl bg-white/10 p-2"
                   >
-                    <Facebook size={20} />
-                    <span>Facebook</span>
+                    <Facebook className="text-white" size={20} />
                   </h1>
                   <h1
                     onClick={() => {
                       socialTrack('Instagram');
                       setSocialModalOpen(true);
                     }}
-                    className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors"
+                    className="flex items-center justify-center rounded hover:bg-white/30 cursor-pointer backdrop-blur-xl bg-white/10 p-2"
                   >
-                    <Instagram size={20} />
-                    <span>Instagram</span>
+                    <Instagram className="text-white" size={20} />
                   </h1>
                   <h1
                     onClick={() => {
                       socialTrack('Twitter');
                       setSocialModalOpen(true);
                     }}
-                    className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors"
+                    className="flex items-center justify-center rounded hover:bg-white/30 cursor-pointer backdrop-blur-xl bg-white/10 p-2"
                   >
                     <FaXTwitter className="text-white" size={20} />
-                    <span>X</span>
+                  </h1>
+                  <h1
+                    onClick={() => {
+                      socialTrack('Github');
+                      setSocialModalOpen(true);
+                    }}
+                    className="flex items-center justify-center rounded hover:bg-white/30 cursor-pointer backdrop-blur-xl bg-white/10 p-2"
+                  >
+                    <Github className="text-white" size={20} />
+                  </h1>
+                  <h1
+                    onClick={() => {
+                      socialTrack('LinkedIn');
+                      setSocialModalOpen(true);
+                    }}
+                    className="flex items-center justify-center rounded hover:bg-white/30 cursor-pointer backdrop-blur-xl bg-white/10 p-2"
+                  >
+                    <FaLinkedin className="text-white" size={20} />
                   </h1>
                 </div>
               </div>
@@ -142,7 +158,7 @@ export default function Footer() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center rounded hover:bg-white/30 p-4"
                 onClick={() => setSocialModalOpen(false)}
               >
                 <motion.div
@@ -159,7 +175,7 @@ export default function Footer() {
                       </h2>
                       <button
                         onClick={() => setSocialModalOpen(false)}
-                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
+                        className="w-8 h-8 flex items-center justify-center rounded hover:bg-white/30 transition-colors"
                       >
                         <FaXTwitter className="w-5 h-5" />
                       </button>
@@ -172,7 +188,13 @@ export default function Footer() {
                             <h1 className="text-lg text-black font-semibold">
                               {item.name}
                             </h1>
-                            <Link href={item.url} target="_blank" className="text-sm hover:!text-blue-500 text-gray-500">{item.url}</Link>
+                            <Link
+                              href={item.url}
+                              target="_blank"
+                              className="text-sm hover:!text-blue-500 text-gray-500"
+                            >
+                              {item.url}
+                            </Link>
                           </div>
                         ))
                       ) : (
