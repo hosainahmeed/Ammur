@@ -1,12 +1,17 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Instagram, Twitter } from 'lucide-react';
+import { Facebook, Instagram } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { FaXTwitter } from 'react-icons/fa6';
 
 export default function Footer() {
   const path = usePathname();
-  const footerHide = path === '/message' ;
+  const footerHide = path === '/message';
+  const [socialModalOpen, setSocialModalOpen] = useState(false);
   return (
     <div>
       {!footerHide && (
@@ -78,27 +83,18 @@ export default function Footer() {
               <div>
                 <h3 className="font-bold text-lg mb-4">Social Media</h3>
                 <div className="space-y-2">
-                  <Link
-                    href="https://facebook.com"
-                    className="flex items-center gap-2 text-blue-200 hover:!text-white transition-colors"
-                  >
+                  <h1 onClick={() => setSocialModalOpen(true)} className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors">
                     <Facebook size={20} />
                     <span>Facebook</span>
-                  </Link>
-                  <Link
-                    href="https://instagram.com"
-                    className="flex items-center gap-2 text-blue-200 hover:!text-white transition-colors"
-                  >
+                  </h1>
+                  <h1 onClick={() => setSocialModalOpen(true)} className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors">
                     <Instagram size={20} />
                     <span>Instagram</span>
-                  </Link>
-                  <Link
-                    href="https://twitter.com"
-                    className="flex items-center gap-2 text-blue-200 hover:!text-white transition-colors"
-                  >
-                    <Twitter size={20} />
-                    <span>Twitter</span>
-                  </Link>
+                  </h1>
+                  <h1 onClick={() => setSocialModalOpen(true)} className="flex cursor-pointer items-center gap-2 text-blue-200 hover:!text-white transition-colors">
+                    <FaXTwitter className="text-white" size={20} />
+                    <span>X</span>
+                  </h1>
                 </div>
               </div>
             </div>
@@ -107,6 +103,43 @@ export default function Footer() {
               © {new Date().getFullYear()} Family Legacy. All rights reserved.
             </div>
           </div>
+          <AnimatePresence>
+            {socialModalOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+                onClick={() => setSocialModalOpen(false)}
+              >
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  className="bg-white rounded-2xl shadow-2xl w-full max-w-md"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <h2 className="text-xl font-semibold text-gray-900">
+                        Social Media
+                      </h2>
+                      <button
+                        onClick={() => setSocialModalOpen(false)}
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
+                      >
+                        <FaXTwitter className="w-5 h-5" />
+                      </button>
+                    </div>
+
+                    <div className="space-y-2">
+                      {/* country list */}
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </footer>
       )}
     </div>
