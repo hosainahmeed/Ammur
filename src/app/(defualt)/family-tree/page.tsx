@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import OrgChart from '@balkangraph/orgchart.js';
 import * as XLSX from 'xlsx';
+import { Select } from 'antd';
 
 interface FamilyMember {
   id: number;
@@ -12,15 +13,17 @@ interface FamilyMember {
   dob: string;
   img: string;
   tags?: string;
+  side?: string;  // Add side property to identify family side
 }
 
 const FamilyTree: React.FC = () => {
   const chartContainer = useRef<HTMLDivElement>(null);
   const [familyData, setFamilyData] = useState<FamilyMember[]>([]);
+  const [selectedSide, setSelectedSide] = useState<string>('wife');
 
   const fetchExcelData = async () => {
     try {
-      const response = await fetch('/FamilyTreeTemplate.xlsx');
+      const response = await fetch(`${selectedSide}.xlsx`);
       const data = await response.arrayBuffer();
       const workbook = XLSX.read(new Uint8Array(data), { type: 'array' });
       const sheetName = workbook.SheetNames[0];
@@ -34,12 +37,27 @@ const FamilyTree: React.FC = () => {
 
   useEffect(() => {
     fetchExcelData();
-  }, []);
+  }, [selectedSide]);
+
+  // Filter family data based on selected side
+  const getFilteredFamilyData = () => {
+    if (selectedSide === 'wife') {
+      return familyData;
+    }
+    return familyData.filter(member => {
+      // If member has a side property, use it for filtering
+      if (member.side) {
+        return member.side === selectedSide;
+      }
+      // If no side property, assume both sides are included
+      return true;
+    });
+  };
 
   useEffect(() => {
     if (chartContainer.current && familyData.length > 0) {
       new OrgChart(chartContainer.current, {
-        nodes: familyData.map((member) => ({
+        nodes: getFilteredFamilyData().map((member) => ({
           id: member.id,
           pid: member.pid,
           mid: member.mid,
@@ -66,10 +84,20 @@ const FamilyTree: React.FC = () => {
         template: 'rony', //olivia , ula , belinda , rony ,ana , polina
       });
     }
-  }, [familyData]);
+  }, [familyData, selectedSide]);
 
   return (
-    <div className="w-full h-screen  bg-[#E8E8E8]">
+    <div className="w-full h-screen relative  bg-[#E8E8E8]">
+      <div className="absolute top-24 z-10 right-12 w-fit h-6">
+        <Select
+          onChange={(value) => setSelectedSide(value)}
+          placeholder="Select family side"
+          style={{ width: '100%' }}
+        >
+          <Select.Option value="wife">Wife&apos;s Side</Select.Option>
+          <Select.Option value="husband">Husband&apos;s Side</Select.Option>
+        </Select>
+      </div>
       <div ref={chartContainer} className="w-full  h-full" />
     </div>
   );

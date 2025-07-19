@@ -28,7 +28,6 @@ export default function VideoArchivePage() {
           }
           type="info"
         />
-
         <div className="my-3 max-w-xl mx-auto">
           <SearchBar />
         </div>

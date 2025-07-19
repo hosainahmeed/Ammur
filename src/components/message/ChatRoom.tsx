@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { HiMenu } from 'react-icons/hi';
 import './chat.css';
 import { toast } from 'sonner';
+import { Spin } from 'antd';
 
 interface Message {
   _id: string;
@@ -37,7 +38,7 @@ const ChatRoom = ({
 }: ChatRoomProps) => {
   const { socket, sendMessage, joinRoom } = useSocket();
   const { currentUser } = useUserContext();
-  const { data } = useGetSingleRoomQuery({ id: roomId, limit: 999 });
+  const { data } = useGetSingleRoomQuery({ id: roomId, limit: 999999 });
   const [hoveredMessageId, setHoveredMessageId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
@@ -45,8 +46,7 @@ const ChatRoom = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [hasFetched, setHasFetched] = useState(false);
   const [file, setFile] = useState<File | null | undefined>(null);
-
-  const [uploadImage] = useUploadImageMutation();
+  const [uploadImage, { isLoading: imageUploading }] = useUploadImageMutation();
   const containerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     setHasFetched(false);
@@ -77,6 +77,9 @@ const ChatRoom = ({
 
   const handleSend = async () => {
     if (!currentUser?._id) return;
+    if (!file) {
+      if (text.trim() === '') return;
+    }
     let imageUrl = '';
     if (file) {
       try {
@@ -259,13 +262,17 @@ const ChatRoom = ({
         <div className="px-4 py-2 bg-gray-100 border-t">
           <div className="flex items-center gap-3 max-w-xs">
             <div className="relative">
-              <Image
-                src={URL.createObjectURL(file)}
-                alt="Preview"
-                width={60}
-                height={60}
-                className="w-15 h-15 object-cover rounded-lg"
-              />
+              {imageUploading ? (
+                <Spin />
+              ) : (
+                <Image
+                  src={URL.createObjectURL(file)}
+                  alt="Preview"
+                  width={60}
+                  height={60}
+                  className="w-15 h-15 object-cover rounded-lg"
+                />
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">

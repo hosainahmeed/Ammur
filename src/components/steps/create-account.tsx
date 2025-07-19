@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { register } from '@/app/provider/Redux/slices/authSlice';
 import { useSelector } from 'react-redux';
 import { useGoogleLogin } from '@react-oauth/google';
+import { toast } from 'sonner';
 
 export interface CreateAccountProps {
   onContinue?: any;
@@ -46,7 +47,6 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
   const [country, setCountry] = useState<string>('');
   const [states, setStates] = useState<IState[]>([]);
   const [cities, setCities] = useState<ICity[]>([]);
-
   const countries = Country.getAllCountries();
 
   useEffect(() => {
@@ -86,7 +86,6 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
           }
         );
         const userInfo = await res.json();
-        console.log(userInfo)
         const data = {
           fullName: userInfo.name,
           email: userInfo.email,
@@ -94,6 +93,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
         dispatch(register(data));
         // onContinue(data);
       } catch (error) {
+        toast.error('Something ')
         console.error('Failed to fetch user info', error);
       }
     },

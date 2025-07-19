@@ -10,12 +10,15 @@ export function middleware(request: NextRequest) {
   if (pathname === '/' && token) {
     return NextResponse.redirect(new URL('/home', request.url));
   }
-
   if (pathname === '/' && !token) {
     return NextResponse.next();
   }
 
   if (pathname === '/message' && !token) {
+    return NextResponse.redirect(new URL('/auth/sign-in', request.url));
+  }
+
+  if (pathname === '/timeline' && !token) {
     return NextResponse.redirect(new URL('/auth/sign-in', request.url));
   }
 
@@ -27,5 +30,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/home', '/message', '/upcoming-event'],
+  matcher: ['/', '/home', '/message', '/upcoming-event', '/timeline'],
 };
