@@ -12,8 +12,9 @@ export default function Welcome() {
         Your request is being processed
       </h1>
       <p className="text-center">
-        Our team is reviewing your application. We will notify you by email once
-        it is approved.
+        Thanks for signing up! We’re processing your request and getting
+        everything ready for you. This should only take a moment. Welcome to the
+        family!
       </p>
       <Button
         onClick={() => handleNavigate()}
