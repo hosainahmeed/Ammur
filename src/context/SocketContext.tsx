@@ -12,7 +12,7 @@ type SocketContextType = {
     roomId: string;
     userId: string;
     text: string;
-    fileUrl?: string;
+    file?: string;
   }) => void;
   joinRoom: (roomId: string) => void;
 };

@@ -167,7 +167,7 @@ export default function Navbar() {
           {isLogin &&
             navItems.map((item, index) => (
               <motion.div
-                key={item.href}
+                key={index}
                 initial="hidden"
                 animate="visible"
                 custom={index}
@@ -177,10 +177,10 @@ export default function Navbar() {
               >
                 {item.href ? (
                   <Link
-                    href={item.href}
+                    href={item?.href}
                     className={cn(
                       'px-3 py-2 rounded-md text-sm font-normal transition-colors',
-                      isActive(item.href)
+                      isActive(item?.href)
                         ? 'border-b-2 border-white rounded-none !text-white'
                         : '',
                       item.disabled && 'cursor-not-allowed opacity-50'
@@ -310,10 +310,10 @@ export default function Navbar() {
                     animate="visible"
                   >
                     <Link
-                      href={item.disabled ? '#' : item.href}
+                      href={item.href || ''}
                       className={cn(
                         'px-3 py-2 rounded-md text-sm font-medium transition-colors block',
-                        isActive(item.href)
+                        isActive(item.href || '')
                           ? 'bg-[#072A5E] !text-white'
                           : 'hover:!bg-[#072A5E] hover:!text-white text-blue-100',
                         item.disabled && 'cursor-not-allowed opacity-50'

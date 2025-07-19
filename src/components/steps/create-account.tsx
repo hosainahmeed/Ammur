@@ -74,9 +74,8 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
     }
   }, [state, country]);
 
-  const googleLogin = useGoogleLogin({
+  const googleSignup = useGoogleLogin({
     onSuccess: async (tokenResponse: any) => {
-      console.log(tokenResponse);
       try {
         const res = await fetch(
           'https://www.googleapis.com/oauth2/v3/userinfo',
@@ -87,14 +86,13 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
           }
         );
         const userInfo = await res.json();
-        console.log(userInfo);
+        console.log(userInfo)
         const data = {
           fullName: userInfo.name,
           email: userInfo.email,
         };
         dispatch(register(data));
-        alert('User registered successfully');
-        onContinue(data);
+        // onContinue(data);
       } catch (error) {
         console.error('Failed to fetch user info', error);
       }
@@ -110,7 +108,6 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
       address: `${city}, ${state}, ${country}`,
     };
     dispatch(register(formData));
-    alert('User registered successfully');
     onContinue(formData);
   };
 
@@ -266,7 +263,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
         <Divider>or</Divider>
 
         <Button
-          onClick={() => googleLogin()}
+          onClick={() => googleSignup()}
           size="large"
           block
           style={{
@@ -282,7 +279,7 @@ export default function CreateAccount({ onContinue }: CreateAccountProps) {
             height={20}
             style={{ marginRight: 8 }}
           />
-          Sign in with Google
+          Sign up with Google
         </Button>
         <div style={{ textAlign: 'center', marginTop: 24 }}>
           <Text type="secondary" style={{ fontSize: '14px' }}>

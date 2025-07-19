@@ -11,6 +11,7 @@ import { useUploadImageMutation } from '@/app/provider/Redux/service/uploadImage
 import Image from 'next/image';
 import { HiMenu } from 'react-icons/hi';
 import './chat.css';
+import { toast } from 'sonner';
 
 interface Message {
   _id: string;
@@ -18,7 +19,7 @@ interface Message {
   senderId: string;
   senderName: string;
   createdAt: string;
-  fileUrl?: string;
+  file?: string;
 }
 
 interface ChatRoomProps {
@@ -44,7 +45,7 @@ const ChatRoom = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [hasFetched, setHasFetched] = useState(false);
   const [file, setFile] = useState<File | null | undefined>(null);
-  const [uploadImageUrl, setUploadImageUrl] = useState('');
+
   const [uploadImage] = useUploadImageMutation();
   const containerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -68,49 +69,43 @@ const ChatRoom = ({
         setMessages((prev) => [msg, ...prev]);
       }
     };
-
     socket.on('receiveMessage', onReceiveMessage);
-
     return () => {
       socket.off('receiveMessage', onReceiveMessage);
     };
-  }, [roomId, socket, currentUser?._id]);
+  }, [roomId, socket, currentUser?._id, joinRoom]);
 
   const handleSend = async () => {
-    if (!text.trim() || !currentUser?._id) return;
-    const formData = new FormData();
-
-    formData.append('file', file || '');
+    if (!currentUser?._id) return;
+    let imageUrl = '';
     if (file) {
-      await uploadImage({ data: formData })
-        .unwrap()
-        .then((res) => {
-          console.log(res);
-          console.log(res?.data);
-          setUploadImageUrl(res?.data);
-        });
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await uploadImage({ data: formData }).unwrap();
+        imageUrl = res?.data;
+      } catch (error: any) {
+        toast.error(error?.message || 'Image upload failed');
+        return;
+      }
     }
-
     const optimisticMessage: Message = {
       _id: `temp-${Date.now()}`,
       text,
       senderId: currentUser._id,
       senderName: currentUser.name || 'You',
       createdAt: new Date().toISOString(),
+      file: imageUrl || undefined,
     };
-
     setMessages((prev) => [optimisticMessage, ...prev]);
-
     sendMessage({
       roomId,
-      userId: currentUser?._id,
+      userId: currentUser._id,
       text,
-      fileUrl: uploadImageUrl,
+      file: imageUrl || undefined,
     });
-
     setText('');
     setFile(null);
-    setUploadImageUrl('');
     setShowEmojiPicker(false);
   };
 
@@ -123,7 +118,6 @@ const ChatRoom = ({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
     setFile(file);
   };
 
@@ -143,7 +137,6 @@ const ChatRoom = ({
       container?.removeEventListener('wheel', handleWheel);
     };
   }, []);
-
   return (
     <div className="flex w-screen md:w-[calc(100vw-300px)] lg:w-[calc(100vw-384px)]  flex-col  h-full bg-gray-50">
       {/* Header */}
@@ -217,10 +210,10 @@ const ChatRoom = ({
                     <div className="text-sm md:text-base break-words">
                       {msg?.text}
                     </div>
-                    {msg?.fileUrl && (
+                    {msg?.file && (
                       <div className="mt-2">
                         <Image
-                          src={msg?.fileUrl}
+                          src={msg?.file}
                           alt={msg?.text}
                           width={300}
                           height={300}
@@ -341,7 +334,6 @@ const ChatRoom = ({
             <button
               onClick={handleSend}
               className="bg-blue-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-lg hover:bg-blue-600 transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base font-medium"
-              disabled={!text.trim()}
             >
               Send
             </button>

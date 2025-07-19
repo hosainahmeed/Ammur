@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import { useLoginMutation } from '@/app/provider/Redux/service/authApis';
 import { Button, Input, Divider, Typography, Form, Layout, Space } from 'antd';

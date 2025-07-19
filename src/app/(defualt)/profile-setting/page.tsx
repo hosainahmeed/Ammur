@@ -20,7 +20,7 @@ interface UserData {
 }
 
 interface InfoCardProps {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   title: string;
   value: string;
 }
